@@ -7,6 +7,11 @@ public class StateManager : GameSingleton<StateManager>
 	public Canvas[] States;
 	public string startStateName;
 
+    void Start()
+    {
+        GoToState(startStateName);
+    }
+
 	public void GoToState(string stateName)
 	{
 		for (int i = 0; i < States.Length; ++i) 
