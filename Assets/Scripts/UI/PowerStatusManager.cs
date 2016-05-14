@@ -26,7 +26,7 @@ public class PowerStatusManager : MonoBehaviour
             primaryAbilityCount.text = Mathf.Ceil(m_character.m_primaryAbilityRemainingCoolDown).ToString();
 
             Vector3 currentScale = primaryAbilityFill.rectTransform.localScale;
-            float newScale = 1 - m_character.m_primaryAbilityRemainingCoolDown / m_character.m_primaryAbilityCoolDown;
+            float newScale = m_character.m_primaryAbilityRemainingCoolDown / m_character.m_primaryAbilityCoolDown;
             primaryAbilityFill.rectTransform.localScale = new Vector3(newScale, newScale, currentScale.z);
 
         }
@@ -44,7 +44,7 @@ public class PowerStatusManager : MonoBehaviour
             secondaryAbilityCount.text = Mathf.Ceil(m_character.m_secondaryAbilityRemainingCoolDown).ToString();
 
             Vector3 currentScale = secondaryAbilityFill.rectTransform.localScale;
-            float newScale = 1 - m_character.m_secondaryAbilityRemainingCoolDown / m_character.m_secondaryAbilityCoolDown;
+            float newScale = m_character.m_secondaryAbilityRemainingCoolDown / m_character.m_secondaryAbilityCoolDown;
             secondaryAbilityFill.rectTransform.localScale = new Vector3(newScale, newScale, currentScale.z);
         }
         else if (m_character.CanUseSecondaryAbility() && m_OnSecondaryCooldown)
