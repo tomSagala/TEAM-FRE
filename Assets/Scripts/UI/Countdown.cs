@@ -18,17 +18,21 @@ public class Countdown : MonoBehaviour
 
     public void SetBlurCamera(Camera camera)
     {
+        Debug.Log(camera);
         m_camera = camera;
     }
     
     void Update()
     {
-        duration -= Time.deltaTime;
-        m_text.text = Mathf.Ceil(duration).ToString();
-        if (duration < 0)
+        if (m_camera != null)
         {
-            m_camera.GetComponent<Blur>().enabled = false;
-            StateManager.Instance.GoToState("Play");
+            duration -= Time.deltaTime;
+            m_text.text = Mathf.Ceil(duration).ToString();
+            if (duration < 0)
+            {
+                m_camera.GetComponent<Blur>().enabled = false;
+                StateManager.Instance.GoToState("Play");
+            }
         }
     }
 }

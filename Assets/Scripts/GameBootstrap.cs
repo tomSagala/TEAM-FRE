@@ -10,8 +10,7 @@ public class GameBootstrap : MonoBehaviour
     /* Player dependent */
     public Countdown InitialCountdown;
     public AmmoQuantity AmmoQty;
-    public Cooldown PowerACooldown;
-    public Cooldown PowerBCooldown;
+    public PowerStatusManager PowerManager;
     public Countdown RespawnCountdown;
 
 	void Start () 
@@ -41,8 +40,6 @@ public class GameBootstrap : MonoBehaviour
         Camera playerCamera = player.GetComponentInChildren<Camera>();
 
         InitialCountdown.SetBlurCamera(playerCamera);
-        //AmmoQuantity.SetPlayerCallback();
-        //PowerACooldown.SetPlayerCallback();
-        //PowerBCooldown.SetPlayerCallback();
+        PowerManager.SetCharacter(player.GetComponent<Character>());
     }
 }
