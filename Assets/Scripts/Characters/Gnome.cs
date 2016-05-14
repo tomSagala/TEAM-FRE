@@ -37,6 +37,9 @@ public class Gnome : Character
 
     public override void UsePrimaryAbility()
     {
+        m_primaryAbilityAvailable = false;
+        m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
+
         GnomeGoldBag goldBag = INetwork.Instance.Instantiate(
             GoldBagPrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
@@ -46,6 +49,9 @@ public class Gnome : Character
 
     public override void UseSecondaryAbility()
     {
+        m_secondaryAbilityAvailable = false;
+        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
+
         GnomeTicket ticket = INetwork.Instance.Instantiate(
             TicketPrefab,
             Camera.main.transform.position + Camera.main.transform.forward,

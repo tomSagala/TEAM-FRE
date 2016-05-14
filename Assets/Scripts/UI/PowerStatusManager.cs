@@ -39,7 +39,6 @@ public class PowerStatusManager : MonoBehaviour
         {
             m_OnPrimaryCooldown = false;
             primaryAbilityCount.text = "";
-
         }
 
         if (m_character != null && !m_character.CanUseSecondaryAbility() && !m_character.m_actionblocked)
