@@ -10,21 +10,29 @@ public class Countdown : MonoBehaviour
     private Text m_text;
     private Camera m_camera;
 
-     void Awake()
+    void OnEnable()
     {
         m_text = GetComponent<Text>();
-        m_camera = FindObjectOfType<Camera>();
         m_camera.GetComponent<Blur>().enabled = blurs;
     }
-    
-     void Update()
+
+    public void SetBlurCamera(Camera camera)
     {
-        duration -= Time.deltaTime;
-        m_text.text = Mathf.Ceil(duration).ToString();
-        if (duration < 0)
+        Debug.Log(camera);
+        m_camera = camera;
+    }
+    
+    void Update()
+    {
+        if (m_camera != null)
         {
-            m_camera.GetComponent<Blur>().enabled = false;
-            StateManager.Instance.GoToState("Play");
+            duration -= Time.deltaTime;
+            m_text.text = Mathf.Ceil(duration).ToString();
+            if (duration < 0)
+            {
+                m_camera.GetComponent<Blur>().enabled = false;
+                StateManager.Instance.GoToState("Play");
+            }
         }
     }
 }

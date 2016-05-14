@@ -88,11 +88,11 @@ public class Gentlemen : Character {
 
     public override void UsePrimaryAbility()
     {
-        Debug.Log("Shoot Count : " + m_shotCount + " bullet in chamber : " + m_bulletChamber);
         if (m_bulletChamber == m_shotCount)
         {
-            Debug.Log("Bang");
             m_primaryAbilityAvailable = false;
+            m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
+
             Vector3 pos = GetComponentInChildren<Camera>().transform.position;
             Quaternion orientation = GetComponentInChildren<Camera>().transform.rotation;
 
@@ -111,9 +111,8 @@ public class Gentlemen : Character {
 
     public override void UseSecondaryAbility()
     {
-        Debug.Log("FireBug");
-
         m_secondaryAbilityAvailable = false;
+        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
 
         Vector3 pos = GetComponentInChildren<Camera>().transform.position;
         Quaternion orientation = GetComponentInChildren<Camera>().transform.rotation;
