@@ -44,6 +44,11 @@ public abstract class Character : MonoBehaviour {
     public virtual void TakeDamage(float damage)
     {
         m_healthPoints -= damage;
+        if (m_healthPoints < 0)
+        {
+            // DIE
+            m_healthPoints = 0;
+        }
     }
 
     public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable; }

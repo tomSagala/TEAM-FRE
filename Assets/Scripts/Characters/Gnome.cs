@@ -9,13 +9,20 @@ public class Gnome : Character
     
     public override void Attack()
     {
-        GnomeClover clover = (Instantiate(
+        GnomeClover clover = INetwork.Instance.Instantiate(
             cloverPrefab, 
             Camera.main.transform.position + Camera.main.transform.forward, 
-            Quaternion.LookRotation(transform.forward)) as GameObject).GetComponent<GnomeClover>();
-        clover.Owner = this;
+            Quaternion.LookRotation(transform.forward)).GetComponent<GnomeClover>();
+        INetwork.Instance.RPC(clover.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
     }
 
+    [PunRPC]
+    public void FireClover()
+    {
+
+    }
+
+    [PunRPC]
     public void CloverCollision(Vector3 position)
     {
         StartCoroutine(CreepPosition(position));

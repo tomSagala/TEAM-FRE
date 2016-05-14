@@ -66,8 +66,6 @@ public class Creep : GameSingleton<Creep> {
         int posX = (int)(((position.x - quadForScale.transform.lossyScale.x * 0.5f) / quadForScale.transform.lossyScale.x) * (float)(resolution + 1)) + resolution;
         int posY = (int)(((position.z - quadForScale.transform.lossyScale.y * 0.5f) / quadForScale.transform.lossyScale.y) * (float)(resolution + 1)) + resolution;
 
-        Debug.Log(posX + " " + posY);
-
         // Draw a radius around the point
         for (int x = -radius; x < radius; x++)
         {

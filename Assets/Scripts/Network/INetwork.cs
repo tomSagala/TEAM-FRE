@@ -108,6 +108,11 @@ public class INetwork : PunGameSingleton<INetwork>
         return PhotonNetwork.player.name;
     }
 
+    public bool IsMaster()
+    {
+        return PhotonNetwork.player.isMasterClient;
+    }
+
     public void RPC(GameObject gameObject, string methodName, PhotonTargets target, params object[] parameters)
     {
         PhotonView pv = gameObject.GetComponent<PhotonView>();

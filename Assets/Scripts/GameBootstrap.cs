@@ -11,13 +11,14 @@ public class GameBootstrap : MonoBehaviour
     {
         INetwork network = INetwork.Instance;
         int characterId = network.GetCharacterId();
+        int playerId = network.GetId();
         if (!network.IsConnected || characterId == -1)
         {
             SceneManager.LoadScene("MainMenu");
             return;
         }
 
-        GameObject character = network.Instantiate(CharacterPrefabs[characterId], CharacterSpawnPoints[characterId].position, CharacterSpawnPoints[characterId].rotation);
+        GameObject character = network.Instantiate(CharacterPrefabs[characterId], CharacterSpawnPoints[playerId].position, CharacterSpawnPoints[characterId].rotation);
         character.GetComponent<RigidbodyFirstPersonController>().enabled = true;
         character.transform.Find("MainCamera").gameObject.SetActive(true);
 	}

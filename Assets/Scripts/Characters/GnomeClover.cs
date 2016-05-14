@@ -3,7 +3,7 @@
 public class GnomeClover : MonoBehaviour
 {
     public float speed;
-    public Gnome Owner;
+    public int ownerViewId;
 
     void Start()
     {
@@ -12,10 +12,31 @@ public class GnomeClover : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (!INetwork.Instance.IsMaster())
+            return;
+
         if (collision.collider.name == "Ground")
         {
-            Owner.CloverCollision(transform.position);
-            Destroy(gameObject);
+            GameObject ownerObj = INetwork.Instance.GetGameObjectWithView(ownerViewId);
+            if (ownerObj != null)
+            {
+                INetwork.Instance.RPC(ownerObj, "CloverCollision", PhotonTargets.All, transform.position); 
+            }
+
+            INetwork.Instance.RPC(gameObject, "DestroyClover", PhotonTargets.All);
         }
+    }
+
+    [PunRPC]
+    public void DestroyClover()
+    {
+        if (INetwork.Instance.IsMine(gameObject))
+            INetwork.Instance.NetworkDestroy(gameObject);
+    }
+
+    [PunRPC]
+    public void SetOwnerViewId(int viewId)
+    {
+        ownerViewId = viewId;
     }
 }
