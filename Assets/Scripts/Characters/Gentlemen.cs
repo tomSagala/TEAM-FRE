@@ -56,7 +56,7 @@ public class Gentlemen : Character {
 
         if (collision)
         {
-            if (hitlow.collider.GetComponent<Character>() != null && hitlow.collider.GetComponent<Character>().GetTeam() != m_team)
+            if (hitlow.collider != null && hitlow.collider.GetComponent<Character>() != null && hitlow.collider.GetComponent<Character>().GetTeam() != m_team)
             {
                 hitlow.collider.gameObject.GetComponent<Character>().TakeDamage(m_autoAttackDamage);
                 if (Random.Range(0, 1) < m_chanceToDotOnHit)
@@ -65,7 +65,7 @@ public class Gentlemen : Character {
                 }
             }
 
-            if (hitlow.collider != hitmid.collider && hitmid.collider.GetComponent<Character>() != null && hitmid.collider.GetComponent<Character>().GetTeam() != m_team)
+            if (hitmid.collider != null && hitlow.collider != hitmid.collider && hitmid.collider.GetComponent<Character>() != null && hitmid.collider.GetComponent<Character>().GetTeam() != m_team)
             {
                 hitmid.collider.gameObject.GetComponent<Character>().TakeDamage(m_autoAttackDamage);
                 if (Random.Range(0, 1) < m_chanceToDotOnHit)
@@ -74,7 +74,7 @@ public class Gentlemen : Character {
                 }
             }
 
-            if (hitlow.collider != hithigh.collider && hitmid.collider != hithigh.collider && hithigh.collider.GetComponent<Character>() != null && hithigh.collider.GetComponent<Character>().GetTeam() != m_team)
+            if (hithigh.collider != null && hitlow.collider != hithigh.collider && hitmid.collider != hithigh.collider && hithigh.collider.GetComponent<Character>() != null && hithigh.collider.GetComponent<Character>().GetTeam() != m_team)
             {
                 hithigh.collider.gameObject.GetComponent<Character>().TakeDamage(m_autoAttackDamage);
                 if (Random.Range(0, 1) < m_chanceToDotOnHit)
