@@ -98,6 +98,11 @@ public class INetwork : PunGameSingleton<INetwork>
         return pv.gameObject;
     }
 
+    public bool IsMine(GameObject gameObject)
+    {
+        return gameObject.GetComponent<PhotonView>().isMine;
+    }
+
     public string GetPlayerName()
     {
         return PhotonNetwork.player.name;

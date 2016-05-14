@@ -17,6 +17,8 @@ public class GameBootstrap : MonoBehaviour
             return;
         }
 
-        network.Instantiate(CharacterPrefabs[characterId], CharacterSpawnPoints[characterId].position, CharacterSpawnPoints[characterId].rotation);
+        GameObject character = network.Instantiate(CharacterPrefabs[characterId], CharacterSpawnPoints[characterId].position, CharacterSpawnPoints[characterId].rotation);
+        character.GetComponent<RigidbodyFirstPersonController>().enabled = true;
+        character.transform.Find("MainCamera").gameObject.SetActive(true);
 	}
 }
