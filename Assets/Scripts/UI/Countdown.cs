@@ -21,7 +21,7 @@ public class Countdown : MonoBehaviour
         m_camera = camera;
     }
     
-     void Update()
+    void Update()
     {
         duration -= Time.deltaTime;
         m_text.text = Mathf.Ceil(duration).ToString();
