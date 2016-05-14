@@ -166,9 +166,18 @@ using UnityStandardAssets.CrossPlatformInput;
                 }
             }
 
+            if (m_secondaryAbility)
+            {
+                if (gameObject.GetComponent<Character>().CanUseSecondaryAbility())
+                {
+                    gameObject.GetComponent<Character>().UseSecondaryAbility();
+                }
+            }
+
             m_Jump = false;
             m_attacking = false;
             m_primaryAbility = false;
+            m_secondaryAbility = false;
         }
 
 
@@ -249,8 +258,9 @@ using UnityStandardAssets.CrossPlatformInput;
         {
             m_PreviouslyGrounded = m_IsGrounded;
             RaycastHit hitInfo;
+            int layermask = ~(1 << LayerMask.NameToLayer("NoCollision"));
             if (Physics.SphereCast(transform.position, m_Capsule.radius, Vector3.down, out hitInfo,
-                                   ((m_Capsule.height / 2f) - m_Capsule.radius) + advancedSettings.groundCheckDistance))
+                                   ((m_Capsule.height / 2f) - m_Capsule.radius) + advancedSettings.groundCheckDistance, layermask))
             {
                 m_IsGrounded = true;
                 m_GroundContactNormal = hitInfo.normal;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Creep : GameSingleton<Creep> {
+public class Creep : MonoBehaviour {
     public Texture2D creepTexture;
     public Material creepMaterial;
 
