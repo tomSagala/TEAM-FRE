@@ -35,7 +35,7 @@ public class Knight : Character {
             Camera.main.transform.position + Camera.main.transform.forward,
             Quaternion.LookRotation(transform.forward)).GetComponent<HorseShoe>();
         INetwork.Instance.RPC(hs.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
-        INetwork.Instance.RPC(hs.gameObject, "SetOnerTeam", PhotonTargets.All, m_team);
+        INetwork.Instance.RPC(hs.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
     }
 
     public override void UsePrimaryAbility()
@@ -66,7 +66,7 @@ public class Knight : Character {
             Camera.main.transform.position + dir * Camera.main.transform.forward,
             dir).GetComponent<RabbitFoot>();
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
-            INetwork.Instance.RPC(rf.gameObject, "SetOnerTeam", PhotonTargets.All, m_team);
+            INetwork.Instance.RPC(rf.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
         }
 
     }
