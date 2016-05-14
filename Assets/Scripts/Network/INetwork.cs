@@ -1,6 +1,7 @@
 ﻿using ExitGames.Client.Photon;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class INetwork : PunGameSingleton<INetwork>
 {
@@ -44,9 +45,19 @@ public class INetwork : PunGameSingleton<INetwork>
         PhotonNetwork.player.SetCustomProperties(new Hashtable() { { "Team", team } });
     }
 
-    public string GetPlayerTeam()
+    public string GetTeam()
     {
         return PhotonNetwork.player.customProperties["Team"] == null ? null : PhotonNetwork.player.customProperties["Team"].ToString();
+    }
+
+    public void SetId(int id)
+    {
+        PhotonNetwork.player.SetCustomProperties(new Hashtable() { { "Id", id } });
+    }
+
+    public int GetId()
+    {
+        return PhotonNetwork.player.customProperties["Id"] == null ? -1 : int.Parse(PhotonNetwork.player.customProperties["Id"].ToString());
     }
 
     public string GetOtherPlayerTeam(PhotonPlayer otherPlayer)
@@ -129,6 +140,13 @@ public class INetwork : PunGameSingleton<INetwork>
     public int GetPlayerCount()
     {
         return PhotonNetwork.playerList.Length;
+    }
+
+    public int GetPlayerCountInTeam(string team)
+    {
+        return PhotonNetwork.playerList.Count(
+            p => p.customProperties.ContainsKey("team") && p.customProperties["team"].ToString().Equals(team)
+        );
     }
 
     void OnPhotonRandomJoinFailed()
