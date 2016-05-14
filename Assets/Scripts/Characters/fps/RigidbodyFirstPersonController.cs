@@ -65,6 +65,8 @@ using UnityStandardAssets.CrossPlatformInput;
         public float m_bulletSpeed = 100f;
         public GameObject m_bulletPrefab;
 
+        private Animator m_animator;
+
         public Vector3 Velocity
         {
             get { return m_RigidBody.velocity; }
@@ -85,6 +87,7 @@ using UnityStandardAssets.CrossPlatformInput;
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init(transform, cam.transform);
+            m_animator = GetComponentInChildren<Animator>();
         }
 
 
@@ -110,6 +113,9 @@ using UnityStandardAssets.CrossPlatformInput;
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
                 desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
+
+                if (m_animator)
+                    m_animator.SetFloat("Speed", input.y); 
 
                 desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed;
                 desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed;

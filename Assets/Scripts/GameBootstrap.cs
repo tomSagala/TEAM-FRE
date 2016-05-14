@@ -28,10 +28,10 @@ public class GameBootstrap : MonoBehaviour
         }
         string playerName = network.GetPlayerName();
         GameObject character = network.Instantiate(CharacterPrefabs[characterId], CharacterSpawnPoints[playerId].position, CharacterSpawnPoints[playerId].rotation);
+        string team = (characterId >= 2) ? TeamsEnum.GoodLuckTeam : TeamsEnum.BadLuckTeam;
+        character.GetComponent<Character>().SetTeam(team);
         character.GetComponent<RigidbodyFirstPersonController>().enabled = true;
         character.transform.Find("MainCamera").gameObject.SetActive(true);
-
-
         SetPlayerInPlayerDependent(character, playerName);
 
         StateManager.Instance.GoToState("Countdown");

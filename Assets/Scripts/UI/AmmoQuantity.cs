@@ -5,11 +5,11 @@ using System.Collections;
 public class AmmoQuantity : MonoBehaviour
 {
     // Reference to the player
-    private Text m_text;
+    //private Text m_text;
 
     void Awake()
     {
-        m_text = GetComponent<Text>();
+        //m_text = GetComponent<Text>();
     }
 
     void Update()
