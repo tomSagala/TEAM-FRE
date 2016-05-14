@@ -20,11 +20,11 @@ public class Knight : Character {
        
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isCharging)
         {
-            transform.position += m_chargeSpeed * Time.deltaTime * Camera.main.transform.forward;
+            GetComponent<Rigidbody>().velocity = m_chargeSpeed * Camera.main.transform.forward;
         }
     }
 
@@ -42,9 +42,24 @@ public class Knight : Character {
     {
         m_primaryAbilityAvailable = false;
         m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
+
+        m_actionblocked = true;
+        isCharging = true;
+
+        GetComponent<Rigidbody>().useGravity = false;
+
+        Camera.main.fieldOfView *= m_chargeFOVModifier;
+        StartCoroutine(DashTimer());
+    }
+
+    public override void UseSecondaryAbility()
+    {
+        m_secondaryAbilityAvailable = false;
+        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
+       
         for (int i = 0; i < rabbitFootPerThrow; i++)
         {
-            float angle = ((float) i) / rabbitFootPerThrow * rabbitFootThrowSpread - rabbitFootThrowSpread/2f;
+            float angle = ((float)i) / rabbitFootPerThrow * rabbitFootThrowSpread - rabbitFootThrowSpread / 2f;
             Quaternion dir = Quaternion.Euler(0, angle, 0) * Quaternion.LookRotation(transform.forward);
             RabbitFoot rf = INetwork.Instance.Instantiate(
             m_rabbotFootPrefab,
@@ -53,20 +68,7 @@ public class Knight : Character {
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
             INetwork.Instance.RPC(rf.gameObject, "SetOnerTeam", PhotonTargets.All, m_team);
         }
-    }
 
-    public override void UseSecondaryAbility()
-    {
-        m_secondaryAbilityAvailable = false;
-        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
-        m_actionblocked = true;
-        isCharging = true;
-
-        GetComponent<Rigidbody>().useGravity = false;
-
-        Camera.main.fieldOfView *= m_chargeFOVModifier;
-        StartCoroutine(DashTimer());
-        
     }
 
     IEnumerator DashTimer()
