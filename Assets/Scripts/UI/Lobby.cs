@@ -6,7 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class Lobby : MonoBehaviour
 {
+    public string gameSceneName;
+
     private List<Text> m_PlayerTexts;
+    private List<Image> m_PlayerCharacterImages;
+    private List<Button> m_CharacterButtons;
+    private Button m_readyButton;
+    private int m_nbPlayerReady;
 
     void Start()
     {
@@ -19,7 +25,7 @@ public class Lobby : MonoBehaviour
 
         int nbPlayers = network.GetPlayerCount() - 1;
         int nbPlayersBottom = network.GetPlayerCountInTeam(TeamsEnum.BadLuckTeam);
-
+        Debug.Log(nbPlayers);
         if (nbPlayersBottom <= (nbPlayers - nbPlayersBottom))
             network.SetTeam(TeamsEnum.BadLuckTeam);
         else
@@ -27,38 +33,75 @@ public class Lobby : MonoBehaviour
         network.SetId(nbPlayers);
 
         m_PlayerTexts = new List<Text>();
-        m_PlayerTexts.Add(transform.Find("Luck").Find("PlayerThumbnail1").Find("Text").GetComponent<Text>());
-        m_PlayerTexts.Add(transform.Find("BadLuck").Find("PlayerThumbnail1").Find("Text").GetComponent<Text>());
-        m_PlayerTexts.Add(transform.Find("Luck").Find("PlayerThumbnail2").Find("Text").GetComponent<Text>());
-        m_PlayerTexts.Add(transform.Find("BadLuck").Find("PlayerThumbnail2").Find("Text").GetComponent<Text>());
+        string luck = "Luck";
+        string badLuck = "BadLuck";
+        string playerThumbnail1 = "PlayerThumbnail1";
+        string playerThumbnail2 = "PlayerThumbnail2";
+        string text = "Text";
+        string image = "Image";
+        m_PlayerTexts.Add(transform.Find(luck).Find(playerThumbnail1).Find(text).GetComponent<Text>());
+        m_PlayerTexts.Add(transform.Find(badLuck).Find(playerThumbnail1).Find(text).GetComponent<Text>());
+        m_PlayerTexts.Add(transform.Find(luck).Find(playerThumbnail2).Find(text).GetComponent<Text>());
+        m_PlayerTexts.Add(transform.Find(badLuck).Find(playerThumbnail2).Find(text).GetComponent<Text>());
+
+        m_PlayerCharacterImages = new List<Image>();
+        m_PlayerCharacterImages.Add(transform.Find(luck).Find(playerThumbnail1).Find(image).GetComponent<Image>());
+        m_PlayerCharacterImages.Add(transform.Find(badLuck).Find(playerThumbnail1).Find(image).GetComponent<Image>());
+        m_PlayerCharacterImages.Add(transform.Find(luck).Find(playerThumbnail2).Find(image).GetComponent<Image>());
+        m_PlayerCharacterImages.Add(transform.Find(badLuck).Find(playerThumbnail2).Find(image).GetComponent<Image>());
 
         m_PlayerTexts[nbPlayers].text = network.GetPlayerName();
-        network.RPC(gameObject, "NotifyNewPlayer", PhotonTargets.Others, network.GetPlayerName(), nbPlayers);
+        network.RPC(gameObject, "NotifyNewPlayer", PhotonTargets.OthersBuffered, network.GetPlayerName(), nbPlayers);
+
+        m_CharacterButtons = new List<Button>();
+        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton1").GetComponent<Button>());
+        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton2").GetComponent<Button>());
+        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton3").GetComponent<Button>());
+        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton4").GetComponent<Button>());
+
+        m_readyButton = transform.Find("Ready").Find("ReadyButton").GetComponent<Button>();
+        m_readyButton.interactable = false;
     }
 
     public void ReadyButton()
     {
         // Implement Ready button
+        m_readyButton.interactable = false;
+        m_readyButton.transform.Find("Text").GetComponent<Text>().text = "Waiting...";
+        INetwork.Instance.RPC(gameObject, "NotifyReady", PhotonTargets.AllBuffered);
     }
 
     public void ChooseCatLady()
     {
-
+        SendChooseCharacterRPC(0);
     }
 
     public void ChooseGentleman()
     {
-
+        SendChooseCharacterRPC(1);
     }
 
     public void ChooseLeprechaun()
     {
-
+        SendChooseCharacterRPC(2);
     }
 
     public void ChooseKnight()
     {
+        SendChooseCharacterRPC(3);
+    }
 
+    private void SendChooseCharacterRPC(int characterId)
+    {
+        INetwork.Instance.SetCharacterId(characterId);
+        INetwork.Instance.RPC(gameObject, "ChooseCharacter", PhotonTargets.AllBuffered, characterId, INetwork.Instance.GetId());
+        m_readyButton.interactable = true;
+    }
+
+    [PunRPC]
+    public void ChooseCharacter(int characterId, int playerId)
+    {
+        m_PlayerCharacterImages[playerId].sprite = m_CharacterButtons[characterId].image.sprite;
     }
 
     [PunRPC]
@@ -68,8 +111,12 @@ public class Lobby : MonoBehaviour
     }
 
     [PunRPC]
-    public void NotifyAlreadyLoggedPlayer(string username, int id)
+    public void NotifyReady()
     {
-
+        m_nbPlayerReady++;
+        if (m_nbPlayerReady == INetwork.Instance.GetPlayerCount())
+        {
+            INetwork.Instance.LoadLevel(gameSceneName);
+        }
     }
 }

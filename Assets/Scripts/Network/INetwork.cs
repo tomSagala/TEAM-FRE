@@ -60,6 +60,16 @@ public class INetwork : PunGameSingleton<INetwork>
         return PhotonNetwork.player.customProperties["Id"] == null ? -1 : int.Parse(PhotonNetwork.player.customProperties["Id"].ToString());
     }
 
+    public void SetCharacterId(int characterId)
+    {
+        PhotonNetwork.player.SetCustomProperties(new Hashtable() { { "CharacterId", characterId } });
+    }
+
+    public int GetCharacterId()
+    {
+        return PhotonNetwork.player.customProperties["CharacterId"] == null ? -1 : int.Parse(PhotonNetwork.player.customProperties["CharacterId"].ToString());
+    }
+
     public string GetOtherPlayerTeam(PhotonPlayer otherPlayer)
     {
         return otherPlayer.customProperties["Team"] == null ?
@@ -152,7 +162,7 @@ public class INetwork : PunGameSingleton<INetwork>
     void OnPhotonRandomJoinFailed()
     {
         RoomOptions options = new RoomOptions();
-        options.maxPlayers = 2;
+        options.maxPlayers = 4;
 
         PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), options, null);
     }
