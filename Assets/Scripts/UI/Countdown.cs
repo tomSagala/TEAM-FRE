@@ -10,11 +10,15 @@ public class Countdown : MonoBehaviour
     private Text m_text;
     private Camera m_camera;
 
-     void Awake()
+    void OnEnable()
     {
         m_text = GetComponent<Text>();
-        m_camera = FindObjectOfType<Camera>();
         m_camera.GetComponent<Blur>().enabled = blurs;
+    }
+
+    public void SetBlurCamera(Camera camera)
+    {
+        m_camera = camera;
     }
     
      void Update()
