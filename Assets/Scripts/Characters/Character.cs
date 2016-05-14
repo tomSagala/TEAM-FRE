@@ -7,9 +7,9 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] protected TeamsEnum m_team;
     [SerializeField] protected float m_autoAttackDamage = 1f;
     [SerializeField] public float m_primaryAbilityCoolDown;
-    [SerializeField] public float m_primaryAbilityRemainingCoolDown;
+    [HideInInspector] public float m_primaryAbilityRemainingCoolDown;
     [SerializeField] public float m_secondaryAbilityCoolDown;
-    [SerializeField] public float m_secondaryAbilityRemainingCoolDown;
+    [HideInInspector] public float m_secondaryAbilityRemainingCoolDown;
     [SerializeField] public float m_autoAttackPerSeconds = 1f;
     [SerializeField] public int m_maxAmmo;
     [SerializeField] public int m_currentAmmo;
@@ -118,6 +118,14 @@ public abstract class Character : MonoBehaviour {
     [PunRPC]
     public virtual void Stun(float time)
     {
+        Debug.Log("STUN " + time);
         m_actionblocked = true;
+        GetComponent<RigidbodyFirstPersonController>().enabled = false;
+        Timer.Instance.Request(time, () =>
+        {
+            Debug.Log("unstun");
+            m_actionblocked = false;
+            GetComponent<RigidbodyFirstPersonController>().enabled = true;
+        });
     }
 }
