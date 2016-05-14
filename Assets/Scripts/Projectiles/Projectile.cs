@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class Projectile : MonoBehaviour {
-    [SerializeField] float m_damage;
-    [SerializeField] TeamsEnum m_firedBy;
-    [SerializeField] bool isOneHitKill = false;
+    [SerializeField] protected float m_damage;
+    [SerializeField] protected TeamsEnum m_firedBy;
+    [SerializeField] bool m_isOneHitKill = false;
     // Use this for initialization
     void Start() {
 
@@ -27,14 +27,14 @@ public class Projectile : MonoBehaviour {
 
     public void SetOneHitKill(bool isOneHitKill)
     {
-
+        m_isOneHitKill = isOneHitKill;
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (Helpers.CheckObjectTag(collision.gameObject, "Player") && collision.gameObject.GetComponent<Character>().GetTeam() != m_firedBy)
         {
-            if (isOneHitKill)
+            if (m_isOneHitKill)
             {
                 collision.gameObject.GetComponent<Character>().Die();
             }

@@ -166,9 +166,18 @@ using UnityStandardAssets.CrossPlatformInput;
                 }
             }
 
+            if (m_secondaryAbility)
+            {
+                if (gameObject.GetComponent<Character>().CanUseSecondaryAbility())
+                {
+                    gameObject.GetComponent<Character>().UseSecondaryAbility();
+                }
+            }
+
             m_Jump = false;
             m_attacking = false;
             m_primaryAbility = false;
+            m_secondaryAbility = false;
         }
 
 
