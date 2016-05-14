@@ -62,7 +62,6 @@ public class GnomeTicket : AbstractProjectile
                 m_axisUp * m_amplitudeY * -1f * Mathf.Abs(Mathf.Cos((m_droppingTimer) * m_frequency));
 
             RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.5f, Vector3.up);
-            Debug.Log(hits.Length);
             foreach (RaycastHit hit in hits)
             {
                 if (hit.collider.name.Equals("Ground"))

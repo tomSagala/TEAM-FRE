@@ -15,11 +15,15 @@ public class Gnome : Character
     public float GoldBagRadius;
     public float GoldBagHealRate;
     private GameObject m_healQuad;
+    private GameObject m_ticketSphere;
+    public float TicketStunDuration;
     
     void Start()
     {
         m_healQuad = transform.Find("HealingQuad").gameObject;
         m_healQuad.GetComponent<GnomeHealingQuad>().HealRate = GoldBagHealRate;
+        m_ticketSphere = transform.Find("TicketSphere").gameObject;
+        m_ticketSphere.GetComponent<GnomeTicketSphere>().Duration = TicketStunDuration;
     }
 
     public override void Attack()
@@ -94,10 +98,16 @@ public class Gnome : Character
     [PunRPC]
     public void TicketCollision(Vector3 position)
     {
+        m_ticketSphere.transform.position = position;
+        m_ticketSphere.transform.parent = null;
+        m_ticketSphere.SetActive(true);
     }
 
     [PunRPC]
     public void TicketEnd(Vector3 position)
     {
+        m_ticketSphere.transform.parent = transform;
+        m_ticketSphere.transform.localPosition = Vector3.zero;
+        m_ticketSphere.SetActive(false);
     }
 }

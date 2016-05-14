@@ -13,7 +13,8 @@ public class Countdown : MonoBehaviour
     void OnEnable()
     {
         m_text = GetComponent<Text>();
-        m_camera.GetComponent<Blur>().enabled = blurs;
+        if (m_camera)
+            m_camera.GetComponent<Blur>().enabled = blurs;
     }
 
     public void SetBlurCamera(Camera camera)
