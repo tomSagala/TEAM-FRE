@@ -93,9 +93,8 @@ public abstract class Character : MonoBehaviour {
     [PunRPC]
     public virtual void TakeDamageOverTime(float dps, float duration)
     {
-        m_damageOverTimeTakenDPS -= dps;
+        m_damageOverTimeTakenDPS = dps;
         m_damageOverTimeTakenRemainingTime = duration;
-        Debug.Log("ok");
     }
 
     public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked; }
@@ -120,7 +119,6 @@ public abstract class Character : MonoBehaviour {
     [PunRPC]
     public virtual void Stun(float time)
     {
-        Debug.Log("STUN " + time);
         m_actionblocked = true;
         GetComponent<RigidbodyFirstPersonController>().enabled = false;
         Timer.Instance.Request(time, () =>
