@@ -9,7 +9,7 @@ public class Gentlemen : Character {
     private float m_passiveTimer = 0f;
     private int m_bulletChamber;
     private int m_shotCount = 0;
-    private int m_numberOfChambers;
+    private int m_numberOfChambers = 6;
 
 	// Use this for initialization
 	void Start () {
@@ -36,8 +36,11 @@ public class Gentlemen : Character {
 
     public override void UsePrimaryAbility()
     {
+        Debug.Log("Shoot Count : " + m_shotCount + " bullet in chamber : " + m_bulletChamber);
         if (m_bulletChamber == m_shotCount)
         {
+            Debug.Log("Bang");
+            m_primaryAbilityAvailable = false;
             Vector3 pos = GetComponentInChildren<Camera>().transform.position;
             Quaternion orientation = GetComponentInChildren<Camera>().transform.rotation;
 
@@ -47,11 +50,11 @@ public class Gentlemen : Character {
             bullet.GetComponent<Projectile>().SetOneHitKill(true);
             bullet.GetComponent<Projectile>().SetFiredBy(m_team);
 
-            Timer timer = new Timer();
-            timer.Request(m_primaryAbilityCoolDown, Reload);
+            Timer.Instance.Request(m_primaryAbilityCoolDown, Reload);
         }
         else
         {
+            Debug.Log("Click");
             m_shotCount++;
         }
     }
