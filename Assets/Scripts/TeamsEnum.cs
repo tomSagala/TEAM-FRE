@@ -3,6 +3,6 @@ using System.Collections;
 
 public class TeamsEnum
 {
-    public static readonly string m_goodLuckTeam = "GOODLUCKTEAM";
-    public static readonly string m_badLuckTeam = "BADLUCKTEAM";
+    public static readonly string GoodLuckTeam = "GOODLUCKTEAM";
+    public static readonly string BadLuckTeam = "BADLUCKTEAM";
 }
