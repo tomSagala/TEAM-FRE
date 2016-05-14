@@ -114,4 +114,10 @@ public abstract class Character : MonoBehaviour {
 
     public virtual void PrimaryReady() { m_primaryAbilityAvailable = true; }
     public virtual void secondaryReady() { m_secondaryAbilityAvailable = true; }
+
+    [PunRPC]
+    public virtual void Stun(float time)
+    {
+        m_actionblocked = 
+    }
 }
