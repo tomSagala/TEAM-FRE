@@ -86,7 +86,6 @@ public class PowerStatusManager : MonoBehaviour
         SetAbilityImages();
     }
 
-
     private void SetAbilityImages()
     {
         primaryAbilityImage.sprite = m_character.primaryAbilitySprite;
