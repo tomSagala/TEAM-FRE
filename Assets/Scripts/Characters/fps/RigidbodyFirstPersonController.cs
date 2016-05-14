@@ -114,7 +114,8 @@ using UnityStandardAssets.CrossPlatformInput;
                 Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
                 desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
 
-                m_animator.SetFloat("Speed", input.y);
+                if (m_animator)
+                    m_animator.SetFloat("Speed", input.y); 
 
                 desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed;
                 desiredMove.z = desiredMove.z * movementSettings.CurrentTargetSpeed;

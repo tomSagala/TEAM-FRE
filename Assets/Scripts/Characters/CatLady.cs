@@ -24,4 +24,10 @@ public class CatLady : Character {
         var mirror = mirrorObj.GetComponent<CatLadyMirror>();
         INetwork.Instance.RPC(mirror.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
     } 
+
+    [PunRPC]
+    public void MirrorCollision(Vector3 position)
+    {
+        Debug.Log("ok"); 
+    }
 }
