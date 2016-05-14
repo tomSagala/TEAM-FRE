@@ -62,9 +62,9 @@ public class LifeBar : MonoBehaviour
         {
             Vector3 pos = new Vector3(hitInitialX + i * hitDistance, hitInitialY, 0.0f);
             GameObject justCreated = Instantiate(hitPrefab) as GameObject;
-            justCreated.transform.parent = this.transform;
+            justCreated.transform.SetParent(this.transform, false);
             justCreated.GetComponent<Image>().rectTransform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            justCreated.GetComponent<Image>().rectTransform.SetParent(this.GetComponent<RectTransform>());
+            justCreated.GetComponent<Image>().rectTransform.SetParent(this.GetComponent<RectTransform>(), false);
             justCreated.GetComponent<Image>().rectTransform.anchoredPosition = this.GetComponent<RectTransform>().anchoredPosition;
             justCreated.GetComponent<Image>().rectTransform.localPosition = pos;
             m_hits.Add(justCreated.GetComponent<Hit>());
