@@ -118,6 +118,6 @@ public abstract class Character : MonoBehaviour {
     [PunRPC]
     public virtual void Stun(float time)
     {
-        m_actionblocked = 
+        m_actionblocked = true;
     }
 }
