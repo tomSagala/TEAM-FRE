@@ -11,6 +11,7 @@ public class GameBootstrap : MonoBehaviour
     public Countdown InitialCountdown;
     public AmmoQuantity AmmoQty;
     public PowerStatusManager PowerManager;
+    public LifeBar lifeBar;
     public Countdown RespawnCountdown;
 
 	void Start () 
@@ -41,5 +42,6 @@ public class GameBootstrap : MonoBehaviour
 
         InitialCountdown.SetBlurCamera(playerCamera);
         PowerManager.SetCharacter(player.GetComponent<Character>());
+        lifeBar.SetCharacter(player.GetComponent<Character>());
     }
 }
