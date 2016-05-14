@@ -101,8 +101,6 @@ public class Gentlemen : Character {
             bullet.GetComponent<Rigidbody>().useGravity = false;
             bullet.GetComponent<Projectile>().SetOneHitKill(true);
             bullet.GetComponent<Projectile>().SetFiredBy(m_team);
-
-            Timer.Instance.Request(m_primaryAbilityCoolDown, Reload);
         }
         else
         {
@@ -125,18 +123,12 @@ public class Gentlemen : Character {
         fireBug.GetComponent<FireBug>().SetFiredBy(m_team);
         fireBug.GetComponent<FireBug>().SetSpeed(m_secondaryAbilityProjectileSpeed);
         fireBug.GetComponent<FireBug>().Setup();
-        Timer.Instance.Request(m_secondaryAbilityCoolDown, SecondaryReady);
     }
 
-    void Reload()
+    public override void PrimaryReady()
     {
         m_bulletChamber = Random.Range(0, m_numberOfChambers - 1);
         m_shotCount = 0;
         m_primaryAbilityAvailable = true;
     }
-    void SecondaryReady()
-    {
-        m_secondaryAbilityAvailable = true;
-    }
-
 }

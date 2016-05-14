@@ -5,9 +5,11 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] float m_healthPoints = 5f;
     [SerializeField] protected TeamsEnum m_team;
     [SerializeField] protected float m_autoAttackDamage = 1f;
-    [SerializeField] protected float m_primaryAbilityCoolDown;
-    [SerializeField] protected float m_secondaryAbilityCoolDown;
-    [SerializeField] protected float m_autoAttackPerSeconds = 1f;
+    [SerializeField] public float m_primaryAbilityCoolDown;
+    [SerializeField] public float m_primaryAbilityRemainingCoolDown;
+    [SerializeField] public float m_secondaryAbilityCoolDown;
+    [SerializeField] public float m_secondaryAbilityRemainingCoolDown;
+    [SerializeField] public float m_autoAttackPerSeconds = 1f;
     [SerializeField] public int m_maxAmmo;
     [SerializeField] public int m_currentAmmo;
     [SerializeField] public bool m_isMelee;
@@ -18,12 +20,13 @@ public abstract class Character : MonoBehaviour {
 
     protected bool m_primaryAbilityAvailable = true;
     protected bool m_secondaryAbilityAvailable = true;
+    protected bool m_actionblocked = false;
 
     // Use this for initialization
     void Start () {
 	
 	}
-	
+
 	// Update is called once per frame
 	void FixedUpdate () {
         if (m_damageOverTimeTakenRemainingTime > 0f)
@@ -31,7 +34,25 @@ public abstract class Character : MonoBehaviour {
             TakeDamage(m_damageOverTimeTakenDPS * Time.fixedDeltaTime);
             m_damageOverTimeTakenRemainingTime -= Time.fixedDeltaTime;
         }
-	}
+
+        if (!m_primaryAbilityAvailable)
+        {
+            m_primaryAbilityRemainingCoolDown -= Time.fixedDeltaTime;
+            if (m_primaryAbilityRemainingCoolDown <= 0f)
+            {
+                PrimaryReady();
+            }
+        }
+
+        if (!m_secondaryAbilityAvailable)
+        {
+            m_secondaryAbilityRemainingCoolDown -= Time.fixedDeltaTime;
+            if (m_secondaryAbilityRemainingCoolDown <= 0f)
+            {
+                secondaryReady();
+            }
+        }
+    }
 
     public void SetTeam(TeamsEnum team)
     {
@@ -73,8 +94,8 @@ public abstract class Character : MonoBehaviour {
         m_damageOverTimeTakenRemainingTime = duration;
     }
 
-    public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable; }
-    public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable; }
+    public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && m_actionblocked; }
+    public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && m_actionblocked; }
 
     [PunRPC]
     public virtual void Die() 
@@ -88,4 +109,7 @@ public abstract class Character : MonoBehaviour {
     public virtual void Attack() { }
     public virtual void UsePrimaryAbility() { }
     public virtual void UseSecondaryAbility() { }
+
+    public virtual void PrimaryReady() { m_primaryAbilityAvailable = true; }
+    public virtual void secondaryReady() { m_secondaryAbilityAvailable = true; }
 }
