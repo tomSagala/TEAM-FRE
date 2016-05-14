@@ -96,8 +96,8 @@ public abstract class Character : MonoBehaviour {
         m_damageOverTimeTakenRemainingTime = duration;
     }
 
-    public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && m_actionblocked; }
-    public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && m_actionblocked; }
+    public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked; }
+    public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && !m_actionblocked; }
 
     [PunRPC]
     public virtual void Die() 
