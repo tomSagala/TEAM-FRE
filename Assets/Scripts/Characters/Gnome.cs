@@ -18,6 +18,7 @@ public class Gnome : Character
     void Start()
     {
         m_healQuad = transform.Find("HealingQuad").gameObject;
+        m_healQuad.GetComponent<GnomeHealingQuad>().HealRate = GoldBagHealRate;
     }
 
     public override void Attack()
@@ -38,9 +39,17 @@ public class Gnome : Character
         INetwork.Instance.RPC(goldBag.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
     }
 
+    public override void UseSecondaryAbility()
+    {
+        base.UseSecondaryAbility();
+    }
+
     [PunRPC]
     public void CloverCollision(Vector3 position)
     {
+        if (!INetwork.Instance.IsMine(gameObject))
+            return;
+
         RaycastHit[] hits = Physics.SphereCastAll(position, CloverRadius, Vector3.up);
         int nbCloverAlreadyThere = hits.Count(p => Helpers.CheckObjectTag(p.collider.gameObject, "Clover"));
         
