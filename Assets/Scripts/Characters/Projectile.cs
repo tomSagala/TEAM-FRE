@@ -4,31 +4,45 @@ using System.Collections;
 public class Projectile : MonoBehaviour {
     [SerializeField] float m_damage;
     [SerializeField] TeamsEnum m_firedBy;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    [SerializeField] bool isOneHitKill = false;
+    // Use this for initialization
+    void Start() {
 
-    void SetDamage(float damage)
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
+
+    public void SetDamage(float damage)
     {
         m_damage = damage;
     }
 
-    void SetFiredBy(TeamsEnum firedBy)
+    public void SetFiredBy(TeamsEnum firedBy)
     {
         m_firedBy = firedBy;
+    }
+
+    public void SetOneHitKill(bool isOneHitKill)
+    {
+
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (Helpers.CheckObjectTag(collision.gameObject, "Player") && collision.gameObject.GetComponent<Character>().GetTeam() != m_firedBy)
         {
-            collision.gameObject.GetComponent<Character>().TakeDamage(m_damage);
+            if (isOneHitKill)
+            {
+                collision.gameObject.GetComponent<Character>().Die();
+            }
+            else
+            {
+                collision.gameObject.GetComponent<Character>().TakeDamage(m_damage);
+            }
         }
     }
+
 }

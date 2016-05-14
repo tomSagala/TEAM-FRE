@@ -25,7 +25,6 @@ public class Lobby : MonoBehaviour
 
         int nbPlayers = network.GetPlayerCount() - 1;
         int nbPlayersBottom = network.GetPlayerCountInTeam(TeamsEnum.BadLuckTeam);
-        Debug.Log(nbPlayers);
         if (nbPlayersBottom <= (nbPlayers - nbPlayersBottom))
             network.SetTeam(TeamsEnum.BadLuckTeam);
         else
