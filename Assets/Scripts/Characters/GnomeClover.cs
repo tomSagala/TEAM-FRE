@@ -3,7 +3,8 @@
 public class GnomeClover : MonoBehaviour
 {
     public float speed;
-    public int ownerViewId;
+    public float damage;
+    [HideInInspector] public int ownerViewId;
 
     void Start()
     {
@@ -23,6 +24,12 @@ public class GnomeClover : MonoBehaviour
                 INetwork.Instance.RPC(ownerObj, "CloverCollision", PhotonTargets.All, transform.position); 
             }
 
+            INetwork.Instance.RPC(gameObject, "DestroyClover", PhotonTargets.All);
+        }
+        else if (collision.collider.GetComponent<Character>() != null)
+        {
+            Character character = collision.collider.GetComponent<Character>();
+            INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, damage);
             INetwork.Instance.RPC(gameObject, "DestroyClover", PhotonTargets.All);
         }
     }

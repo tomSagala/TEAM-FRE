@@ -67,7 +67,7 @@ public class Lobby : MonoBehaviour
         // Implement Ready button
         m_readyButton.interactable = false;
         m_readyButton.transform.Find("Text").GetComponent<Text>().text = "Waiting...";
-        INetwork.Instance.RPC(gameObject, "NotifyReady", PhotonTargets.AllBuffered);
+        INetwork.Instance.RPC(gameObject, "NotifyReady", PhotonTargets.MasterClient);
     }
 
     public void ChooseCatLady()
@@ -115,6 +115,7 @@ public class Lobby : MonoBehaviour
         m_nbPlayerReady++;
         if (m_nbPlayerReady == INetwork.Instance.GetPlayerCount())
         {
+            INetwork.Instance.SetRoomStarted();
             INetwork.Instance.LoadLevel(gameSceneName);
         }
     }

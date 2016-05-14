@@ -22,7 +22,7 @@ public class INetwork : PunGameSingleton<INetwork>
 
     public void Connect()
     {
-        PhotonNetwork.ConnectUsingSettings("1.0");
+        PhotonNetwork.ConnectUsingSettings("1.1");
     }
 
     public void Disconnect()
