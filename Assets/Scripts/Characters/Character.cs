@@ -2,8 +2,8 @@
 using System.Collections;
 
 public abstract class Character : MonoBehaviour {
-    [SerializeField] float m_maxHealthPoints = 5f;
-    [SerializeField] float m_healthPoints = 5f;
+    [SerializeField] public float m_maxHealthPoints = 5f;
+    [SerializeField] public float m_healthPoints = 5f;
     [SerializeField] protected TeamsEnum m_team;
     [SerializeField] protected float m_autoAttackDamage = 1f;
     [SerializeField] public float m_primaryAbilityCoolDown;
