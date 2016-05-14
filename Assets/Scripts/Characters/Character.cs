@@ -53,9 +53,18 @@ public abstract class Character : MonoBehaviour {
         return m_healthPoints;
     }
 
+    [PunRPC]
     public virtual void TakeDamage(float damage)
     {
+        Debug.Log("Take damage");
         m_healthPoints -= damage;
+
+        if (INetwork.Instance.IsMaster() && m_healthPoints < 0)
+        {
+            // DIE
+            m_healthPoints = 0;
+            INetwork.Instance.RPC(gameObject, "Die", PhotonTargets.All);
+        }
     }
 
     public virtual void TakeDamageOverTime(float dps, float duration)
@@ -66,7 +75,16 @@ public abstract class Character : MonoBehaviour {
 
     public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable; }
     public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable; }
-    public virtual void Die() { Destroy(gameObject); }
+
+    [PunRPC]
+    public virtual void Die() 
+    {
+        if (!INetwork.Instance.IsMine(gameObject))
+            return;
+
+        INetwork.Instance.NetworkDestroy(gameObject); 
+    }
+
     public virtual void Attack() { }
     public virtual void UsePrimaryAbility() { }
     public virtual void UseSecondaryAbility() { }

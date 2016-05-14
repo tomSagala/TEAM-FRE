@@ -22,7 +22,7 @@ public class INetwork : PunGameSingleton<INetwork>
 
     public void Connect()
     {
-        PhotonNetwork.ConnectUsingSettings("1.0");
+        PhotonNetwork.ConnectUsingSettings("1.1");
     }
 
     public void Disconnect()
@@ -106,6 +106,11 @@ public class INetwork : PunGameSingleton<INetwork>
     public string GetPlayerName()
     {
         return PhotonNetwork.player.name;
+    }
+
+    public bool IsMaster()
+    {
+        return PhotonNetwork.player.isMasterClient;
     }
 
     public void RPC(GameObject gameObject, string methodName, PhotonTargets target, params object[] parameters)

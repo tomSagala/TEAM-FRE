@@ -5,6 +5,7 @@ using UnityStandardAssets.ImageEffects;
 
 public class Countdown : MonoBehaviour
 {
+    public bool blurs;
     public float duration;
     private Text m_text;
     private Camera m_camera;
@@ -13,7 +14,7 @@ public class Countdown : MonoBehaviour
     {
         m_text = GetComponent<Text>();
         m_camera = FindObjectOfType<Camera>();
-        m_camera.GetComponent<Blur>().enabled = true;
+        m_camera.GetComponent<Blur>().enabled = blurs;
     }
     
      void Update()
