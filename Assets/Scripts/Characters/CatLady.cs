@@ -3,13 +3,14 @@ using System.Collections;
 
 public class CatLady : Character {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public GameObject CatProjectilePrefab;
+
+    public override void Attack()
+    {
+        CatLadyCat cat = INetwork.Instance.Instantiate(
+            CatProjectilePrefab,
+            Camera.main.transform.position + Camera.main.transform.forward,
+            Quaternion.LookRotation(transform.forward)).GetComponent<CatLadyCat>();
+        INetwork.Instance.RPC(cat.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
+    }
 }

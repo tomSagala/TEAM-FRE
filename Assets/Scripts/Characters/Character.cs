@@ -90,6 +90,7 @@ public abstract class Character : MonoBehaviour {
         }
     }
 
+    [PunRPC]
     public virtual void TakeDamageOverTime(float dps, float duration)
     {
         m_damageOverTimeTakenDPS -= dps;
