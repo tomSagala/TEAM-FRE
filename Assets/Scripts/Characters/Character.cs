@@ -8,6 +8,14 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] protected float m_primaryAbilityCoolDown;
     [SerializeField] protected float m_secondaryAbilityCoolDown;
     [SerializeField] protected float m_autoAttackPerSeconds = 1f;
+    [SerializeField] public int m_maxAmmo;
+    [SerializeField] public int m_currentAmmo;
+    [SerializeField] public bool m_isMelee;
+
+    private float m_damageOverTimeTakenDPS = 0f;
+    private float m_damageOverTimeTakenRemainingTime = 0f;
+
+
     protected bool m_primaryAbilityAvailable = true;
     protected bool m_secondaryAbilityAvailable = true;
 
@@ -17,8 +25,12 @@ public abstract class Character : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void FixedUpdate () {
+        if (m_damageOverTimeTakenRemainingTime > 0f)
+        {
+            TakeDamage(m_damageOverTimeTakenDPS * Time.fixedDeltaTime);
+            m_damageOverTimeTakenRemainingTime -= Time.fixedDeltaTime;
+        }
 	}
 
     public void SetTeam(TeamsEnum team)
@@ -44,6 +56,12 @@ public abstract class Character : MonoBehaviour {
     public virtual void TakeDamage(float damage)
     {
         m_healthPoints -= damage;
+    }
+
+    public virtual void TakeDamageOverTime(float dps, float duration)
+    {
+        m_damageOverTimeTakenDPS -= dps;
+        m_damageOverTimeTakenRemainingTime = duration;
     }
 
     public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable; }
