@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Character : MonoBehaviour {
-    [SerializeField] public float m_maxHealthPoints = 5f;
+public abstract class Character : MonoBehaviour
+{
+    [SerializeField] public Sprite primaryAbilitySprite;
+    [SerializeField] public Sprite secondaryAbilitySprite;
+    [SerializeField] public uint m_maxHealthPoints = 5;
     [SerializeField] public float m_healthPoints = 5f;
     [SerializeField] protected TeamsEnum m_team;
     [SerializeField] protected float m_autoAttackDamage = 1f;
@@ -18,15 +21,9 @@ public abstract class Character : MonoBehaviour {
     private float m_damageOverTimeTakenDPS = 0f;
     private float m_damageOverTimeTakenRemainingTime = 0f;
 
-
     protected bool m_primaryAbilityAvailable = true;
     protected bool m_secondaryAbilityAvailable = true;
-    protected bool m_actionblocked = false;
-
-    // Use this for initialization
-    void Start () {
-	
-	}
+    public bool m_actionblocked = false;
 
 	// Update is called once per frame
 	void FixedUpdate () {
