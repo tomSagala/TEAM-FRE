@@ -33,7 +33,7 @@ public class Gnome : Character
             Camera.main.transform.position + Camera.main.transform.forward, 
             Quaternion.LookRotation(transform.forward)).GetComponent<GnomeClover>();
         INetwork.Instance.RPC(clover.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
-        INetwork.Instance.RPC(clover.gameObject, "SetOnerTeam", PhotonTargets.All, m_team);
+        INetwork.Instance.RPC(clover.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
 
     }
 
@@ -47,7 +47,7 @@ public class Gnome : Character
             Camera.main.transform.position + Camera.main.transform.forward,
             Quaternion.LookRotation(transform.forward)).GetComponent<GnomeGoldBag>();
         INetwork.Instance.RPC(goldBag.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
-        INetwork.Instance.RPC(goldBag.gameObject, "SetOnerTeam", PhotonTargets.All, m_team);
+        INetwork.Instance.RPC(goldBag.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
 
     }
 
@@ -61,7 +61,7 @@ public class Gnome : Character
             Camera.main.transform.position + Camera.main.transform.forward,
             Quaternion.LookRotation(transform.forward)).GetComponent<GnomeTicket>();
         INetwork.Instance.RPC(ticket.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
-        INetwork.Instance.RPC(ticket.gameObject, "SetOnerTeam", PhotonTargets.All, m_team);
+        INetwork.Instance.RPC(ticket.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
 
     }
 
