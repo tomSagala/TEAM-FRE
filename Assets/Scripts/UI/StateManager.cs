@@ -9,7 +9,6 @@ public class StateManager : GameSingleton<StateManager>
 
 	public void GoToState(string stateName)
 	{
-        Debug.Log(States.Length);
 		for (int i = 0; i < States.Length; ++i) 
 		{
             bool isActive = States[i].name.Equals(stateName);

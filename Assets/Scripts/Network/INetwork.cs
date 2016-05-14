@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-public class NetworkManager : PunGameSingleton<NetworkManager>
+public class INetwork : PunGameSingleton<INetwork>
 {
     private bool m_isSinglePlayer;
 
