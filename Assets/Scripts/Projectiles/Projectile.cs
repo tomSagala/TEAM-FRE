@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Projectile : MonoBehaviour {
     [SerializeField] protected float m_damage;
-    [SerializeField] protected TeamsEnum m_firedBy;
+    [SerializeField] protected string m_firedBy;
     [SerializeField] bool m_isOneHitKill = false;
     // Use this for initialization
     void Start() {
@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour {
         m_damage = damage;
     }
 
-    public void SetFiredBy(TeamsEnum firedBy)
+    public void SetFiredBy(string firedBy)
     {
         m_firedBy = firedBy;
     }

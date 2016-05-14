@@ -7,7 +7,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField] public Sprite secondaryAbilitySprite;
     [SerializeField] public uint m_maxHealthPoints = 5;
     [SerializeField] public float m_healthPoints = 5f;
-    [SerializeField] protected TeamsEnum m_team;
+    [SerializeField] protected string m_team;
     [SerializeField] protected float m_autoAttackDamage = 1f;
     [SerializeField] public float m_primaryAbilityCoolDown;
     [HideInInspector] public float m_primaryAbilityRemainingCoolDown;
@@ -52,12 +52,12 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    public void SetTeam(TeamsEnum team)
+    public void SetTeam(string team)
     {
         m_team = team;
     }
 
-    public TeamsEnum GetTeam()
+    public string GetTeam()
     {
         return m_team;
     }
