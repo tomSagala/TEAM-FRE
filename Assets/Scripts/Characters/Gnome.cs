@@ -12,12 +12,12 @@ public class Gnome : Character
     public GameObject CloverBigPrefab;
     public GameObject GoldBagPrefab;
     public float GoldBagRadius;
-    private Creep m_healCreep;
-    private Vector3 m_initialGoldPosition;
+    public float GoldBagHealRate;
+    private GameObject m_healQuad;
     
     void Start()
     {
-        m_healCreep = Helpers.GetObjectWithTag("HealCreep").GetComponent<Creep>();
+        m_healQuad = transform.Find("HealingQuad").gameObject;
     }
 
     public override void Attack()
@@ -59,19 +59,21 @@ public class Gnome : Character
             spawn(CloverMediumPrefab);
             spawn(CloverBigPrefab);
         }
-        Debug.Log("ok");
     }
 
     [PunRPC]
     public void GoldBagCollision(Vector3 position)
     {
-        m_healCreep.AddCreepAtPosition(position, (int)GoldBagRadius, 1);
-        m_initialGoldPosition = position;
+        m_healQuad.transform.position = position;
+        m_healQuad.transform.parent = null;
+        m_healQuad.SetActive(true);
     }
 
     [PunRPC]
     public void GoldBagEnd(Vector3 position)
     {
-        m_healCreep.AddCreepAtPosition(m_initialGoldPosition, (int)GoldBagRadius, 0);
+        m_healQuad.transform.parent = transform;
+        m_healQuad.transform.localPosition = Vector3.zero;
+        m_healQuad.SetActive(false);
     } 
 }

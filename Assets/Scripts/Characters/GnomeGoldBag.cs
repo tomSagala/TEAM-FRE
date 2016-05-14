@@ -45,7 +45,7 @@ public class GnomeGoldBag : AbstractProjectile
             GameObject ownerObj = INetwork.Instance.GetGameObjectWithView(ownerViewId);
             if (ownerObj != null)
             {
-                INetwork.Instance.RPC(ownerObj, "GoldBagCollision", PhotonTargets.All, transform.position);
+                INetwork.Instance.RPC(ownerObj, "GoldBagCollision", PhotonTargets.All, transform.position - Vector3.up*0.2f); 
             }
 
             INetwork.Instance.RPC(gameObject, "Stop", PhotonTargets.All);

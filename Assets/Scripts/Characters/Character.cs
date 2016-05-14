@@ -2,6 +2,7 @@
 using System.Collections;
 
 public abstract class Character : MonoBehaviour {
+    [SerializeField] float m_maxHealthPoints = 5f;
     [SerializeField] float m_healthPoints = 5f;
     [SerializeField] protected TeamsEnum m_team;
     [SerializeField] protected float m_autoAttackDamage = 1f;
@@ -34,8 +35,9 @@ public abstract class Character : MonoBehaviour {
     [PunRPC]
     public virtual void TakeDamage(float damage)
     {
-        Debug.Log("Take damage");
         m_healthPoints -= damage;
+        if (m_healthPoints > m_maxHealthPoints)
+            m_healthPoints = m_maxHealthPoints;
 
         if (INetwork.Instance.IsMaster() && m_healthPoints < 0)
         {
