@@ -6,6 +6,7 @@ public abstract class AbstractProjectile : MonoBehaviour
     public int ownerViewId;
     public float speed;
     public float damage;
+    public TeamsEnum ownerTeam;
 
     [PunRPC]
     public void DestroyProjectile()
@@ -30,5 +31,21 @@ public abstract class AbstractProjectile : MonoBehaviour
     public void SetOwnerViewId(int viewId)
     {
         ownerViewId = viewId;
+    }
+
+    [PunRPC]
+    public void SetOwnerTeam(TeamsEnum owner)
+    {
+        ownerTeam = owner;
+    }
+    [PunRPC]
+    public void SetDamage(float dmg)
+    {
+        damage = dmg;
+    }
+    [PunRPC]
+    public void Setspeed(float spd)
+    {
+        speed = spd;
     }
 }

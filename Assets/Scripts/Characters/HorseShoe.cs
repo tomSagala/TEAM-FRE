@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections;
 
-public class GnomeClover : AbstractProjectile
+public class HorseShoe : AbstractProjectile
 {
     void Start()
     {
@@ -14,12 +15,6 @@ public class GnomeClover : AbstractProjectile
 
         if (collision.collider.name == "Ground")
         {
-            GameObject ownerObj = INetwork.Instance.GetGameObjectWithView(ownerViewId);
-            if (ownerObj != null)
-            {
-                INetwork.Instance.RPC(ownerObj, "CloverCollision", PhotonTargets.All, transform.position); 
-            }
-
             INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
         }
         else if (collision.collider.GetComponent<Character>() != null && collision.collider.GetComponent<Character>().GetTeam() != ownerTeam)
