@@ -11,6 +11,7 @@ public class Gnome : Character
     public GameObject CloverMediumPrefab;
     public GameObject CloverBigPrefab;
     public GameObject GoldBagPrefab;
+    public GameObject TicketPrefab;
     public float GoldBagRadius;
     public float GoldBagHealRate;
     private GameObject m_healQuad;
@@ -41,7 +42,11 @@ public class Gnome : Character
 
     public override void UseSecondaryAbility()
     {
-        base.UseSecondaryAbility();
+        GnomeTicket ticket = INetwork.Instance.Instantiate(
+            TicketPrefab,
+            Camera.main.transform.position + Camera.main.transform.forward,
+            Quaternion.LookRotation(transform.forward)).GetComponent<GnomeTicket>();
+        INetwork.Instance.RPC(ticket.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
     }
 
     [PunRPC]
@@ -84,5 +89,15 @@ public class Gnome : Character
         m_healQuad.transform.parent = transform;
         m_healQuad.transform.localPosition = Vector3.zero;
         m_healQuad.SetActive(false);
-    } 
+    }
+
+    [PunRPC]
+    public void TicketCollision(Vector3 position)
+    {
+    }
+
+    [PunRPC]
+    public void TicketEnd(Vector3 position)
+    {
+    }
 }
