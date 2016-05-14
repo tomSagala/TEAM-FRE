@@ -95,6 +95,7 @@ public abstract class Character : MonoBehaviour {
     {
         m_damageOverTimeTakenDPS -= dps;
         m_damageOverTimeTakenRemainingTime = duration;
+        Debug.Log("ok");
     }
 
     public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked; }
