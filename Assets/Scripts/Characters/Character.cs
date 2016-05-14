@@ -11,16 +11,6 @@ public abstract class Character : MonoBehaviour {
     protected bool m_primaryAbilityAvailable = true;
     protected bool m_secondaryAbilityAvailable = true;
 
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     public void SetTeam(TeamsEnum team)
     {
         m_team = team;
