@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum TeamsEnum
+public class TeamsEnum
 {
-    GOODLUCKTEAM,
-    BADLUCKTEAM
+    public static readonly string m_goodLuckTeam = "GOODLUCKTEAM";
+    public static readonly string m_badLuckTeam = "BADLUCKTEAM";
 }
