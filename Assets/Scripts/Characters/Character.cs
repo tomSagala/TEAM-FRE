@@ -2,11 +2,17 @@
 using System.Collections;
 
 public abstract class Character : MonoBehaviour {
-    [SerializeField] float m_healthPoints;
-    private TeamsEnum m_team;
+    [SerializeField] float m_healthPoints = 5f;
+    [SerializeField] protected TeamsEnum m_team;
+    [SerializeField] protected float m_autoAttackDamage = 1f;
+    [SerializeField] protected float m_primaryAbilityCoolDown;
+    [SerializeField] protected float m_secondaryAbilityCoolDown;
+    [SerializeField] protected float m_autoAttackPerSeconds = 1f;
+    protected bool m_primaryAbilityAvailable = true;
+    protected bool m_secondaryAbilityAvailable = true;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -40,6 +46,10 @@ public abstract class Character : MonoBehaviour {
         m_healthPoints -= damage;
     }
 
+    public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable; }
+    public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable; }
+    public virtual void Die() { Destroy(gameObject); }
+    public virtual void Attack() { }
     public virtual void UsePrimaryAbility() { }
     public virtual void UseSecondaryAbility() { }
 }

@@ -2,8 +2,6 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-namespace UnityStandardAssets.Characters.FirstPerson
-{
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(CapsuleCollider))]
     public class RigidbodyFirstPersonController : MonoBehaviour
@@ -54,7 +52,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         public Camera cam;
         public MovementSettings movementSettings = new MovementSettings();
-        public MouseLook mouseLook = new MouseLook();
+        public UnityStandardAssets.Characters.FirstPerson.MouseLook mouseLook = new UnityStandardAssets.Characters.FirstPerson.MouseLook();
         public AdvancedSettings advancedSettings = new AdvancedSettings();
 
 
@@ -62,7 +60,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private CapsuleCollider m_Capsule;
         private float m_YRotation;
         private Vector3 m_GroundContactNormal;
-        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_primaryAbility, m_secondaryAbility, m_Shooting;
+        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_primaryAbility, m_secondaryAbility, m_attacking;
 
         public float m_bulletSpeed = 100f;
         public GameObject m_bulletPrefab;
@@ -149,19 +147,28 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 }
             }
 
-            if (m_Shooting)
+            if (m_attacking)
             {
-                Vector3 pos = cam.transform.position;
+                gameObject.GetComponent<Character>().Attack();
+                /*Vector3 pos = cam.transform.position;
                 Quaternion orientation = cam.transform.rotation;
 
                 GameObject bullet = Instantiate(m_bulletPrefab, pos, orientation) as GameObject;
                 bullet.GetComponent<Rigidbody>().velocity = cam.transform.forward * m_bulletSpeed;
-                bullet.GetComponent<Rigidbody>().useGravity = false;
+                bullet.GetComponent<Rigidbody>().useGravity = false;*/
+            }
+
+            if (m_primaryAbility)
+            {
+                if (gameObject.GetComponent<Character>().CanUsePrimaryAbility())
+                {
+                    gameObject.GetComponent<Character>().UsePrimaryAbility();
+                }
             }
 
             m_Jump = false;
-            m_Shooting = false;
-
+            m_attacking = false;
+            m_primaryAbility = false;
         }
 
 
@@ -203,7 +210,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             if (CrossPlatformInputManager.GetButtonDown("Fire1"))
             {
-                m_Shooting = true;
+                m_attacking = true;
             }
 
             if (CrossPlatformInputManager.GetButtonDown("PrimaryAbility"))
@@ -259,4 +266,3 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
     }
-}
