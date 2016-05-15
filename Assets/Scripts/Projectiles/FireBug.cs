@@ -24,6 +24,7 @@ public class FireBug : Projectile {
         axisForward = transform.forward;
         axisUp = transform.up;
     }
+
     [PunRPC]
     public void Setup(float timerOffset, float ampX, float ampY)
     {

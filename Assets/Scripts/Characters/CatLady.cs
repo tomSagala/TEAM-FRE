@@ -46,7 +46,7 @@ public class CatLady : Character {
             GetComponent<RigidbodyFirstPersonController>().movementSettings.ForwardSpeed /= SpeedBoost;
         });
 
-        NetworkAudioManager.Instance.PlayAudioClipForAll("CatLadyCry", this.transform.position);
+        NetworkAudioManager.Instance.PlayAudioClipForAll("CatLadyCry", this.transform.position, 1.0f);
     }
 
     [PunRPC]

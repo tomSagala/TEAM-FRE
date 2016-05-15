@@ -99,6 +99,7 @@ public class Gnome : Character
         m_healQuad.transform.position = position;
         m_healQuad.transform.parent = null;
         m_healQuad.SetActive(true);
+        NetworkAudioManager.Instance.PlayAudioClipLocally("HealingQuad", m_healQuad.transform.position, 1.0f);
     }
 
     [PunRPC]

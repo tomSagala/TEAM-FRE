@@ -24,7 +24,7 @@ public class CatLadyCat : AbstractProjectile
         float value = Random.Range(0, 100000);
         if (value < CatMeowThreshold)
         {
-            NetworkAudioManager.Instance.PlayAudioClipForAll("HappyCat", this.transform.position);
+            NetworkAudioManager.Instance.PlayAudioClipLocally("HappyCat", this.transform.position, 1.0f);
         }
 
         if (m_target == null)
@@ -93,7 +93,7 @@ public class CatLadyCat : AbstractProjectile
             INetwork.Instance.RPC(character.gameObject, "TakeDamageOverTime", PhotonTargets.All, Dps, DpsDuration);
             INetwork.Instance.RPC(gameObject, "Attach", PhotonTargets.All, INetwork.Instance.GetViewId(character.gameObject), collision.contacts[0].point);
             INetwork.Instance.RPC(gameObject, "DestroyProjectileAfterTime", PhotonTargets.All, DpsDuration);
-            NetworkAudioManager.Instance.PlayAudioClipForAll("AggressiveCat", this.transform.position);
+            NetworkAudioManager.Instance.PlayAudioClipForAll("AggressiveCat", this.transform.position, 1.0f);
         }
     }
 

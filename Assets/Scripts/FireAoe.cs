@@ -25,6 +25,7 @@ public class FireAoe : MonoBehaviour
         {
             Character character = other.GetComponent<Character>();
             INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, m_dps * Time.fixedDeltaTime);
+            NetworkAudioManager.Instance.PlayAudioClipForAll("Fireball", this.transform.position, 0.25f);
         }
     }
 }

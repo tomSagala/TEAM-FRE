@@ -11,6 +11,13 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
     public AudioClip HappyCat;
     public AudioClip AggressiveCat;
 
+    // Healing Quad
+    public AudioClip HealingQuad;
+
+    // FireAoe
+    public AudioClip FireAoe;
+
+
     private Dictionary<string, AudioClip> audioClips;
 
     void Start()
@@ -19,11 +26,13 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
         {
             {"CatLadyCry", CatLadyCry},
             {"HappyCat", HappyCat},
-            {"AggressiveCat", AggressiveCat}
+            {"AggressiveCat", AggressiveCat},
+            {"HealingQuad", HealingQuad},
+            { "FireAoe", FireAoe}
         };
     }
 
-    public void PlayAudioClipForAll(string clipName, Vector3 position)
+    public void PlayAudioClipForAll(string clipName, Vector3 position, float volume)
     {
         if (INetwork.Instance.IsMaster())
         {
@@ -32,12 +41,12 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
     }
 
     [PunRPC]
-    public void PlayAudioClipLocally(string clipName, Vector3 position)
+    public void PlayAudioClipLocally(string clipName, Vector3 position, float volume)
     {
         AudioClip clip;
         bool clipFound = audioClips.TryGetValue(clipName, out clip);
 
         if (clipFound)
-            AudioSource.PlayClipAtPoint(clip, position);
+            AudioSource.PlayClipAtPoint(clip, position, volume);
     }
 }
