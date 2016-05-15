@@ -180,6 +180,13 @@ using UnityStandardAssets.CrossPlatformInput;
                 }
             }
 
+            if (m_animator)
+            {
+                m_animator.SetBool("Attacking", m_attacking);
+                m_animator.SetBool("PrimaryAbility", m_primaryAbility);
+                m_animator.SetBool("SecondaryAbility", m_secondaryAbility);
+            }
+
             m_Jump = false;
             m_attacking = false;
             m_primaryAbility = false;
