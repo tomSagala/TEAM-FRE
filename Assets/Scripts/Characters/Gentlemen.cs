@@ -44,7 +44,9 @@ public class Gentlemen : Character
 
     public override void Attack()
     {
-        Debug.Log("attacking");
+        m_auttoAtackAvailable = false;
+        m_autoAttackRemainingCoolDown = 1.0f / m_autoAttackPerSeconds;
+
         Transform cam = GetComponentInChildren<Camera>().transform;
 
         RaycastHit hitlow;

@@ -14,6 +14,8 @@ public abstract class Character : MonoBehaviour
     [SerializeField] public float m_secondaryAbilityCoolDown;
     [HideInInspector] public float m_secondaryAbilityRemainingCoolDown;
     [SerializeField] public float m_autoAttackPerSeconds = 1f;
+    [HideInInspector] public float m_autoAttackRemainingCoolDown;
+
     [SerializeField] public int m_maxAmmo;
     [SerializeField] public int m_currentAmmo;
     [SerializeField] public bool m_isMelee;
@@ -21,6 +23,7 @@ public abstract class Character : MonoBehaviour
     private float m_damageOverTimeTakenDPS = 0f;
     private float m_damageOverTimeTakenRemainingTime = 0f;
 
+    protected bool m_autoAttackAvailable = true;
     protected bool m_primaryAbilityAvailable = true;
     protected bool m_secondaryAbilityAvailable = true;
     public bool m_actionblocked = false;
@@ -31,6 +34,15 @@ public abstract class Character : MonoBehaviour
         {
             TakeDamage(m_damageOverTimeTakenDPS * Time.fixedDeltaTime);
             m_damageOverTimeTakenRemainingTime -= Time.fixedDeltaTime;
+        }
+
+        if (!m_autoAttackAvailable)
+        {
+            m_autoAttackRemainingCoolDown -= Time.fixedDeltaTime;
+            if (m_autoAttackRemainingCoolDown <= 0f)
+            {
+                AutoAttackReady();
+            }
         }
 
         if (!m_primaryAbilityAvailable)
@@ -79,7 +91,7 @@ public abstract class Character : MonoBehaviour
         if (m_healthPoints > m_maxHealthPoints)
             m_healthPoints = m_maxHealthPoints;
 
-        if (INetwork.Instance.IsMaster() && m_healthPoints < 0)
+        if (INetwork.Instance.IsMaster() && m_healthPoints <= 0f)
         {
             // DIE
             m_healthPoints = 0;
@@ -94,6 +106,7 @@ public abstract class Character : MonoBehaviour
         m_damageOverTimeTakenRemainingTime = duration;
     }
 
+    public bool CanUseAutoAttack() { return m_autoAttackAvailable && !m_actionblocked; }
     public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked; }
     public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && !m_actionblocked; }
 
@@ -110,6 +123,7 @@ public abstract class Character : MonoBehaviour
     public virtual void UsePrimaryAbility() { }
     public virtual void UseSecondaryAbility() { }
 
+    public virtual void AutoAttackReady() { m_autoAttackAvailable = true; }
     public virtual void PrimaryReady() { m_primaryAbilityAvailable = true; }
     public virtual void secondaryReady() { m_secondaryAbilityAvailable = true; }
 
