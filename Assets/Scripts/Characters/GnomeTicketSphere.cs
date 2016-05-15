@@ -12,7 +12,7 @@ public class GnomeTicketSphere : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         Character character = collider.GetComponent<Character>();
-        if (character == null)
+        if (character == null || character.GetTeam() == TeamsEnum.BadLuckTeam)
             return;
 
         INetwork.Instance.RPC(character.gameObject, "Stun", PhotonTargets.All, Duration);

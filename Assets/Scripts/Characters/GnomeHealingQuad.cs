@@ -22,7 +22,7 @@ public class GnomeHealingQuad : MonoBehaviour
     void OnTriggerStay(Collider collider)
     {
         Character character = collider.GetComponent<Character>();
-        if (character != null)
+        if (character != null && character.GetTeam() == TeamsEnum.GoodLuckTeam)
         {
             INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, -1.0f * HealRate * Time.deltaTime);
         }
