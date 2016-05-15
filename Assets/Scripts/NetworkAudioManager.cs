@@ -15,6 +15,15 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
     public AudioClip HorseShoe;
     public AudioClip GnomeLaugh;
 
+    public static string LUCK = "LUCK";
+    public static string BADLUCK = "BADLUCK";
+    public static string NEUTRAL = "NEUTRAL";
+    public static string CURRENT = NEUTRAL;
+
+    private AudioSource LuckSong;
+    private AudioSource NeutralSong;
+    private AudioSource BadLuckSong;
+
     private Dictionary<string, AudioClip> audioClips;
 
     void Start()
@@ -32,6 +41,9 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
             {"HorseShoe", HorseShoe},
             {"GnomeLaugh", GnomeLaugh}
         };
+
+        LuckSong = GetComponents<AudioSource>()[0];
+        BadLuckSong = GetComponents<AudioSource>()[1];
     }
 
     public void PlayAudioClipForAll(string clipName, Vector3 position, float volume)
@@ -50,5 +62,33 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
 
         if (clipFound)
             AudioSource.PlayClipAtPoint(clip, position, volume);
+    }
+
+    public void ModifyCurrentSongForAll(string sourceName)
+    {
+        if (INetwork.Instance.IsMaster())
+        {
+            INetwork.Instance.RPC(gameObject, "ModifyCurrentSongLocally", PhotonTargets.All, sourceName);
+        }
+    }
+
+    [PunRPC]
+    public void ModifyCurrentSongLocally(string sourceName)
+    {
+        if (sourceName == NEUTRAL)
+        {
+            LuckSong.Stop();
+            BadLuckSong.Stop();
+        }
+        else if (sourceName == LUCK)
+        {
+            LuckSong.Play();
+            BadLuckSong.Stop();
+        }
+        else if (sourceName == BADLUCK)
+        {
+            LuckSong.Stop();
+            BadLuckSong.Play();
+        }        
     }
 }
