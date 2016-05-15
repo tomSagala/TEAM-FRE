@@ -22,7 +22,7 @@ public abstract class AbstractProjectile : MonoBehaviour
         {
             Timer.Instance.Request(time, () =>
             {
-                INetwork.Instance.NetworkDestroy(gameObject);
+                    INetwork.Instance.NetworkDestroy(gameObject);
             });
         }
     }
