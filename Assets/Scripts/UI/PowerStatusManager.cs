@@ -58,11 +58,6 @@ public class PowerStatusManager : MonoBehaviour
             secondaryAbilityCount.text = "";
         }
 
-        if (m_character.CanDoubleActivate())
-        {
-            primaryAbilityImage.sprite = m_character.primaryAbilityStopSprite;
-        }
-
         if (m_character.m_actionblocked && !m_OnDisable)
         {
             primaryAbilityCooldown.sprite = disabledImage;
