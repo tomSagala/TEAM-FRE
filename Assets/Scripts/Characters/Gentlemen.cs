@@ -56,7 +56,10 @@ public class Gentlemen : Character
     {
         AudioSource.PlayClipAtPoint(Laugh, transform.position, 0.3f);
 
-        Vector3 offset = new Vector3(Random.Range(-2f, 2f), 0 , Random.Range(-2, 2f));
+        float ray = Random.Range(1f,2f);
+        float angle = Random.Range(0, 360);
+
+        Vector3 offset = new Vector3(ray * Mathf.Sin(angle), 0f, ray * Mathf.Cos(angle));
 
         INetwork.Instance.Instantiate(m_passivePrefab, transform.position + offset - transform.up * GetComponent<CapsuleCollider>().height/2.0f, transform.rotation);
     }
