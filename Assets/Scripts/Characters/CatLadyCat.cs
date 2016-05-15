@@ -9,17 +9,32 @@ public class CatLadyCat : AbstractProjectile
     private Vector3 m_groundedPosition;
     private Transform m_target;
     private int m_nbCloverEaten;
+    private Animator m_animator;
+    private float m_lickTimer;
 
     void Start()
     {
         GetComponent<Rigidbody>().velocity = speed * transform.forward;
         m_nbCloverEaten = 0;
+        m_animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
+        m_animator.SetBool("Grounded", m_grounded);
         if (!m_grounded)
             return;
+
+        m_lickTimer += Time.deltaTime; 
+        if (m_lickTimer > 5)
+        {
+            m_animator.SetBool("Lick", true);
+            m_lickTimer = 0;
+        }
+        else
+        {
+            m_animator.SetBool("Lick", false);
+        }
 
         float value = Random.Range(0, 100000);
         if (value < CatMeowThreshold)
@@ -108,6 +123,7 @@ public class CatLadyCat : AbstractProjectile
     [PunRPC]
     public void Attach(int viewId, Vector3 position)
     {
+        GetComponentInChildren<Animator>().SetBool("Attacking", true);
         transform.position = position;
         GameObject gameObject = INetwork.Instance.GetGameObjectWithView(viewId);
         transform.parent = gameObject.transform;
