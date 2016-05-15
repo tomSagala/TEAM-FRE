@@ -18,6 +18,8 @@ public class RabbitFoot : AbstractProjectile {
         }
         else if (collision.collider.GetComponent<Character>() != null && collision.collider.GetComponent<Character>().GetTeam() != ownerTeam)
         {
+            NetworkAudioManager.Instance.PlayAudioClipForAll("RabbitExplosion", this.transform.position, 1.0f);
+
             Character character = collision.collider.GetComponent<Character>();
             INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, damage);
             INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);

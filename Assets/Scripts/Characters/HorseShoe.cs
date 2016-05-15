@@ -13,6 +13,8 @@ public class HorseShoe : AbstractProjectile
         if (!INetwork.Instance.IsMaster())
             return;
 
+        NetworkAudioManager.Instance.PlayAudioClipForAll("HorseShoe", this.transform.position, 1.0f);
+
         if (collision.collider.name == "Ground")
         {
             INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
