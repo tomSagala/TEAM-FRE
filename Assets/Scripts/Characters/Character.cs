@@ -19,6 +19,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField] public int m_maxAmmo;
     [SerializeField] public int m_currentAmmo;
     [SerializeField] public bool m_isMelee;
+    [SerializeField] protected bool m_hasDoubleActivate = false;
 
     private PlayState m_playState;
     private float m_damageOverTimeTakenDPS = 0f;
@@ -66,7 +67,7 @@ public abstract class Character : MonoBehaviour
             m_secondaryAbilityRemainingCoolDown -= Time.fixedDeltaTime;
             if (m_secondaryAbilityRemainingCoolDown <= 0f)
             {
-                secondaryReady();
+                SecondaryReady();
             }
         }
     }
@@ -135,6 +136,7 @@ public abstract class Character : MonoBehaviour
     public bool CanUseAutoAttack() { return m_autoAttackAvailable && !m_actionblocked && reloadCouroutine == null; }
     public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked && reloadCouroutine == null; }
     public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && !m_actionblocked && reloadCouroutine == null; }
+    public bool CanDoubleActivate() { return !m_primaryAbilityAvailable && m_hasDoubleActivate && !m_actionblocked && reloadCouroutine == null; }
 
     [PunRPC]
     public virtual void Die() 
@@ -159,10 +161,11 @@ public abstract class Character : MonoBehaviour
     public virtual void Attack() { }
     public virtual void UsePrimaryAbility() { }
     public virtual void UseSecondaryAbility() { }
+    public virtual void UseDoubleActivatePrimary() { }
 
     public virtual void AutoAttackReady() { m_autoAttackAvailable = true; }
     public virtual void PrimaryReady() { m_primaryAbilityAvailable = true; }
-    public virtual void secondaryReady() { m_secondaryAbilityAvailable = true; }
+    public virtual void SecondaryReady() { m_secondaryAbilityAvailable = true; }
 
     public virtual void Reload()
     {

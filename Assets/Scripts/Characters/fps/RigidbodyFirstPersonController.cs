@@ -181,6 +181,10 @@ using UnityStandardAssets.CrossPlatformInput;
                 {
                     gameObject.GetComponent<Character>().UsePrimaryAbility();
                 }
+                else if (gameObject.GetComponent<Character>().CanDoubleActivate())
+                {
+                    gameObject.GetComponent<Character>().UseDoubleActivatePrimary();
+                }
             }
 
             if (m_secondaryAbility)

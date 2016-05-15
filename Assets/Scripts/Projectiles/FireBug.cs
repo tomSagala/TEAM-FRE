@@ -58,7 +58,7 @@ public class FireBug : Projectile {
         }
     }
     [PunRPC]
-    void Explode()
+    public void Explode()
     {
         INetwork.Instance.Instantiate(
             m_explosionPrefab,
