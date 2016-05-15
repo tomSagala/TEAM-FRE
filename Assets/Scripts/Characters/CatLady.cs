@@ -12,7 +12,7 @@ public class CatLady : Character {
 
     public override void Attack()
     {
-        m_auttoAtackAvailable = false;
+        m_autoAttackAvailable = false;
         m_autoAttackRemainingCoolDown = 1.0f / m_autoAttackPerSeconds;
 
         CatLadyCat cat = INetwork.Instance.Instantiate(

@@ -28,7 +28,7 @@ public class Gnome : Character
 
     public override void Attack()
     {
-        m_auttoAtackAvailable = false;
+        m_autoAttackAvailable = false;
         m_autoAttackRemainingCoolDown = 1.0f / m_autoAttackPerSeconds;
 
         GnomeClover clover = INetwork.Instance.Instantiate(

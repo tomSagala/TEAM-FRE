@@ -31,7 +31,7 @@ public class Knight : Character {
 
     public override void Attack()
     {
-        m_auttoAtackAvailable = false;
+        m_autoAttackAvailable = false;
         m_autoAttackRemainingCoolDown = 1.0f / m_autoAttackPerSeconds;
         HorseShoe hs = INetwork.Instance.Instantiate(
             m_horseShoeProjectilePrefab,

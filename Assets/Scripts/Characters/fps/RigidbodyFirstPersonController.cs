@@ -153,7 +153,14 @@ using UnityStandardAssets.CrossPlatformInput;
                 }
             }
 
-            if (m_attacking)
+        if (m_animator)
+        {
+            m_animator.SetBool("Attacking", m_attacking && gameObject.GetComponent<Character>().CanUseAutoAttack());
+            m_animator.SetBool("PrimaryAbility", m_primaryAbility && gameObject.GetComponent<Character>().CanUsePrimaryAbility());
+            m_animator.SetBool("SecondaryAbility", m_secondaryAbility && gameObject.GetComponent<Character>().CanUseSecondaryAbility());
+        }
+
+        if (m_attacking)
             {
                 if (gameObject.GetComponent<Character>().CanUseAutoAttack())
                 {
@@ -175,13 +182,6 @@ using UnityStandardAssets.CrossPlatformInput;
                 {
                     gameObject.GetComponent<Character>().UseSecondaryAbility();
                 }
-            }
-
-            if (m_animator)
-            {
-                m_animator.SetBool("Attacking", m_attacking);
-                m_animator.SetBool("PrimaryAbility", m_primaryAbility);
-                m_animator.SetBool("SecondaryAbility", m_secondaryAbility);
             }
 
             m_Jump = false;
