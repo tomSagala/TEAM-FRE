@@ -56,7 +56,7 @@ public class Gentlemen : Character
     {
         AudioSource.PlayClipAtPoint(Laugh, transform.position, 0.3f);
 
-        float ray = Random.Range(1f,2f);
+        float ray = Random.Range(2.5f,5f);
         float angle = Random.Range(0, 360);
 
         Vector3 offset = new Vector3(ray * Mathf.Sin(angle), 0f, ray * Mathf.Cos(angle));
@@ -122,13 +122,15 @@ public class Gentlemen : Character
             Projectile proj = INetwork.Instance.Instantiate(
             m_primaryAbilityProjectilePrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
-            Quaternion.LookRotation(transform.forward)).GetComponent<Projectile>();
+            Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<Projectile>();
 
             NetworkAudioManager.Instance.PlayAudioClipForAll("Bullet", proj.transform.position, 1.0f);
 
             INetwork.Instance.RPC(proj.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
             INetwork.Instance.RPC(proj.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
             INetwork.Instance.RPC(proj.gameObject, "SetOneHitKill", PhotonTargets.All, true);
+            INetwork.Instance.RPC(proj.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
+
         }
         else
         {
@@ -145,10 +147,11 @@ public class Gentlemen : Character
         FireBug proj = INetwork.Instance.Instantiate(
             m_secondaryAbilityProjectilePrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
-            Quaternion.LookRotation(transform.forward)).GetComponent<FireBug>();
+            Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<FireBug>();
         INetwork.Instance.RPC(proj.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(proj.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
         INetwork.Instance.RPC(proj.gameObject, "Setup", PhotonTargets.All, Random.Range(0f, 2 * Mathf.PI), Random.Range(proj.m_minAmplitudeX, proj.m_maxAmplitudeX), Random.Range(proj.m_minAmplitudeY, proj.m_maxAmplitudeY));
+        INetwork.Instance.RPC(proj.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
     }
 
     public override void PrimaryReady()

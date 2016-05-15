@@ -12,4 +12,12 @@ public class Clover : MonoBehaviour
             INetwork.Instance.NetworkDestroy(gameObject);
         }
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<FireAoe>() != null)
+        {
+                INetwork.Instance.NetworkDestroy(gameObject);
+        }
+    }
 }

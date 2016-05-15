@@ -28,6 +28,12 @@ public abstract class AbstractProjectile : MonoBehaviour
     }
 
     [PunRPC]
+    public void AddVelocity(Vector3 vel)
+    {
+        GetComponent<Rigidbody>().velocity += vel;
+    }
+
+    [PunRPC]
     public void SetOwnerViewId(int viewId)
     {
         ownerViewId = viewId;

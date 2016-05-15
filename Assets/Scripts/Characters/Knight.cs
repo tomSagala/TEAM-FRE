@@ -73,9 +73,11 @@ public class Knight : Character {
         HorseShoe hs = INetwork.Instance.Instantiate(
             m_horseShoeProjectilePrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
-            Quaternion.LookRotation(transform.forward)).GetComponent<HorseShoe>();
+            Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<HorseShoe>();
         INetwork.Instance.RPC(hs.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(hs.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+        INetwork.Instance.RPC(hs.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
+
         m_currentAmmo--;
     }
 
@@ -108,6 +110,8 @@ public class Knight : Character {
             dir * Camera.main.transform.rotation).GetComponent<RabbitFoot>();
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+            INetwork.Instance.RPC(rf.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
+
         }
 
     }
