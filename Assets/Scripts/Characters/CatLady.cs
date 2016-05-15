@@ -26,9 +26,11 @@ public class CatLady : Character {
         CatLadyCat cat = INetwork.Instance.Instantiate(
             CatProjectilePrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
-            Quaternion.LookRotation(transform.forward)).GetComponent<CatLadyCat>();
+            Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<CatLadyCat>();
         INetwork.Instance.RPC(cat.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(cat.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+        INetwork.Instance.RPC(cat.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
+
         m_currentAmmo--;
     }
 
@@ -40,11 +42,11 @@ public class CatLady : Character {
         var mirrorObj = INetwork.Instance.Instantiate(
             MirrorPrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
-            Quaternion.LookRotation(transform.forward));
+            Quaternion.LookRotation(Camera.main.transform.forward));
         var mirror = mirrorObj.GetComponent<CatLadyMirror>();
         INetwork.Instance.RPC(mirror.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(mirror.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
-
+        INetwork.Instance.RPC(mirror.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
     }
 
     public override void UseSecondaryAbility()
