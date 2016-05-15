@@ -77,5 +77,4 @@ public class LifeBar : MonoBehaviour
     {
         m_character = character;
     }
-    
 }
