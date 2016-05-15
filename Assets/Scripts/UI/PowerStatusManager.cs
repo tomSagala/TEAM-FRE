@@ -24,6 +24,7 @@ public class PowerStatusManager : MonoBehaviour
 
     void Update()
     {
+        // On cooldown
         if (m_character != null && !m_character.CanUsePrimaryAbility() && !m_character.m_actionblocked)
         {
             m_OnPrimaryCooldown = true;
@@ -34,7 +35,7 @@ public class PowerStatusManager : MonoBehaviour
             float newScale = m_character.m_primaryAbilityRemainingCoolDown / m_character.m_primaryAbilityCoolDown;
             primaryAbilityCooldown.rectTransform.localScale = new Vector3(newScale, newScale, currentScale.z);
 
-        }
+        } // Fin de cooldown
         else if (m_character.CanUsePrimaryAbility() && m_OnPrimaryCooldown)
         {
             m_OnPrimaryCooldown = false;
@@ -55,6 +56,11 @@ public class PowerStatusManager : MonoBehaviour
         {
             m_OnSecondaryCooldown = false;
             secondaryAbilityCount.text = "";
+        }
+
+        if (m_character.CanDoubleActivate())
+        {
+            primaryAbilityImage.sprite = m_character.primaryAbilityStopSprite;
         }
 
         if (m_character.m_actionblocked && !m_OnDisable)

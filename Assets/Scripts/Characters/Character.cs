@@ -5,6 +5,7 @@ public abstract class Character : MonoBehaviour
 {
     [SerializeField] public Sprite primaryAbilitySprite;
     [SerializeField] public Sprite secondaryAbilitySprite;
+    [SerializeField] public Sprite primaryAbilityStopSprite;
     [SerializeField] public uint m_maxHealthPoints = 5;
     [SerializeField] public float m_healthPoints = 5f;
     [SerializeField] protected string m_team;
@@ -34,7 +35,8 @@ public abstract class Character : MonoBehaviour
     private bool stunned = false;
 
 	// Update is called once per frame
-	protected void FixedUpdate () {
+	protected void FixedUpdate ()
+    {
         if (m_damageOverTimeTakenRemainingTime > 0f)
         {
             TakeDamage(m_damageOverTimeTakenDPS * Time.fixedDeltaTime);
