@@ -10,7 +10,11 @@ public class FireAoe : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Timer.Instance.Request(m_duration, ()=> { INetwork.Instance.NetworkDestroy(gameObject); });
+        Timer.Instance.Request(m_duration, ()=> 
+        { 
+            if (gameObject && INetwork.Instance.IsMine(gameObject))
+                INetwork.Instance.NetworkDestroy(gameObject); 
+        });
         NetworkAudioManager.Instance.PlayAudioClipForAll("FireAoe", this.transform.position, 1.0f);
     }
 
