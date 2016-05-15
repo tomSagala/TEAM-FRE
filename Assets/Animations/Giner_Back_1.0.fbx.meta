@@ -1,0 +1,243 @@
+fileFormatVersion: 2
+guid: 200b913ed0d08c841bd1986416703ea9
+timeCreated: 1463267773
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: bras_D
+    100002: bras_G
+    100004: Character1_Reference
+    100006: Clover
+    100008: doigt_D
+    100010: doigt_G
+    100012: extremite
+    100014: //RootNode
+    100016: Jambe_D
+    100018: Jambe_G
+    100020: joint1
+    100022: joint13
+    100024: joint23
+    100026: joint5
+    100028: locator1
+    100030: main_D
+    100032: main_G
+    100034: nez
+    100036: oreille
+    100038: oreille_D
+    100040: oreille_G
+    100042: orteil_D
+    100044: orteil_G
+    100046: pied_D
+    100048: pied_G
+    100050: PolyMesh3D
+    100052: spin
+    100054: tete
+    100056: tete 1
+    100058: group
+    100060: pasted__bras_D
+    100062: pasted__doigt_D
+    100064: pasted__joint1
+    100066: pasted__main_D
+    100068: pasted__spin
+    400000: bras_D
+    400002: bras_G
+    400004: Character1_Reference
+    400006: Clover
+    400008: doigt_D
+    400010: doigt_G
+    400012: extremite
+    400014: //RootNode
+    400016: Jambe_D
+    400018: Jambe_G
+    400020: joint1
+    400022: joint13
+    400024: joint23
+    400026: joint5
+    400028: locator1
+    400030: main_D
+    400032: main_G
+    400034: nez
+    400036: oreille
+    400038: oreille_D
+    400040: oreille_G
+    400042: orteil_D
+    400044: orteil_G
+    400046: pied_D
+    400048: pied_G
+    400050: PolyMesh3D
+    400052: spin
+    400054: tete
+    400056: tete 1
+    400058: group
+    400060: pasted__bras_D
+    400062: pasted__doigt_D
+    400064: pasted__joint1
+    400066: pasted__main_D
+    400068: pasted__spin
+    4300000: PolyMesh3D
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: PolyMesh3D
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Character1_Reference
+        weight: 1
+      - path: group
+        weight: 1
+      - path: group/pasted__joint1
+        weight: 1
+      - path: group/pasted__joint1/pasted__spin
+        weight: 1
+      - path: group/pasted__joint1/pasted__spin/pasted__bras_D
+        weight: 1
+      - path: group/pasted__joint1/pasted__spin/pasted__bras_D/pasted__main_D
+        weight: 1
+      - path: group/pasted__joint1/pasted__spin/pasted__bras_D/pasted__main_D/pasted__doigt_D
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/Jambe_D
+        weight: 1
+      - path: joint1/Jambe_D/pied_D
+        weight: 1
+      - path: joint1/Jambe_D/pied_D/orteil_D
+        weight: 1
+      - path: joint1/Jambe_G
+        weight: 1
+      - path: joint1/Jambe_G/pied_G
+        weight: 1
+      - path: joint1/Jambe_G/pied_G/orteil_G
+        weight: 1
+      - path: joint1/spin
+        weight: 1
+      - path: joint1/spin/bras_D
+        weight: 1
+      - path: joint1/spin/bras_D/main_D
+        weight: 1
+      - path: joint1/spin/bras_D/main_D/doigt_D
+        weight: 1
+      - path: joint1/spin/bras_G
+        weight: 1
+      - path: joint1/spin/bras_G/main_G
+        weight: 1
+      - path: joint1/spin/bras_G/main_G/doigt_G
+        weight: 1
+      - path: joint1/spin/Clover
+        weight: 1
+      - path: joint1/spin/Clover/joint5
+        weight: 1
+      - path: joint1/spin/Clover/joint5/joint13
+        weight: 1
+      - path: joint1/spin/Clover/joint5/joint13/extremite
+        weight: 1
+      - path: joint1/spin/Clover/joint5/joint13/extremite/joint23
+        weight: 1
+      - path: joint1/spin/tete
+        weight: 1
+      - path: joint1/spin/tete/oreille
+        weight: 1
+      - path: joint1/spin/tete/oreille/oreille_D
+        weight: 1
+      - path: joint1/spin/tete/oreille/oreille_G
+        weight: 1
+      - path: joint1/spin/tete/tete 1
+        weight: 1
+      - path: joint1/spin/tete/tete 1/nez
+        weight: 1
+      - path: locator1
+        weight: 1
+      - path: PolyMesh3D
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

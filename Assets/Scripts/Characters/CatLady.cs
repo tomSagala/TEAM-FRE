@@ -5,6 +5,10 @@ public class CatLady : Character {
 
     public GameObject CatProjectilePrefab;
     public GameObject MirrorPrefab;
+    public GameObject MirrorPiecePrefab;
+    public float MirrorBurst;
+    public float SpeedBoost;
+    public float SpeedBoostDuration;
 
     public override void Attack()
     {
@@ -17,8 +21,8 @@ public class CatLady : Character {
 
     public override void UsePrimaryAbility()
     {
-        m_secondaryAbilityAvailable = false;
-        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
+        m_primaryAbilityAvailable = false;
+        m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
 
         var mirrorObj = INetwork.Instance.Instantiate(
             MirrorPrefab,
@@ -30,15 +34,30 @@ public class CatLady : Character {
 
     public override void UseSecondaryAbility()
     {
-        m_primaryAbilityAvailable = false;
-        m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
+        m_secondaryAbilityAvailable = false;
+        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
 
         // CIRCULEZ RIEN ICI POUR L'INSTANT :D
+        GetComponent<RigidbodyFirstPersonController>().movementSettings.ForwardSpeed *= SpeedBoost;
+        Timer.Instance.Request(SpeedBoostDuration, () =>
+        {
+            GetComponent<RigidbodyFirstPersonController>().movementSettings.ForwardSpeed /= SpeedBoost;
+        });
     }
 
     [PunRPC]
     public void MirrorCollision(Vector3 position)
     {
-        Debug.Log("ok"); 
+        if (!INetwork.Instance.IsMine(gameObject))
+            return;
+
+        for (int i = 0 ; i < 6; ++i)
+        {
+            GameObject obj = INetwork.Instance.Instantiate(MirrorPiecePrefab, position, Quaternion.Euler(new Vector3(0, UnityEngine.Random.value * 180, 0)));
+            float theta = UnityEngine.Random.value * 360;
+            float dist = UnityEngine.Random.value * 0.5f;
+            Vector3 offset = dist * new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)); 
+            obj.GetComponent<Rigidbody>().velocity = MirrorBurst * (Vector3.up + offset);
+        }
     }
 }

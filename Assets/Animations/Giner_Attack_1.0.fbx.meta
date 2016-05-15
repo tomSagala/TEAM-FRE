@@ -1,0 +1,145 @@
+fileFormatVersion: 2
+guid: 366991e73b5aa9a49a89332ed90c089a
+timeCreated: 1463270226
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: bras_D
+    100002: bras_G
+    100004: Character1_Reference
+    100006: Clover
+    100008: doigt_D
+    100010: doigt_G
+    100012: extremite
+    100014: //RootNode
+    100016: group
+    100018: Jambe_D
+    100020: Jambe_G
+    100022: joint1
+    100024: joint13
+    100026: joint23
+    100028: joint5
+    100030: locator1
+    100032: main_D
+    100034: main_G
+    100036: nez
+    100038: oreille
+    100040: oreille_D
+    100042: oreille_G
+    100044: orteil_D
+    100046: orteil_G
+    100048: pasted__bras_D
+    100050: pasted__doigt_D
+    100052: pasted__joint1
+    100054: pasted__main_D
+    100056: pasted__spin
+    100058: pied_D
+    100060: pied_G
+    100062: PolyMesh3D
+    100064: spin
+    100066: tete
+    100068: tete 1
+    400000: bras_D
+    400002: bras_G
+    400004: Character1_Reference
+    400006: Clover
+    400008: doigt_D
+    400010: doigt_G
+    400012: extremite
+    400014: //RootNode
+    400016: group
+    400018: Jambe_D
+    400020: Jambe_G
+    400022: joint1
+    400024: joint13
+    400026: joint23
+    400028: joint5
+    400030: locator1
+    400032: main_D
+    400034: main_G
+    400036: nez
+    400038: oreille
+    400040: oreille_D
+    400042: oreille_G
+    400044: orteil_D
+    400046: orteil_G
+    400048: pasted__bras_D
+    400050: pasted__doigt_D
+    400052: pasted__joint1
+    400054: pasted__main_D
+    400056: pasted__spin
+    400058: pied_D
+    400060: pied_G
+    400062: PolyMesh3D
+    400064: spin
+    400066: tete
+    400068: tete 1
+    4300000: PolyMesh3D
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: PolyMesh3D
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
