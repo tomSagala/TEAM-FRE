@@ -21,7 +21,6 @@ public abstract class Character : MonoBehaviour
     [SerializeField] public bool m_isMelee;
     [SerializeField] protected bool m_hasDoubleActivate = false;
 
-    private PlayState m_playState;
     private float m_damageOverTimeTakenDPS = 0f;
     private float m_damageOverTimeTakenRemainingTime = 0f;
 
@@ -32,10 +31,6 @@ public abstract class Character : MonoBehaviour
     private Transform m_spawnPoint;
     protected Coroutine reloadCouroutine;
 
-    void Start()
-    {
-        m_playState = FindObjectOfType<PlayState>();
-    }
 	// Update is called once per frame
 	protected void FixedUpdate () {
         if (m_damageOverTimeTakenRemainingTime > 0f)
@@ -115,11 +110,15 @@ public abstract class Character : MonoBehaviour
             // DIE
             if (m_team == TeamsEnum.BadLuckTeam)
             {
-                m_playState.AddBadLuckDeath();
+                PlayState playState = FindObjectOfType<PlayState>();
+                if (playState)
+                    playState.AddBadLuckDeath();
             }
             else if (m_team == TeamsEnum.GoodLuckTeam)
             {
-                m_playState.AddLuckDeath();
+                PlayState playState = FindObjectOfType<PlayState>();
+                if (playState)
+                    playState.AddBadLuckDeath();
             }
 
             INetwork.Instance.RPC(gameObject, "Die", PhotonTargets.All);
