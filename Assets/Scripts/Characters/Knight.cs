@@ -61,10 +61,10 @@ public class Knight : Character {
         for (int i = 0; i < rabbitFootPerThrow; i++)
         {
             float angle = ((float)i) / rabbitFootPerThrow * rabbitFootThrowSpread - rabbitFootThrowSpread / 2f;
-            Quaternion dir = Quaternion.AngleAxis(angle, Camera.main.transform.up) * Quaternion.LookRotation(Camera.main.transform.forward);
+            Quaternion dir = Quaternion.AngleAxis(angle, Camera.main.transform.up);
             RabbitFoot rf = INetwork.Instance.Instantiate(
             m_rabbotFootPrefab,
-            Camera.main.transform.position + Camera.main.transform.forward,
+            Camera.main.transform.position + dir * Camera.main.transform.forward,
             dir).GetComponent<RabbitFoot>();
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
