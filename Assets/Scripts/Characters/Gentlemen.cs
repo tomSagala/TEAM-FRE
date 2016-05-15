@@ -163,8 +163,17 @@ public class Gentlemen : Character
         if (!INetwork.Instance.IsMaster())
             return;
 
-        INetwork.Instance.RPC(m_activeFireBug.gameObject, "Explode", PhotonTargets.All);
+        INetwork.Instance.RPC(m_activeFireBug.gameObject, "Explode", PhotonTargets.All, m_activeFireBug.transform.position);
 
+    }
+
+    public override void PrimaryReady()
+    {
+        base.PrimaryReady();
+        if(m_activeFireBug)
+        {
+            INetwork.Instance.RPC(m_activeFireBug.gameObject, "Explode", PhotonTargets.All, m_activeFireBug.transform.position);
+        }
     }
 
     public override void SecondaryReady()
