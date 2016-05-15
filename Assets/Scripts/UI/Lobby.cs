@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Lobby : MonoBehaviour
 {
     public string gameSceneName;
+    public AudioClip readySound;
 
     private List<Text> m_PlayerTexts;
     private List<Image> m_PlayerCharacterImages;
@@ -64,7 +65,8 @@ public class Lobby : MonoBehaviour
 
     public void ReadyButton()
     {
-        // Implement Ready button
+        AudioSource.PlayClipAtPoint(readySound, Vector3.zero, 0.7f);
+        
         m_readyButton.interactable = false;
         m_readyButton.transform.Find("Text").GetComponent<Text>().text = "Waiting...";
         INetwork.Instance.RPC(gameObject, "NotifyReady", PhotonTargets.MasterClient);
@@ -115,8 +117,15 @@ public class Lobby : MonoBehaviour
         m_nbPlayerReady++;
         if (m_nbPlayerReady == INetwork.Instance.GetPlayerCount())
         {
-            INetwork.Instance.SetRoomStarted();
-            INetwork.Instance.LoadLevel(gameSceneName);
+            StartCoroutine(StartGame());
         }
+    }
+
+    private IEnumerator StartGame()
+    {
+        yield return new WaitForSeconds(2.5f);
+
+        INetwork.Instance.SetRoomStarted();
+        INetwork.Instance.LoadLevel(gameSceneName);
     }
 }
