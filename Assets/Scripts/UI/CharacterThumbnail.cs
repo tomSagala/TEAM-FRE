@@ -7,13 +7,9 @@ public class CharacterThumbnail : MonoBehaviour
     public Sprite[] thumbnails;
     private Image activeThumbnail;
 
-    void Awake()
-    {
-        activeThumbnail = GetComponent<Image>();
-    }
-
     public void SetCharacterThumbnailFromId(int id)
     {
+        activeThumbnail = GetComponent<Image>();
         activeThumbnail.sprite = thumbnails[id];
     }
 }
