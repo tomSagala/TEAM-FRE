@@ -55,7 +55,10 @@ public class Gentlemen : Character
     private void ActivatePassive()
     {
         AudioSource.PlayClipAtPoint(Laugh, transform.position, 0.3f);
-        Instantiate(m_passivePrefab, transform.position - transform.up * GetComponent<CapsuleCollider>().height/2.0f, transform.rotation);
+
+        Vector3 offset = new Vector3(Random.Range(-2f, 2f), 0 , Random.Range(-2, 2f));
+
+        INetwork.Instance.Instantiate(m_passivePrefab, transform.position + offset - transform.up * GetComponent<CapsuleCollider>().height/2.0f, transform.rotation);
     }
 
     public override void Attack()

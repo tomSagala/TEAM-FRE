@@ -31,8 +31,7 @@ public class Lobby : MonoBehaviour
         m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton4").GetComponent<Button>());
 
         int nbPlayers = network.GetPlayerCount() - 1;
-        int nbPlayersBottom = network.GetPlayerCountInTeam(TeamsEnum.BadLuckTeam);
-        if (nbPlayersBottom <= (nbPlayers - nbPlayersBottom))
+        if (nbPlayers == 0 || nbPlayers == 2)
         {
             network.SetTeam(TeamsEnum.BadLuckTeam);
             m_CharacterButtons[2].interactable = false;
