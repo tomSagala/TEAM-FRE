@@ -22,6 +22,7 @@ public class Gentlemen : Character
 
     [SerializeField] AudioClip ReloadSound;
     [SerializeField] AudioClip BlankShotSound;
+    [SerializeField] AudioClip Laugh;
 
 	// Use this for initialization
 	void Start ()
@@ -53,6 +54,7 @@ public class Gentlemen : Character
 
     private void ActivatePassive()
     {
+        AudioSource.PlayClipAtPoint(Laugh, transform.position, 0.3f);
         Instantiate(m_passivePrefab, transform.position - transform.up * GetComponent<CapsuleCollider>().height/2.0f, transform.rotation);
     }
 
