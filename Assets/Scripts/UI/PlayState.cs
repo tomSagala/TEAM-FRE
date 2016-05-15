@@ -19,6 +19,9 @@ public class PlayState : MonoBehaviour {
         if (!INetwork.Instance.IsMaster())
             return;
 
+        int nbClover = Transform.FindObjectsOfType<Clover>().Length;
+        int nbCats = Transform.FindObjectsOfType<CatLadyCat>().Length;
+
         m_gameTimer += Time.deltaTime;
 
         if (m_gameTimer > MaxTimer)
