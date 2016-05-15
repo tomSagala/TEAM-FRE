@@ -48,6 +48,7 @@ public class GameBootstrap : MonoBehaviour
     private void SetPlayerInPlayerDependent(GameObject player, string playerName)
     {
         InitialCountdown.SetCharacter(player.GetComponent<Character>());
+        InitialCountdown.Setup();
         RespawnCountdown.SetCharacter(player.GetComponent<Character>());
         PowerManager.SetCharacter(player.GetComponent<Character>());
         lifeBar.SetCharacter(player.GetComponent<Character>());

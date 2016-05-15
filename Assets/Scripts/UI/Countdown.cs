@@ -11,7 +11,7 @@ public class Countdown : MonoBehaviour
     private Camera m_camera;
     private Character m_character;
 
-    void OnEnable()
+    public void Setup()
     {
         m_text = GetComponent<Text>();
         if (m_camera)
