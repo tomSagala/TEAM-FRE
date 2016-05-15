@@ -60,7 +60,7 @@ using UnityStandardAssets.CrossPlatformInput;
         private CapsuleCollider m_Capsule;
         private float m_YRotation;
         private Vector3 m_GroundContactNormal;
-        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_primaryAbility, m_secondaryAbility, m_attacking;
+        private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded, m_primaryAbility, m_secondaryAbility, m_attacking, m_reloading;
 
         public float m_bulletSpeed = 100f;
         public GameObject m_bulletPrefab;
@@ -117,7 +117,6 @@ using UnityStandardAssets.CrossPlatformInput;
                 if (m_animator)
                 {
                     m_animator.SetFloat("Speed", input.y);
-                    Debug.Log("ok " + m_animator.GetFloat("Speed"));
                 }
 
                 desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed;
@@ -156,14 +155,19 @@ using UnityStandardAssets.CrossPlatformInput;
                 }
             }
 
-        if (m_animator)
-        {
-            m_animator.SetBool("Attacking", m_attacking && gameObject.GetComponent<Character>().CanUseAutoAttack());
-            m_animator.SetBool("PrimaryAbility", m_primaryAbility && gameObject.GetComponent<Character>().CanUsePrimaryAbility());
-            m_animator.SetBool("SecondaryAbility", m_secondaryAbility && gameObject.GetComponent<Character>().CanUseSecondaryAbility());
-        }
+            if (m_animator)
+            {
+                m_animator.SetBool("Attacking", m_attacking && gameObject.GetComponent<Character>().CanUseAutoAttack());
+                m_animator.SetBool("PrimaryAbility", m_primaryAbility && gameObject.GetComponent<Character>().CanUsePrimaryAbility());
+                m_animator.SetBool("SecondaryAbility", m_secondaryAbility && gameObject.GetComponent<Character>().CanUseSecondaryAbility());
+            }
 
-        if (m_attacking)
+            if (m_reloading)
+            {
+                gameObject.GetComponent<Character>().Reload();
+            }
+
+            if (m_attacking)
             {
                 if (gameObject.GetComponent<Character>().CanUseAutoAttack())
                 {
@@ -191,6 +195,7 @@ using UnityStandardAssets.CrossPlatformInput;
             m_attacking = false;
             m_primaryAbility = false;
             m_secondaryAbility = false;
+            m_reloading = false;
         }
 
 
@@ -243,6 +248,11 @@ using UnityStandardAssets.CrossPlatformInput;
             if (CrossPlatformInputManager.GetButtonDown("SecondaryAbility"))
             {
                 m_secondaryAbility = true;
+            }
+
+            if (CrossPlatformInputManager.GetButtonDown("Reload"))
+            {
+                m_reloading = true;
             }
         }
 

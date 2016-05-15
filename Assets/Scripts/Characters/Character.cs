@@ -15,7 +15,7 @@ public abstract class Character : MonoBehaviour
     [HideInInspector] public float m_secondaryAbilityRemainingCoolDown;
     [SerializeField] public float m_autoAttackPerSeconds = 1f;
     [HideInInspector] public float m_autoAttackRemainingCoolDown;
-
+    [SerializeField] public float m_reloadDuration = 1f;
     [SerializeField] public int m_maxAmmo;
     [SerializeField] public int m_currentAmmo;
     [SerializeField] public bool m_isMelee;
@@ -28,6 +28,7 @@ public abstract class Character : MonoBehaviour
     protected bool m_secondaryAbilityAvailable = true;
     public bool m_actionblocked = false;
     private Transform m_spawnPoint;
+    protected Coroutine reloadCouroutine;
 
 	// Update is called once per frame
 	protected void FixedUpdate () {
@@ -93,7 +94,13 @@ public abstract class Character : MonoBehaviour
     [PunRPC]
     public virtual void TakeDamage(float damage)
     {
+        if (reloadCouroutine != null)
+        {
+            StopCoroutine(reloadCouroutine);
+        }
+
         m_healthPoints -= damage;
+
         if (m_healthPoints > m_maxHealthPoints)
             m_healthPoints = m_maxHealthPoints;
 
@@ -120,9 +127,9 @@ public abstract class Character : MonoBehaviour
         m_damageOverTimeTakenRemainingTime = duration;
     }
 
-    public bool CanUseAutoAttack() { return m_autoAttackAvailable && !m_actionblocked; }
-    public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked; }
-    public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && !m_actionblocked; }
+    public bool CanUseAutoAttack() { return m_autoAttackAvailable && !m_actionblocked && reloadCouroutine == null; }
+    public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked && reloadCouroutine == null; }
+    public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && !m_actionblocked && reloadCouroutine == null; }
 
     [PunRPC]
     public virtual void Die() 
@@ -151,6 +158,20 @@ public abstract class Character : MonoBehaviour
     public virtual void AutoAttackReady() { m_autoAttackAvailable = true; }
     public virtual void PrimaryReady() { m_primaryAbilityAvailable = true; }
     public virtual void secondaryReady() { m_secondaryAbilityAvailable = true; }
+
+    public virtual void Reload()
+    {
+        if (reloadCouroutine != null)
+        {
+            reloadCouroutine = StartCoroutine(ReloadCoroutine());
+        }
+    }
+
+    public virtual IEnumerator ReloadCoroutine()
+    {
+        yield return new WaitForSeconds(m_reloadDuration);
+        m_currentAmmo = m_maxAmmo;
+    }
 
     [PunRPC]
     public virtual void Stun(float time)

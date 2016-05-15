@@ -151,14 +151,21 @@ public class Gentlemen : Character
 
         if ((m_bulletChamber <= m_shotCount))
         {
-            Reload();
+            reloadCouroutine = StartCoroutine(ReloadCoroutine());
         }
     }
 
-    private void Reload()
+    public override void Reload()
+    {
+        
+    }
+
+    public override IEnumerator ReloadCoroutine()
     {
         m_bulletChamber = Random.Range(0, m_numberOfChambers - 1);
         m_shotCount = 0;
         AudioSource.PlayClipAtPoint(ReloadSound, this.transform.position, 0.1f);
+
+        yield return null;
     }
 }

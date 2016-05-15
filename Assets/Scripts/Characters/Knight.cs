@@ -60,6 +60,14 @@ public class Knight : Character {
 
     public override void Attack()
     {
+        if (reloadCouroutine != null) return;
+
+        if (m_currentAmmo <= 0)
+        {
+            reloadCouroutine = StartCoroutine(ReloadCoroutine());
+            return;
+        }
+
         m_autoAttackAvailable = false;
         m_autoAttackRemainingCoolDown = 1.0f / m_autoAttackPerSeconds;
         HorseShoe hs = INetwork.Instance.Instantiate(
@@ -68,6 +76,7 @@ public class Knight : Character {
             Quaternion.LookRotation(transform.forward)).GetComponent<HorseShoe>();
         INetwork.Instance.RPC(hs.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(hs.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+        m_currentAmmo--;
     }
 
     public override void UsePrimaryAbility()
