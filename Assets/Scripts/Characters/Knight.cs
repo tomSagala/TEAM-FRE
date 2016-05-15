@@ -15,16 +15,16 @@ public class Knight : Character {
 
     public bool isCharging = false;
 
-   
-    
     [SerializeField]
     float footStepsDuration;
     private float footStepsTimer;
     private AudioSource footSteps;
+    private Animator m_animator;
 
     void Start()
     {
         footSteps = GetComponent<AudioSource>();
+        m_animator = GetComponentInChildren<Animator>();
     }
 
     new void FixedUpdate()
@@ -34,6 +34,7 @@ public class Knight : Character {
         {
             GetComponent<Rigidbody>().velocity = m_chargeSpeed * Camera.main.transform.forward;
         }
+        m_animator.SetBool("IsCharging", isCharging);
     }
 
     void Update()
