@@ -13,6 +13,7 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
     public AudioClip MirrorShatter;
     public AudioClip RabbitExplosion;
     public AudioClip HorseShoe;
+    public AudioClip GnomeLaugh;
 
     private Dictionary<string, AudioClip> audioClips;
 
@@ -28,7 +29,8 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
             {"Bullet", Bullet},
             {"MirrorShatter", MirrorShatter},
             {"RabbitExplosion", RabbitExplosion},
-            {"HorseShoe", HorseShoe}
+            {"HorseShoe", HorseShoe},
+            {"GnomeLaugh", GnomeLaugh}
         };
     }
 

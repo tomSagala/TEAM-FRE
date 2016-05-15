@@ -67,6 +67,8 @@ public class Gnome : Character
         m_secondaryAbilityAvailable = false;
         m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
 
+        NetworkAudioManager.Instance.PlayAudioClipForAll("GnomeLaugh", transform.position, 0.2f);
+
         GnomeTicket ticket = INetwork.Instance.Instantiate(
             TicketPrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
