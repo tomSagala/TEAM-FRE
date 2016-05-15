@@ -145,7 +145,7 @@ public abstract class Character : MonoBehaviour
         {
             INetwork.Instance.RPC(cat.gameObject, "DestroyProjectile", PhotonTargets.All);
         }
-        
+        GetComponent<RigidbodyFirstPersonController>().enabled = false;
         StateManager.Instance.GoToState("Respawn");
         m_healthPoints = m_maxHealthPoints;
         m_damageOverTimeTakenRemainingTime = 0f;
