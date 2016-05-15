@@ -18,12 +18,11 @@ public class Gentlemen : Character
     private int m_shotCount = 0;
     private int m_numberOfChambers = 6;
 
-    [SerializeField]
-    float footStepsTimer;
     private AudioSource footSteps;
 
     [SerializeField] AudioClip ReloadSound;
     [SerializeField] AudioClip BlankShotSound;
+    [SerializeField] AudioClip Laugh;
 
 	// Use this for initialization
 	void Start ()
@@ -55,6 +54,7 @@ public class Gentlemen : Character
 
     private void ActivatePassive()
     {
+        AudioSource.PlayClipAtPoint(Laugh, transform.position, 0.3f);
         Instantiate(m_passivePrefab, transform.position - transform.up * GetComponent<CapsuleCollider>().height/2.0f, transform.rotation);
     }
 

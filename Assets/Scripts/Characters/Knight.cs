@@ -15,9 +15,16 @@ public class Knight : Character {
 
     public bool isCharging = false;
 
+   
+    
+    [SerializeField]
+    float footStepsDuration;
+    private float footStepsTimer;
+    private AudioSource footSteps;
+
     void Start()
     {
-       
+        footSteps = GetComponent<AudioSource>();
     }
 
     new void FixedUpdate()
@@ -26,6 +33,28 @@ public class Knight : Character {
         if (isCharging)
         {
             GetComponent<Rigidbody>().velocity = m_chargeSpeed * Camera.main.transform.forward;
+        }
+    }
+
+    void Update()
+    {
+        if (!footSteps.isPlaying &&
+        GetComponent<RigidbodyFirstPersonController>().Velocity.magnitude > 0.15f &&
+        GetComponent<RigidbodyFirstPersonController>().Grounded)
+        {
+            footSteps.Play();
+        }
+        else if (footSteps.isPlaying)
+        {
+            if (footStepsTimer < 0)
+            {
+                footSteps.Stop();
+                footStepsTimer = footStepsDuration;
+            }
+            else
+            {
+                footStepsTimer -= Time.deltaTime;
+            }
         }
     }
 
