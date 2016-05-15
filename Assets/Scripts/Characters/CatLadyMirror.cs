@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections;
 
 public class CatLadyMirror : AbstractProjectile
 {
@@ -12,10 +14,17 @@ public class CatLadyMirror : AbstractProjectile
         if (!INetwork.Instance.IsMaster())
             return;
 
-        GameObject ownerObj = INetwork.Instance.GetGameObjectWithView(ownerViewId);
+        StartCoroutine(Shatter());
+    }
+
+    private IEnumerator Shatter()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GameObject ownerObj = INetwork.Instance.GetGameObjectWithView(ownerViewId); 
         if (ownerObj != null)
         {
-            INetwork.Instance.RPC(ownerObj, "MirrorCollision", PhotonTargets.All, transform.position - Vector3.up * 0.2f);
+            INetwork.Instance.RPC(ownerObj, "MirrorCollision", PhotonTargets.All, transform.position);
         }
+        INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All); 
     }
 }

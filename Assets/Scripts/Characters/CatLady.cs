@@ -5,6 +5,8 @@ public class CatLady : Character {
 
     public GameObject CatProjectilePrefab;
     public GameObject MirrorPrefab;
+    public GameObject MirrorPiecePrefab;
+    public float MirrorBurst;
 
     public override void Attack()
     {
@@ -28,6 +30,16 @@ public class CatLady : Character {
     [PunRPC]
     public void MirrorCollision(Vector3 position)
     {
-        Debug.Log("ok"); 
+        if (!INetwork.Instance.IsMine(gameObject))
+            return;
+
+        for (int i = 0 ; i < 6; ++i)
+        {
+            GameObject obj = INetwork.Instance.Instantiate(MirrorPiecePrefab, position, Quaternion.Euler(new Vector3(0, UnityEngine.Random.value * 180, 0)));
+            float theta = UnityEngine.Random.value * 360;
+            float dist = UnityEngine.Random.value * 0.5f;
+            Vector3 offset = dist * new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)); 
+            obj.GetComponent<Rigidbody>().velocity = MirrorBurst * (Vector3.up + offset);
+        }
     }
 }
