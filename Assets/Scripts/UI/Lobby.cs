@@ -65,7 +65,7 @@ public class Lobby : MonoBehaviour
 
     public void ReadyButton()
     {
-        AudioSource.PlayClipAtPoint(readySound, Vector3.zero, 0.7f);
+        AudioSource.PlayClipAtPoint(readySound, Vector3.zero, 1.0f);
         
         m_readyButton.interactable = false;
         m_readyButton.transform.Find("Text").GetComponent<Text>().text = "Waiting...";
