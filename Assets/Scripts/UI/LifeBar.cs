@@ -16,8 +16,11 @@ public class LifeBar : MonoBehaviour
 
 	public void Setup ()
     {
-        GenerateHitPoints(m_character.m_maxHealthPoints);
-	}
+        if (m_character != null && m_hits.Count == 0)
+        {
+            GenerateHitPoints(m_character.m_maxHealthPoints);
+        }
+    }
 	
 	void Update ()
     {

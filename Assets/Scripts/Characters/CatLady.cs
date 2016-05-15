@@ -20,6 +20,8 @@ public class CatLady : Character {
             Camera.main.transform.position + Camera.main.transform.forward,
             Quaternion.LookRotation(transform.forward)).GetComponent<CatLadyCat>();
         INetwork.Instance.RPC(cat.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
+        INetwork.Instance.RPC(cat.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+
     }
 
     public override void UsePrimaryAbility()
@@ -33,6 +35,8 @@ public class CatLady : Character {
             Quaternion.LookRotation(transform.forward));
         var mirror = mirrorObj.GetComponent<CatLadyMirror>();
         INetwork.Instance.RPC(mirror.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
+        INetwork.Instance.RPC(mirror.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+
     }
 
     public override void UseSecondaryAbility()
@@ -58,6 +62,7 @@ public class CatLady : Character {
         for (int i = 0 ; i < 6; ++i)
         {
             GameObject obj = INetwork.Instance.Instantiate(MirrorPiecePrefab, position, Quaternion.Euler(new Vector3(0, UnityEngine.Random.value * 180, 0)));
+            INetwork.Instance.RPC(obj, "SetOwnerTeam", PhotonTargets.All, m_team);
             float theta = UnityEngine.Random.value * 360;
             float dist = UnityEngine.Random.value * 0.5f;
             Vector3 offset = dist * new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta)); 
