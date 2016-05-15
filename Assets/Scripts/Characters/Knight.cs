@@ -108,11 +108,10 @@ public class Knight : Character {
             RabbitFoot rf = INetwork.Instance.Instantiate(
             m_rabbotFootPrefab,
             Camera.main.transform.position + dir * Camera.main.transform.forward,
-            dir * Camera.main.transform.rotation).GetComponent<RabbitFoot>();
+            dir * Quaternion.AngleAxis(-10f, Camera.main.transform.right) * Camera.main.transform.rotation).GetComponent<RabbitFoot>();
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
-            INetwork.Instance.RPC(rf.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
-
+            INetwork.Instance.RPC(rf.gameObject, "AddVelocity", PhotonTargets.All, Quaternion.AngleAxis(-10f, Camera.main.transform.right) * GetComponent<Rigidbody>().velocity);
         }
 
     }
