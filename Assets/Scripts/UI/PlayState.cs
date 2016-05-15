@@ -36,7 +36,7 @@ public class PlayState : MonoBehaviour
         GameTimer += Time.deltaTime;
         INetwork.Instance.RPC(gameObject, "NotifyGameState", PhotonTargets.All, LuckBadLuckRatio, GameTimer);
 
-        if (GameTimer > MaxTimer || LuckBadLuckRatio == 1 || LuckBadLuckRatio == -1)
+        if (GameTimer > MaxTimer)
         {
             m_won = true;
             if (LuckBadLuckRatio > 0)
