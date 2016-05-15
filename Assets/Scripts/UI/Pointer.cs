@@ -19,11 +19,7 @@ public class Pointer : MonoBehaviour
         float newX = (size * BenTraductor(m_playState.LuckBadLuckRatio) * -0.5f);
 
         string currentMusic = "";
-        if (m_playState.LuckBadLuckRatio < 0.2f && m_playState.LuckBadLuckRatio > -0.2f)
-        {
-            currentMusic = NetworkAudioManager.NEUTRAL;
-        }
-        else if (m_playState.LuckBadLuckRatio > 0.2f)
+        if (m_playState.LuckBadLuckRatio > 0.2f)
         {
             currentMusic = NetworkAudioManager.BADLUCK;
         }
