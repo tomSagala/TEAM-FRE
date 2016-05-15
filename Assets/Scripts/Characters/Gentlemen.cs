@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Gentlemen : Character {
+public class Gentlemen : Character 
+{
     [SerializeField] float m_PassiveCooldown = 10f;
     [SerializeField] GameObject m_passivePrefab;
     [SerializeField] GameObject m_primaryAbilityProjectilePrefab;

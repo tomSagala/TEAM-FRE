@@ -69,7 +69,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
         public Vector3 Velocity
         {
-            get { return m_RigidBody.velocity; }
+            get { return m_RigidBody ? m_RigidBody.velocity : Vector3.zero; }
         }
 
         public bool Grounded
@@ -172,6 +172,13 @@ using UnityStandardAssets.CrossPlatformInput;
                 {
                     gameObject.GetComponent<Character>().UseSecondaryAbility();
                 }
+            }
+
+            if (m_animator)
+            {
+                m_animator.SetBool("Attacking", m_attacking);
+                m_animator.SetBool("PrimaryAbility", m_primaryAbility);
+                m_animator.SetBool("SecondaryAbility", m_secondaryAbility);
             }
 
             m_Jump = false;
