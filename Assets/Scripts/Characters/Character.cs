@@ -4,6 +4,7 @@ using System.Collections;
 public abstract class Character : MonoBehaviour
 {
     [SerializeField] public Sprite primaryAbilitySprite;
+    [SerializeField] public Sprite DoubleActivateSprite;
     [SerializeField] public Sprite secondaryAbilitySprite;
     [SerializeField] public uint m_maxHealthPoints = 5;
     [SerializeField] public float m_healthPoints = 5f;
