@@ -61,7 +61,7 @@ public class Gentlemen : Character
 
         Vector3 offset = new Vector3(ray * Mathf.Sin(angle), 0f, ray * Mathf.Cos(angle));
 
-        INetwork.Instance.Instantiate(m_passivePrefab, transform.position + offset - transform.up * GetComponent<CapsuleCollider>().height/2.0f, transform.rotation);
+        INetwork.Instance.Instantiate(m_passivePrefab, transform.position + offset - transform.up * GetComponent<CapsuleCollider>().height/4f, transform.rotation);
     }
 
     public override void Attack()
