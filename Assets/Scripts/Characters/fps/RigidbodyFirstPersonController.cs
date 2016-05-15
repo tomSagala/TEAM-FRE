@@ -117,7 +117,6 @@ using UnityStandardAssets.CrossPlatformInput;
                 if (m_animator)
                 {
                     m_animator.SetFloat("Speed", input.y);
-                    Debug.Log("ok " + m_animator.GetFloat("Speed"));
                 }
 
                 desiredMove.x = desiredMove.x * movementSettings.CurrentTargetSpeed;
