@@ -7,29 +7,37 @@ public class CatLadyCat : AbstractProjectile
     private bool m_grounded;
     private Vector3 m_groundedPosition;
     private Transform m_target;
+    private int m_nbCloverEaten;
 
     void Start()
     {
         GetComponent<Rigidbody>().velocity = speed * transform.forward;
+        m_nbCloverEaten = 0;
     }
 
     void Update()
     {
-        if (!INetwork.Instance.IsMaster())
-            return;
-
         if (!m_grounded)
             return;
 
         if (m_target == null)
         {
-            RaycastHit[] hits = Physics.SphereCastAll(m_groundedPosition, 3f, Vector3.up);
-            foreach (RaycastHit hit in hits)
+            if (INetwork.Instance.IsMaster())
             {
-                if (Helpers.CheckObjectTag(hit.collider.gameObject, "Clover"))
+                RaycastHit[] hits = Physics.SphereCastAll(m_groundedPosition, 3f, Vector3.up);
+                foreach (RaycastHit hit in hits)
                 {
-                    m_target = hit.transform;
-                    break;
+                    if (Helpers.CheckObjectTag(hit.collider.gameObject, "Clover"))
+                    {
+                        Clover clover = hit.collider.GetComponent<Clover>();
+                        if (!clover.Targeted)
+                        {
+                            clover.Targeted = true;
+                            INetwork.Instance.RPC(gameObject, "TargetClover", PhotonTargets.Others, INetwork.Instance.GetViewId(clover.gameObject));
+                            m_target = clover.transform;
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -38,13 +46,22 @@ public class CatLadyCat : AbstractProjectile
             Vector3 direction = (m_target.position - transform.position).normalized;
             transform.position += direction * Time.deltaTime;
 
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.5f, Vector3.up);
-            foreach (RaycastHit hit in hits)
+            if (INetwork.Instance.IsMaster())
             {
-                if (hit.transform == m_target)
+                RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.5f, Vector3.up);
+                foreach (RaycastHit hit in hits)
                 {
-                    INetwork.Instance.RPC(m_target.gameObject, "DestroyClover", PhotonTargets.All);
-                    m_target = null;
+                    if (hit.transform == m_target)
+                    {
+                        INetwork.Instance.RPC(m_target.gameObject, "DestroyClover", PhotonTargets.All);
+                        m_target = null;
+
+                        m_nbCloverEaten++;
+                        if (m_nbCloverEaten >= 5)
+                        {
+                            INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
+                        } 
+                    }
                 }
             }
         }
@@ -70,6 +87,14 @@ public class CatLadyCat : AbstractProjectile
             INetwork.Instance.RPC(gameObject, "Attach", PhotonTargets.All, INetwork.Instance.GetViewId(character.gameObject), collision.contacts[0].point);
             INetwork.Instance.RPC(gameObject, "DestroyProjectileAfterTime", PhotonTargets.All, DpsDuration);
         }
+    }
+
+    [PunRPC]
+    public void TargetClover(int viewId)
+    {
+        GameObject clover = INetwork.Instance.GetGameObjectWithView(viewId);
+        m_target = clover.transform;
+        m_grounded = true;
     }
 
     [PunRPC]

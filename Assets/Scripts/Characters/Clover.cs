@@ -2,6 +2,8 @@
 
 public class Clover : MonoBehaviour
 {
+    public bool Targeted;
+
     [PunRPC]
     public void DestroyClover()
     {
