@@ -18,13 +18,23 @@ public class Gentlemen : Character
     private int m_shotCount = 0;
     private int m_numberOfChambers = 6;
 
+    [SerializeField]
+    float footStepsTimer;
+    private AudioSource footSteps;
+
+    [SerializeField] AudioClip Reload;
+    [SerializeField] AudioClip BlankShot;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         m_bulletChamber = Random.Range(0, m_numberOfChambers - 1);
+        footSteps = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         if (m_passiveTimer < m_PassiveCooldown)
         {
             m_passiveTimer += Time.deltaTime;
@@ -33,6 +43,13 @@ public class Gentlemen : Character
         {
             ActivatePassive();
             m_passiveTimer = 0f;
+        }
+
+        if (!footSteps.isPlaying && 
+            GetComponent<RigidbodyFirstPersonController>().Velocity.magnitude > 0.15f &&
+            GetComponent<RigidbodyFirstPersonController>().Grounded)
+        {
+            footSteps.Play();
         }
 	}
 
@@ -100,6 +117,9 @@ public class Gentlemen : Character
             m_primaryAbilityProjectilePrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
             Quaternion.LookRotation(transform.forward)).GetComponent<Projectile>();
+
+            NetworkAudioManager.Instance.PlayAudioClipForAll("Bullet", proj.transform.position, 1.0f);
+
             INetwork.Instance.RPC(proj.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
             INetwork.Instance.RPC(proj.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
             INetwork.Instance.RPC(proj.gameObject, "SetOneHitKill", PhotonTargets.All, true);
@@ -107,6 +127,7 @@ public class Gentlemen : Character
         else
         {
             m_shotCount++;
+            AudioSource.PlayClipAtPoint(BlankShot, this.transform.position, 0.1f);
         }
     }
 
@@ -129,5 +150,6 @@ public class Gentlemen : Character
         m_bulletChamber = Random.Range(0, m_numberOfChambers - 1);
         m_shotCount = 0;
         m_primaryAbilityAvailable = true;
+        AudioSource.PlayClipAtPoint(Reload, this.transform.position, 0.1f);
     }
 }

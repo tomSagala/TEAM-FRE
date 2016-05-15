@@ -10,6 +10,7 @@ public class Projectile : AbstractProjectile
         GetComponent<Rigidbody>().velocity = speed * transform.forward;
         GetComponent<Rigidbody>().useGravity = false;
     }
+    [PunRPC]
     public void SetOneHitKill(bool isOneHitKill)
     {
         m_isOneHitKill = isOneHitKill;

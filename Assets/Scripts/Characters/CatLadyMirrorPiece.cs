@@ -13,6 +13,7 @@ public class CatLadyMirrorPiece : MonoBehaviour
         }
     }
 
+    [PunRPC]
     void SetOwnerTeam(string team)
     {
         teamOwner = team;

@@ -17,6 +17,12 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
     // FireAoe
     public AudioClip FireAoe;
 
+    // Bullet
+    public AudioClip Bullet;
+
+    // Mirror Shatter
+    public AudioClip MirrorShatter;
+
 
     private Dictionary<string, AudioClip> audioClips;
 
@@ -28,7 +34,9 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
             {"HappyCat", HappyCat},
             {"AggressiveCat", AggressiveCat},
             {"HealingQuad", HealingQuad},
-            { "FireAoe", FireAoe}
+            {"FireAoe", FireAoe},
+            {"Bullet", Bullet},
+            {"MirrorShatter", MirrorShatter}
         };
     }
 
@@ -36,7 +44,7 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
     {
         if (INetwork.Instance.IsMaster())
         {
-            INetwork.Instance.RPC(gameObject, "PlayAudioClipLocally", PhotonTargets.All, clipName, position);
+            INetwork.Instance.RPC(gameObject, "PlayAudioClipLocally", PhotonTargets.All, clipName, position, volume);
         }
     }
 

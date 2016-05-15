@@ -14,6 +14,7 @@ public class CatLadyMirror : AbstractProjectile
         if (!INetwork.Instance.IsMaster())
             return;
 
+        NetworkAudioManager.Instance.PlayAudioClipForAll("MirrorShatter", this.transform.position, 0.1f);
         StartCoroutine(Shatter());
     }
 

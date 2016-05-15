@@ -11,6 +11,7 @@ public class FireAoe : MonoBehaviour
     void Start()
     {
         Timer.Instance.Request(m_duration, ()=> { INetwork.Instance.NetworkDestroy(gameObject); });
+        NetworkAudioManager.Instance.PlayAudioClipForAll("FireAoe", this.transform.position, 1.0f);
     }
 
     // Update is called once per frame
@@ -25,7 +26,6 @@ public class FireAoe : MonoBehaviour
         {
             Character character = other.GetComponent<Character>();
             INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, m_dps * Time.fixedDeltaTime);
-            NetworkAudioManager.Instance.PlayAudioClipForAll("Fireball", this.transform.position, 0.25f);
         }
     }
 }
