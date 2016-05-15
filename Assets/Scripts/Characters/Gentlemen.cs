@@ -166,6 +166,6 @@ public class Gentlemen : Character
         m_shotCount = 0;
         AudioSource.PlayClipAtPoint(ReloadSound, this.transform.position, 0.1f);
 
-        yield return null;
+        yield break;
     }
 }

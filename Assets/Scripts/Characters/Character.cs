@@ -171,6 +171,8 @@ public abstract class Character : MonoBehaviour
     {
         yield return new WaitForSeconds(m_reloadDuration);
         m_currentAmmo = m_maxAmmo;
+        reloadCouroutine = null;
+        yield return null;
     }
 
     [PunRPC]
