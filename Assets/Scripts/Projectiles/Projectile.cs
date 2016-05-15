@@ -1,30 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Projectile : MonoBehaviour {
-    [SerializeField] protected float m_damage;
-    [SerializeField] protected string m_firedBy;
+public class Projectile : AbstractProjectile
+{
     [SerializeField] bool m_isOneHitKill = false;
-    // Use this for initialization
-    void Start() {
 
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
-
-    public void SetDamage(float damage)
+    void Start()
     {
-        m_damage = damage;
+        GetComponent<Rigidbody>().velocity = speed * transform.forward;
+        GetComponent<Rigidbody>().useGravity = false;
     }
-
-    public void SetFiredBy(string firedBy)
-    {
-        m_firedBy = firedBy;
-    }
-
     public void SetOneHitKill(bool isOneHitKill)
     {
         m_isOneHitKill = isOneHitKill;
@@ -32,16 +17,25 @@ public class Projectile : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        if (Helpers.CheckObjectTag(collision.gameObject, "Player") && collision.gameObject.GetComponent<Character>().GetTeam() != m_firedBy)
+        if (!INetwork.Instance.IsMaster())
+            return;
+
+        if (collision.collider.name == "Ground")
         {
+            INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
+        }
+        else if (collision.collider.GetComponent<Character>() != null && collision.collider.GetComponent<Character>().GetTeam() != ownerTeam)
+        {
+            Character character = collision.collider.GetComponent<Character>();
             if (m_isOneHitKill)
             {
-                collision.gameObject.GetComponent<Character>().Die();
+                INetwork.Instance.RPC(character.gameObject, "Die", PhotonTargets.All);
             }
             else
             {
-                collision.gameObject.GetComponent<Character>().TakeDamage(m_damage);
+                INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, damage);
             }
+            INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
         }
     }
 

@@ -10,7 +10,7 @@ public class FireAoe : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Destroy(gameObject, m_duration);
+        Timer.Instance.Request(m_duration, ()=> { INetwork.Instance.NetworkDestroy(gameObject); });
     }
 
     // Update is called once per frame
@@ -21,9 +21,10 @@ public class FireAoe : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.GetComponent<Character>() != null)
+        if (other.GetComponent<Character>() != null)
         {
-            other.gameObject.GetComponent<Character>().TakeDamage(m_dps * Time.fixedDeltaTime);
+            Character character = other.GetComponent<Character>();
+            INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, m_dps * Time.fixedDeltaTime);
         }
     }
 }

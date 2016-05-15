@@ -20,7 +20,7 @@ public class Knight : Character {
        
     }
 
-    void FixedUpdate()
+    new void FixedUpdate()
     {
         base.FixedUpdate();
         if (isCharging)

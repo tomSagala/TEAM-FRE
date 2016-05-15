@@ -2,11 +2,10 @@
 using System.Collections;
 
 public class FireBug : Projectile {
-    [SerializeField] float m_maxAmplitudeX = 1.5f;
-    [SerializeField] float m_minAmplitudeX = 0.5f;
-    [SerializeField] float m_maxAmplitudeY = 1.1f;
-    [SerializeField] float m_minAmplitudeY = 0.9f;
-    [SerializeField] float m_travelSpeed = 25f;
+    [SerializeField] public float m_maxAmplitudeX = 1.5f;
+    [SerializeField] public float m_minAmplitudeX = 0.5f;
+    [SerializeField] public float m_maxAmplitudeY = 1.1f;
+    [SerializeField] public float m_minAmplitudeY = 0.9f;
     [SerializeField] float m_frequency = 10;
     [SerializeField] GameObject m_explosionPrefab;
     private Vector3 straightPos;
@@ -19,48 +18,50 @@ public class FireBug : Projectile {
     // Use this for initialization
     void Start ()
     {
-        
-	}
-
-    public void Setup()
-    {
-        timer = Random.Range(0f, 2 * Mathf.PI);
-        m_amplitudeX = Random.Range(m_minAmplitudeX, m_maxAmplitudeX);
-        m_amplitudeY = Random.Range(m_minAmplitudeY, m_maxAmplitudeY);
+        GetComponent<Rigidbody>().useGravity = false;
         straightPos = transform.position;
         axisRight = transform.right;
         axisForward = transform.forward;
         axisUp = transform.up;
+    }
+    [PunRPC]
+    public void Setup(float timerOffset, float ampX, float ampY)
+    {
+        timer = timerOffset;
+        m_amplitudeX = ampX;
+        m_amplitudeY = ampY;
     }
 	
 	// Update is called once per frame
 	void FixedUpdate ()
     {
         timer += Time.fixedDeltaTime;
-        straightPos += axisForward * m_travelSpeed * Time.fixedDeltaTime;
+        straightPos += axisForward * speed * Time.fixedDeltaTime;
         transform.position = straightPos + axisRight * m_amplitudeX * Mathf.Sin((timer) * m_frequency ) + axisUp * m_amplitudeY * -1f * Mathf.Abs(Mathf.Cos((timer) * m_frequency));
-    }
-
-    public void SetSpeed(float speed)
-    {
-        m_travelSpeed = speed;
     }
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Character>() != null && collision.gameObject.GetComponent<Character>().GetTeam() != m_firedBy)
-        {
-            collision.gameObject.GetComponent<Character>().TakeDamage(m_damage);
-        }
-        else if (collision.gameObject.GetComponent<Character>() != null && collision.gameObject.GetComponent<Character>().GetTeam() == m_firedBy)
-        {
+        if (!INetwork.Instance.IsMaster())
             return;
+
+        if (collision.collider.name == "Ground")
+        {
+            INetwork.Instance.RPC(gameObject, "Explode", PhotonTargets.All);
         }
-        Explode();
+        else if (collision.collider.GetComponent<Character>() != null && collision.collider.GetComponent<Character>().GetTeam() != ownerTeam)
+        {
+            Character character = collision.collider.GetComponent<Character>();
+            INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, damage);
+            INetwork.Instance.RPC(gameObject, "Explode", PhotonTargets.All);
+        }
     }
+    [PunRPC]
     void Explode()
     {
-        Instantiate(m_explosionPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        INetwork.Instance.Instantiate(
+            m_explosionPrefab,
+            transform.position, Quaternion.identity);
+        INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
     }
 }
