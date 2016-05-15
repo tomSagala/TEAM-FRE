@@ -24,12 +24,26 @@ public class Lobby : MonoBehaviour
             return;
         }
 
+        m_CharacterButtons = new List<Button>();
+        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton1").GetComponent<Button>());
+        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton2").GetComponent<Button>());
+        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton3").GetComponent<Button>());
+        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton4").GetComponent<Button>());
+
         int nbPlayers = network.GetPlayerCount() - 1;
         int nbPlayersBottom = network.GetPlayerCountInTeam(TeamsEnum.BadLuckTeam);
         if (nbPlayersBottom <= (nbPlayers - nbPlayersBottom))
+        {
             network.SetTeam(TeamsEnum.BadLuckTeam);
+            m_CharacterButtons[2].interactable = false;
+            m_CharacterButtons[3].interactable = false;
+        }
         else
+        {
             network.SetTeam(TeamsEnum.GoodLuckTeam);
+            m_CharacterButtons[0].interactable = false;
+            m_CharacterButtons[1].interactable = false;
+        }
         network.SetId(nbPlayers);
 
         m_PlayerTexts = new List<Text>();
@@ -52,12 +66,6 @@ public class Lobby : MonoBehaviour
 
         m_PlayerTexts[nbPlayers].text = network.GetPlayerName();
         network.RPC(gameObject, "NotifyNewPlayer", PhotonTargets.OthersBuffered, network.GetPlayerName(), nbPlayers);
-
-        m_CharacterButtons = new List<Button>();
-        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton1").GetComponent<Button>());
-        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton2").GetComponent<Button>());
-        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton3").GetComponent<Button>());
-        m_CharacterButtons.Add(transform.Find("CharacterSelection").Find("HeroButton4").GetComponent<Button>());
 
         m_readyButton = transform.Find("Ready").Find("ReadyButton").GetComponent<Button>();
         m_readyButton.interactable = false;
