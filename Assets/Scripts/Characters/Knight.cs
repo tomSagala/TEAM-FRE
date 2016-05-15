@@ -20,11 +20,12 @@ public class Knight : Character {
        
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        base.FixedUpdate();
         if (isCharging)
         {
-            transform.position += m_chargeSpeed * Time.deltaTime * transform.forward;
+            GetComponent<Rigidbody>().velocity = m_chargeSpeed * Camera.main.transform.forward;
         }
     }
 
@@ -40,10 +41,27 @@ public class Knight : Character {
 
     public override void UsePrimaryAbility()
     {
+        m_primaryAbilityAvailable = false;
+        m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
+
+        m_actionblocked = true;
+        isCharging = true;
+
+        GetComponent<Rigidbody>().useGravity = false;
+
+        Camera.main.fieldOfView *= m_chargeFOVModifier;
+        StartCoroutine(DashTimer());
+    }
+
+    public override void UseSecondaryAbility()
+    {
+        m_secondaryAbilityAvailable = false;
+        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
+       
         for (int i = 0; i < rabbitFootPerThrow; i++)
         {
-            float angle = ((float) i) / rabbitFootPerThrow * rabbitFootThrowSpread - rabbitFootThrowSpread/2f;
-            Quaternion dir = Quaternion.Euler(0, angle, 0) * Quaternion.LookRotation(transform.forward);
+            float angle = ((float)i) / rabbitFootPerThrow * rabbitFootThrowSpread - rabbitFootThrowSpread / 2f;
+            Quaternion dir = Quaternion.AngleAxis(angle, Camera.main.transform.up);
             RabbitFoot rf = INetwork.Instance.Instantiate(
             m_rabbotFootPrefab,
             Camera.main.transform.position + dir * Camera.main.transform.forward,
@@ -51,16 +69,7 @@ public class Knight : Character {
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
         }
-    }
 
-    public override void UseSecondaryAbility()
-    {        
-        m_actionblocked = true;
-        isCharging = true;
-
-        Camera.main.fieldOfView *= m_chargeFOVModifier;
-        StartCoroutine(DashTimer());
-        
     }
 
     IEnumerator DashTimer()
@@ -70,7 +79,7 @@ public class Knight : Character {
         isCharging = false;
         m_actionblocked = false;
         Camera.main.fieldOfView /= m_chargeFOVModifier;
-
+        GetComponent<Rigidbody>().useGravity = true;
         yield return null;
     }
 }
