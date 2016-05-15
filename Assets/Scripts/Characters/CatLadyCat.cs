@@ -94,6 +94,11 @@ public class CatLadyCat : AbstractProjectile
         if (!INetwork.Instance.IsMaster())
             return;
 
+        if (m_grounded && collision.collider.gameObject.GetComponent<Knight>() != null)
+        {
+            INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
+        }
+
         if (m_grounded)
             return;
         
