@@ -42,9 +42,11 @@ public class Gnome : Character
         GnomeClover clover = INetwork.Instance.Instantiate(
             CloverProjectilePrefab, 
             Camera.main.transform.position + Camera.main.transform.forward, 
-            Quaternion.LookRotation(transform.forward)).GetComponent<GnomeClover>();
+            Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<GnomeClover>();
         INetwork.Instance.RPC(clover.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(clover.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+        INetwork.Instance.RPC(clover.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
+
         m_currentAmmo--;
     }
 
@@ -56,10 +58,10 @@ public class Gnome : Character
         GnomeGoldBag goldBag = INetwork.Instance.Instantiate(
             GoldBagPrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
-            Quaternion.LookRotation(transform.forward)).GetComponent<GnomeGoldBag>();
+            Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<GnomeGoldBag>();
         INetwork.Instance.RPC(goldBag.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(goldBag.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
-
+        INetwork.Instance.RPC(goldBag.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
     }
 
     public override void UseSecondaryAbility()
@@ -72,10 +74,10 @@ public class Gnome : Character
         GnomeTicket ticket = INetwork.Instance.Instantiate(
             TicketPrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
-            Quaternion.LookRotation(transform.forward)).GetComponent<GnomeTicket>();
+            Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<GnomeTicket>();
         INetwork.Instance.RPC(ticket.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(ticket.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
-
+        INetwork.Instance.RPC(ticket.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
     }
 
     [PunRPC]
