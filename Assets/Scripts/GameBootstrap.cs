@@ -40,9 +40,7 @@ public class GameBootstrap : MonoBehaviour
 
     private void SetPlayerInPlayerDependent(GameObject player, string playerName)
     {
-        Camera playerCamera = player.GetComponentInChildren<Camera>();
-
-        InitialCountdown.SetBlurCamera(playerCamera);
+        InitialCountdown.SetCharacter(player.GetComponent<Character>());
         PowerManager.SetCharacter(player.GetComponent<Character>());
         lifeBar.SetCharacter(player.GetComponent<Character>());
         username.text = playerName;

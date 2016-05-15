@@ -16,7 +16,7 @@ using UnityStandardAssets.CrossPlatformInput;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
             [HideInInspector]
             public float CurrentTargetSpeed = 8f;
-
+            public bool blockedInput = false;
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
                 if (input == Vector2.zero) return;
@@ -69,7 +69,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
         public Vector3 Velocity
         {
-            get { return m_RigidBody.velocity; }
+            get { return m_RigidBody ? m_RigidBody.velocity : Vector3.zero; }
         }
 
         public bool Grounded

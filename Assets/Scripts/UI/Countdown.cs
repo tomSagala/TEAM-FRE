@@ -9,18 +9,26 @@ public class Countdown : MonoBehaviour
     public float duration;
     private Text m_text;
     private Camera m_camera;
+    private Character m_character;
 
     void OnEnable()
     {
         m_text = GetComponent<Text>();
         if (m_camera)
             m_camera.GetComponent<Blur>().enabled = blurs;
+
+        if (m_character != null)
+        {
+            m_character.m_actionblocked = true;
+            if(m_character.GetComponent<RigidbodyFirstPersonController>() != null)
+                m_character.GetComponent<RigidbodyFirstPersonController>().enabled = false;
+        }
     }
 
-    public void SetBlurCamera(Camera camera)
+    public void SetCharacter(Character player)
     {
-        Debug.Log(camera);
-        m_camera = camera;
+        m_camera = player.GetComponentInChildren<Camera>();
+        m_character = player;
     }
     
     void Update()
@@ -32,6 +40,8 @@ public class Countdown : MonoBehaviour
             if (duration < 0)
             {
                 m_camera.GetComponent<Blur>().enabled = false;
+                m_character.m_actionblocked = false;
+                m_character.GetComponent<RigidbodyFirstPersonController>().enabled = true;
                 StateManager.Instance.GoToState("Play");
             }
         }

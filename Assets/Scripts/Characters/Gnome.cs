@@ -33,24 +33,36 @@ public class Gnome : Character
             Camera.main.transform.position + Camera.main.transform.forward, 
             Quaternion.LookRotation(transform.forward)).GetComponent<GnomeClover>();
         INetwork.Instance.RPC(clover.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
+        INetwork.Instance.RPC(clover.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+
     }
 
     public override void UsePrimaryAbility()
     {
+        m_primaryAbilityAvailable = false;
+        m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
+
         GnomeGoldBag goldBag = INetwork.Instance.Instantiate(
             GoldBagPrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
             Quaternion.LookRotation(transform.forward)).GetComponent<GnomeGoldBag>();
         INetwork.Instance.RPC(goldBag.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
+        INetwork.Instance.RPC(goldBag.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+
     }
 
     public override void UseSecondaryAbility()
     {
+        m_secondaryAbilityAvailable = false;
+        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
+
         GnomeTicket ticket = INetwork.Instance.Instantiate(
             TicketPrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
             Quaternion.LookRotation(transform.forward)).GetComponent<GnomeTicket>();
         INetwork.Instance.RPC(ticket.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
+        INetwork.Instance.RPC(ticket.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+
     }
 
     [PunRPC]
