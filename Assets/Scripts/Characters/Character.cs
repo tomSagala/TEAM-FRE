@@ -149,13 +149,21 @@ public abstract class Character : MonoBehaviour
 
         foreach (CatLadyCat cat in cats)
         {
-            INetwork.Instance.RPC(cat.gameObject, "DestroyProjectile", PhotonTargets.All);
+            if (cat && cat.gameObject)
+                INetwork.Instance.RPC(cat.gameObject, "DestroyProjectile", PhotonTargets.All);
         }
         GetComponent<RigidbodyFirstPersonController>().enabled = false;
         StateManager.Instance.GoToState("Respawn");
+        INetwork.Instance.RPC(gameObject, "SetupAfterRespawn", PhotonTargets.All);
+    }
+
+    [PunRPC]
+    public void SetupAfterRespawn()
+    {
         m_healthPoints = m_maxHealthPoints;
         m_damageOverTimeTakenRemainingTime = 0f;
     }
+
 
     public virtual void Attack() { }
     public virtual void UsePrimaryAbility() { }
