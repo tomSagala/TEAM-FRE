@@ -177,13 +177,13 @@ using UnityStandardAssets.CrossPlatformInput;
 
             if (m_primaryAbility)
             {
-                if (gameObject.GetComponent<Character>().CanUsePrimaryAbility())
-                {
-                    gameObject.GetComponent<Character>().UsePrimaryAbility();
-                }
-                else if (gameObject.GetComponent<Character>().CanDoubleActivate())
+                if (gameObject.GetComponent<Character>().CanDoubleActivate())
                 {
                     gameObject.GetComponent<Character>().UseDoubleActivatePrimary();
+                }
+                else if (gameObject.GetComponent<Character>().CanUsePrimaryAbility())
+                {
+                    gameObject.GetComponent<Character>().UsePrimaryAbility();
                 }
             }
 

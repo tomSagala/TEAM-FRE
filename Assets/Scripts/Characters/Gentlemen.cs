@@ -18,6 +18,11 @@ public class Gentlemen : Character
     private int m_shotCount = 0;
     private int m_numberOfChambers = 6;
 
+    private double castTimer = 1f;
+    private float timer = 0f;
+
+    private bool m_shotsFired = false;
+
     private FireBug m_activeFireBug;
 
     private AudioSource footSteps;
@@ -52,6 +57,8 @@ public class Gentlemen : Character
         {
             footSteps.Play();
         }
+
+        timer += Time.deltaTime;
 	}
 
     private void ActivatePassive()
@@ -120,12 +127,14 @@ public class Gentlemen : Character
 
         m_activeFireBug = INetwork.Instance.Instantiate(
             m_secondaryAbilityProjectilePrefab,
-            Camera.main.transform.position + Camera.main.transform.forward,
+            Camera.main.transform.position + Camera.main.transform.forward * 1.5f,
             Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<FireBug>();
         INetwork.Instance.RPC(m_activeFireBug.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(m_activeFireBug.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
         INetwork.Instance.RPC(m_activeFireBug.gameObject, "Setup", PhotonTargets.All, Random.Range(0f, 2 * Mathf.PI), Random.Range(m_activeFireBug.m_minAmplitudeX, m_activeFireBug.m_maxAmplitudeX), Random.Range(m_activeFireBug.m_minAmplitudeY, m_activeFireBug.m_maxAmplitudeY));
         INetwork.Instance.RPC(m_activeFireBug.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
+
+        timer = 0f;
 
     }
 
@@ -134,7 +143,8 @@ public class Gentlemen : Character
         m_secondaryAbilityAvailable = false;
         m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityMissedCooldown;
 
-        if (m_bulletChamber == m_shotCount)
+        Debug.Log(m_shotCount + " / "  + m_bulletChamber);
+        if (m_bulletChamber <= m_shotCount || m_shotCount >= 6)
         {
             m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
 
@@ -149,7 +159,7 @@ public class Gentlemen : Character
             INetwork.Instance.RPC(proj.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
             INetwork.Instance.RPC(proj.gameObject, "SetOneHitKill", PhotonTargets.All, true);
             INetwork.Instance.RPC(proj.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
-
+            m_shotsFired = true;
         }
         else
         {
@@ -160,7 +170,7 @@ public class Gentlemen : Character
 
     public override void UseDoubleActivatePrimary()
     {
-        if (!INetwork.Instance.IsMaster())
+        if (!INetwork.Instance.IsMaster() || timer > castTimer || !CanDoubleActivate() || m_activeFireBug == null)
             return;
 
         INetwork.Instance.RPC(m_activeFireBug.gameObject, "Explode", PhotonTargets.All, m_activeFireBug.transform.position);
@@ -180,7 +190,7 @@ public class Gentlemen : Character
     {
         m_secondaryAbilityAvailable = true;
 
-        if ((m_bulletChamber <= m_shotCount))
+        if (m_bulletChamber <= m_shotCount && m_shotsFired)
         {
             reloadCouroutine = StartCoroutine(ReloadCoroutine());
         }
@@ -196,7 +206,7 @@ public class Gentlemen : Character
         m_bulletChamber = Random.Range(0, m_numberOfChambers - 1);
         m_shotCount = 0;
         AudioSource.PlayClipAtPoint(ReloadSound, this.transform.position, 0.1f);
-
+        m_shotsFired = false;
         yield break;
     }
 }
