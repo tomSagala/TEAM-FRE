@@ -102,11 +102,6 @@ public abstract class Character : MonoBehaviour
     [PunRPC]
     public virtual void TakeDamage(float damage)
     {
-        if (reloadCouroutine != null)
-        {
-            StopCoroutine(reloadCouroutine);
-        }
-
         m_healthPoints -= damage;
 
         if (m_healthPoints > m_maxHealthPoints)
