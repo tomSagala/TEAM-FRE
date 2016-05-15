@@ -30,7 +30,7 @@ public class Clock : MonoBehaviour
         {
             if (seconds < 10)
             {
-                timeText.text = "" + minutes + ":" + seconds + "0";
+                timeText.text = "" + minutes + ":0" + seconds;
             }
             else
             {

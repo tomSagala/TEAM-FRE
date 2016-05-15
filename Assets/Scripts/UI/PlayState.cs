@@ -36,7 +36,7 @@ public class PlayState : MonoBehaviour
         GameTimer += Time.deltaTime;
         INetwork.Instance.RPC(gameObject, "NotifyGameState", PhotonTargets.All, LuckBadLuckRatio, GameTimer);
 
-        if (GameTimer > MaxTimer || LuckBadLuckRatio == 1 || LuckBadLuckRatio == -1)
+        if (GameTimer > MaxTimer)
         {
             m_won = true;
             if (LuckBadLuckRatio > 0)
@@ -47,7 +47,6 @@ public class PlayState : MonoBehaviour
             {
                 INetwork.Instance.RPC(gameObject, "NotifyWinner", PhotonTargets.All, TeamsEnum.GoodLuckTeam);
             }
-            StateManager.Instance.GoToState("Result");
         }
 	}
 
@@ -71,6 +70,7 @@ public class PlayState : MonoBehaviour
     [PunRPC]
     public void NotifyWinner(string team)
     {
-        Debug.Log(team + " won");
+        ResultsState.winningTeam = team;
+        StateManager.Instance.GoToState("Results");
     }
 }
