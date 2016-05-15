@@ -18,6 +18,12 @@ public class GameBootstrap : MonoBehaviour
 
 	void Start () 
     {
+        CreatePlayer();
+        StateManager.Instance.GoToState("Countdown");
+	}
+
+    public void CreatePlayer(bool isRespawn = false)
+    {
         INetwork network = INetwork.Instance;
         int characterId = network.GetCharacterId();
         int playerId = network.GetId();
@@ -34,13 +40,15 @@ public class GameBootstrap : MonoBehaviour
         character.transform.Find("MainCamera").gameObject.SetActive(true);
         SetPlayerInPlayerDependent(character, playerName);
 
-        StateManager.Instance.GoToState("Countdown");
-	}
+        if (isRespawn)
+            StateManager.Instance.GoToState("Respawn");
+    }
 
 
     private void SetPlayerInPlayerDependent(GameObject player, string playerName)
     {
         InitialCountdown.SetCharacter(player.GetComponent<Character>());
+        RespawnCountdown.SetCharacter(player.GetComponent<Character>());
         PowerManager.SetCharacter(player.GetComponent<Character>());
         lifeBar.SetCharacter(player.GetComponent<Character>());
         username.text = playerName;

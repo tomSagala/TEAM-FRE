@@ -116,7 +116,8 @@ public abstract class Character : MonoBehaviour
         if (!INetwork.Instance.IsMine(gameObject))
             return;
 
-        INetwork.Instance.NetworkDestroy(gameObject); 
+        INetwork.Instance.NetworkDestroy(gameObject);
+        FindObjectOfType<GameBootstrap>().CreatePlayer(true);
     }
 
     public virtual void Attack() { }
