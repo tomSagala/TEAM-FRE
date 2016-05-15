@@ -4,21 +4,21 @@ using System.Collections;
 
 public class AmmoQuantity : MonoBehaviour
 {
-    // Reference to the player
-    //private Text m_text;
+    private Character m_character;
+    private Text m_text;
 
     void Awake()
     {
-        //m_text = GetComponent<Text>();
+        m_text = GetComponent<Text>();
     }
 
     void Update()
     {
-        // m_text.text = player...
+        m_text.text = m_character.m_currentAmmo + "/" + m_character.m_maxAmmo;
     }
 
-    public void SetPlayer()
+    public void SetCharacter(Character character)
     {
-
+        m_character = character;
     }
 }

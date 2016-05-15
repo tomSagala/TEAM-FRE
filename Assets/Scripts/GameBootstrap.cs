@@ -56,6 +56,7 @@ public class GameBootstrap : MonoBehaviour
         PowerManager.SetCharacter(player.GetComponent<Character>());
         lifeBar.SetCharacter(player.GetComponent<Character>());
         lifeBar.Setup();
+        AmmoQty.SetCharacter(player.GetComponent<Character>());
         PlayerThumbnail.SetCharacterThumbnailFromId(characterId);
         username.text = playerName;
     }
