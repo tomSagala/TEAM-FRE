@@ -28,6 +28,14 @@ public class Gnome : Character
 
     public override void Attack()
     {
+        if (reloadCouroutine != null) return;
+
+        if (m_currentAmmo <= 0)
+        {
+            reloadCouroutine = StartCoroutine(ReloadCoroutine());
+            return;
+        }
+
         m_autoAttackAvailable = false;
         m_autoAttackRemainingCoolDown = 1.0f / m_autoAttackPerSeconds;
 
@@ -37,6 +45,7 @@ public class Gnome : Character
             Quaternion.LookRotation(transform.forward)).GetComponent<GnomeClover>();
         INetwork.Instance.RPC(clover.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(clover.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+        m_currentAmmo--;
     }
 
     public override void UsePrimaryAbility()
