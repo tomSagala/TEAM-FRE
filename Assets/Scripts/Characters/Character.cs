@@ -166,7 +166,6 @@ public abstract class Character : MonoBehaviour
     [PunRPC]
     public void SetupAfterRespawn()
     {
-        StopCoroutine(reloadCouroutine);
         m_healthPoints = m_maxHealthPoints;
         m_damageOverTimeTakenRemainingTime = 0f;
         m_currentAmmo = m_maxAmmo;
@@ -176,6 +175,7 @@ public abstract class Character : MonoBehaviour
         m_primaryAbilityAvailable = true;
         m_secondaryAbilityRemainingCoolDown = 0.0f;
         m_secondaryAbilityAvailable = true;
+        StopCoroutine(reloadCouroutine);
     }
 
 
