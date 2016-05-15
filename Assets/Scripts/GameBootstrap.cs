@@ -13,6 +13,7 @@ public class GameBootstrap : MonoBehaviour
     public AmmoQuantity AmmoQty;
     public PowerStatusManager PowerManager;
     public LifeBar lifeBar;
+    public CharacterThumbnail PlayerThumbnail;
     public Text username;
     public Countdown RespawnCountdown;
 
@@ -39,14 +40,14 @@ public class GameBootstrap : MonoBehaviour
         character.GetComponent<RigidbodyFirstPersonController>().enabled = true;
         character.transform.Find("MainCamera").gameObject.SetActive(true);
         character.GetComponent<Character>().SetSpawnPoint(CharacterSpawnPoints[playerId]);
-        SetPlayerInPlayerDependent(character, playerName);
+        SetPlayerInPlayerDependent(character, playerName, characterId);
 
         if (isRespawn)
             StateManager.Instance.GoToState("Respawn");
     }
 
 
-    private void SetPlayerInPlayerDependent(GameObject player, string playerName)
+    private void SetPlayerInPlayerDependent(GameObject player, string playerName, int characterId)
     {
         InitialCountdown.SetCharacter(player.GetComponent<Character>());
         InitialCountdown.Setup();
@@ -55,6 +56,7 @@ public class GameBootstrap : MonoBehaviour
         PowerManager.SetCharacter(player.GetComponent<Character>());
         lifeBar.SetCharacter(player.GetComponent<Character>());
         lifeBar.Setup();
+        PlayerThumbnail.SetCharacterThumbnailFromId(characterId);
         username.text = playerName;
     }
 }
