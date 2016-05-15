@@ -40,12 +40,13 @@ public class CatLady : Character {
         m_secondaryAbilityAvailable = false;
         m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
 
-        // CIRCULEZ RIEN ICI POUR L'INSTANT :D
         GetComponent<RigidbodyFirstPersonController>().movementSettings.ForwardSpeed *= SpeedBoost;
         Timer.Instance.Request(SpeedBoostDuration, () =>
         {
             GetComponent<RigidbodyFirstPersonController>().movementSettings.ForwardSpeed /= SpeedBoost;
         });
+
+        NetworkAudioManager.Instance.PlayAudioClipForAll("CatLadyCry", this.transform.position);
     }
 
     [PunRPC]
