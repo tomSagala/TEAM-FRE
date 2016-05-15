@@ -4,7 +4,9 @@ using System.Collections;
 public abstract class Character : MonoBehaviour
 {
     [SerializeField] public Sprite primaryAbilitySprite;
+    [SerializeField] public Sprite DoubleActivateSprite;
     [SerializeField] public Sprite secondaryAbilitySprite;
+    [SerializeField] public Sprite primaryAbilityStopSprite;
     [SerializeField] public uint m_maxHealthPoints = 5;
     [SerializeField] public float m_healthPoints = 5f;
     [SerializeField] protected string m_team;
@@ -34,7 +36,8 @@ public abstract class Character : MonoBehaviour
     private bool stunned = false;
 
 	// Update is called once per frame
-	protected void FixedUpdate () {
+	protected void FixedUpdate ()
+    {
         if (m_damageOverTimeTakenRemainingTime > 0f)
         {
             TakeDamage(m_damageOverTimeTakenDPS * Time.fixedDeltaTime);
@@ -55,6 +58,7 @@ public abstract class Character : MonoBehaviour
             m_primaryAbilityRemainingCoolDown -= Time.fixedDeltaTime;
             if (m_primaryAbilityRemainingCoolDown <= 0f)
             {
+                m_primaryAbilityRemainingCoolDown = 0f;
                 PrimaryReady();
             }
         }
@@ -64,6 +68,7 @@ public abstract class Character : MonoBehaviour
             m_secondaryAbilityRemainingCoolDown -= Time.fixedDeltaTime;
             if (m_secondaryAbilityRemainingCoolDown <= 0f)
             {
+                m_secondaryAbilityRemainingCoolDown = 0f;
                 SecondaryReady();
             }
         }
@@ -122,7 +127,6 @@ public abstract class Character : MonoBehaviour
                 if (playState)
                     playState.AddBadLuckDeath();
             }
-
             INetwork.Instance.RPC(gameObject, "Die", PhotonTargets.All);
         }
     }
@@ -162,8 +166,16 @@ public abstract class Character : MonoBehaviour
     [PunRPC]
     public void SetupAfterRespawn()
     {
+        StopCoroutine(reloadCouroutine);
         m_healthPoints = m_maxHealthPoints;
         m_damageOverTimeTakenRemainingTime = 0f;
+        m_currentAmmo = m_maxAmmo;
+        stunned = false;
+        m_actionblocked = false;
+        m_primaryAbilityRemainingCoolDown = 0.0f;
+        m_primaryAbilityAvailable = true;
+        m_secondaryAbilityRemainingCoolDown = 0.0f;
+        m_secondaryAbilityAvailable = true;
     }
 
 

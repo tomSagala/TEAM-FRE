@@ -60,6 +60,24 @@ public class FireBug : Projectile {
     [PunRPC]
     public void Explode(Vector3 position)
     {
+        if (INetwork.Instance.IsMaster())
+        {
+            RaycastHit hitinfo;
+            if (Physics.Linecast(position, new Vector3(position.x, 0f, position.z), out hitinfo))
+            {
+                RaycastHit[] hits = Physics.SphereCastAll(hitinfo.transform.position, 2f, transform.up * -1f, 0.1f);
+
+                foreach (RaycastHit hit in hits)
+                {
+                    if (hit.collider.gameObject.GetComponent<Clover>() != null)
+                    {
+                        INetwork.Instance.RPC(hit.collider.gameObject, "DestroyClover", PhotonTargets.All);
+                    }
+                }
+            }
+        }
+
+
         INetwork.Instance.Instantiate(
             m_explosionPrefab,
             position, Quaternion.identity);
