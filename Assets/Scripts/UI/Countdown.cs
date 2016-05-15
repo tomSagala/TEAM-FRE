@@ -10,6 +10,7 @@ public class Countdown : MonoBehaviour
     private Text m_text;
     private Camera m_camera;
     private Character m_character;
+    private float initialDuration;
 
     public void Setup()
     {
@@ -23,6 +24,7 @@ public class Countdown : MonoBehaviour
             if(m_character.GetComponent<RigidbodyFirstPersonController>() != null)
                 m_character.GetComponent<RigidbodyFirstPersonController>().enabled = false;
         }
+        initialDuration = duration;
     }
 
     public void SetCharacter(Character player)
@@ -42,6 +44,7 @@ public class Countdown : MonoBehaviour
                 m_camera.GetComponent<Blur>().enabled = false;
                 m_character.m_actionblocked = false;
                 m_character.GetComponent<RigidbodyFirstPersonController>().enabled = true;
+                duration = initialDuration;
                 StateManager.Instance.GoToState("Play");
             }
         }

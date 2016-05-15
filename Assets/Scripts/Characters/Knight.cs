@@ -119,9 +119,12 @@ public class Knight : Character {
 
     public override void UseDoubleActivatePrimary()
     {
-        if (m_dashCoroutine == null) return;
+        if (!isCharging) return;
 
-        StopCoroutine(m_dashCoroutine);
+        if (m_dashCoroutine != null)
+        {
+            StopCoroutine(m_dashCoroutine);
+        }
         isCharging = false;
         m_actionblocked = false;
         Camera.main.fieldOfView /= m_chargeFOVModifier;
