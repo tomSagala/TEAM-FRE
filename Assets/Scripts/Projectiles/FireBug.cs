@@ -28,7 +28,7 @@ public class FireBug : Projectile {
     [PunRPC]
     public void Setup(float timerOffset, float ampX, float ampY)
     {
-        timer = timerOffset;
+        //timer = timerOffset;
         m_amplitudeX = ampX;
         m_amplitudeY = ampY;
     }
@@ -54,15 +54,15 @@ public class FireBug : Projectile {
         {
             Character character = collision.collider.GetComponent<Character>();
             INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, damage);
-            INetwork.Instance.RPC(gameObject, "Explode", PhotonTargets.All);
+            INetwork.Instance.RPC(gameObject, "Explode", PhotonTargets.All, collision.collider.transform.position);
         }
     }
     [PunRPC]
-    public void Explode()
+    public void Explode(Vector3 position)
     {
         INetwork.Instance.Instantiate(
             m_explosionPrefab,
-            transform.position, Quaternion.identity);
+            position, Quaternion.identity);
         INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
     }
 }
