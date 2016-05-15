@@ -11,12 +11,14 @@ public class Gentlemen : Character
     [SerializeField] float m_damageOverTimeTotalDamage = 1f;
     [SerializeField] float m_damageOverTimeDuration = 1f;
     [SerializeField] [Range(0, 1)] float m_chanceToDotOnHit;
-    [SerializeField] float m_primaryAbilityMissedCooldown = 1f;
+    [SerializeField] float m_secondaryAbilityMissedCooldown = 1f;
 
     private float m_passiveTimer = 0f;
     private int m_bulletChamber;
     private int m_shotCount = 0;
     private int m_numberOfChambers = 6;
+
+    private FireBug m_activeFireBug;
 
     private AudioSource footSteps;
 
@@ -114,10 +116,27 @@ public class Gentlemen : Character
     public override void UsePrimaryAbility()
     {
         m_primaryAbilityAvailable = false;
-        m_primaryAbilityRemainingCoolDown = m_primaryAbilityMissedCooldown;
+        m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
+
+        m_activeFireBug = INetwork.Instance.Instantiate(
+            m_secondaryAbilityProjectilePrefab,
+            Camera.main.transform.position + Camera.main.transform.forward,
+            Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<FireBug>();
+        INetwork.Instance.RPC(m_activeFireBug.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
+        INetwork.Instance.RPC(m_activeFireBug.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
+        INetwork.Instance.RPC(m_activeFireBug.gameObject, "Setup", PhotonTargets.All, Random.Range(0f, 2 * Mathf.PI), Random.Range(m_activeFireBug.m_minAmplitudeX, m_activeFireBug.m_maxAmplitudeX), Random.Range(m_activeFireBug.m_minAmplitudeY, m_activeFireBug.m_maxAmplitudeY));
+        INetwork.Instance.RPC(m_activeFireBug.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
+
+    }
+
+    public override void UseSecondaryAbility()
+    {
+        m_secondaryAbilityAvailable = false;
+        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityMissedCooldown;
+
         if (m_bulletChamber == m_shotCount)
         {
-            m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
+            m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
 
             Projectile proj = INetwork.Instance.Instantiate(
             m_primaryAbilityProjectilePrefab,
@@ -139,24 +158,18 @@ public class Gentlemen : Character
         }
     }
 
-    public override void UseSecondaryAbility()
+    public override void UseDoubleActivatePrimary()
     {
-        m_secondaryAbilityAvailable = false;
-        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
+        if (!INetwork.Instance.IsMaster())
+            return;
 
-        FireBug proj = INetwork.Instance.Instantiate(
-            m_secondaryAbilityProjectilePrefab,
-            Camera.main.transform.position + Camera.main.transform.forward,
-            Quaternion.LookRotation(Camera.main.transform.forward)).GetComponent<FireBug>();
-        INetwork.Instance.RPC(proj.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
-        INetwork.Instance.RPC(proj.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
-        INetwork.Instance.RPC(proj.gameObject, "Setup", PhotonTargets.All, Random.Range(0f, 2 * Mathf.PI), Random.Range(proj.m_minAmplitudeX, proj.m_maxAmplitudeX), Random.Range(proj.m_minAmplitudeY, proj.m_maxAmplitudeY));
-        INetwork.Instance.RPC(proj.gameObject, "AddVelocity", PhotonTargets.All, GetComponent<Rigidbody>().velocity);
+        INetwork.Instance.RPC(m_activeFireBug.gameObject, "Explode", PhotonTargets.All);
+
     }
 
-    public override void PrimaryReady()
+    public override void SecondaryReady()
     {
-        m_primaryAbilityAvailable = true;
+        m_secondaryAbilityAvailable = true;
 
         if ((m_bulletChamber <= m_shotCount))
         {

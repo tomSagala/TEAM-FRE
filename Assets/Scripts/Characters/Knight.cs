@@ -20,6 +20,7 @@ public class Knight : Character {
     private float footStepsTimer;
     private AudioSource footSteps;
     private Animator m_animator;
+    private Coroutine m_dashCoroutine;
 
     void Start()
     {
@@ -93,7 +94,7 @@ public class Knight : Character {
         GetComponent<Rigidbody>().useGravity = false;
 
         Camera.main.fieldOfView *= m_chargeFOVModifier;
-        StartCoroutine(DashTimer());
+        m_dashCoroutine = StartCoroutine(DashTimer());
     }
 
     public override void UseSecondaryAbility()
@@ -114,6 +115,17 @@ public class Knight : Character {
             INetwork.Instance.RPC(rf.gameObject, "AddVelocity", PhotonTargets.All, Quaternion.AngleAxis(-10f, Camera.main.transform.right) * GetComponent<Rigidbody>().velocity);
         }
 
+    }
+
+    public override void UseDoubleActivatePrimary()
+    {
+        if (m_dashCoroutine == null) return;
+
+        StopCoroutine(m_dashCoroutine);
+        isCharging = false;
+        m_actionblocked = false;
+        Camera.main.fieldOfView /= m_chargeFOVModifier;
+        GetComponent<Rigidbody>().useGravity = true;
     }
 
     IEnumerator DashTimer()
