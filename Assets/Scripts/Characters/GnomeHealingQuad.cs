@@ -24,7 +24,7 @@ public class GnomeHealingQuad : MonoBehaviour
         Character character = collider.GetComponent<Character>();
         if (character != null)
         {
-            INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, HealRate * Time.deltaTime);
+            INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, -1.0f * HealRate * Time.deltaTime);
         }
     }
 }

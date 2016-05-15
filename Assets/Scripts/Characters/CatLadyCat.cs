@@ -80,7 +80,7 @@ public class CatLadyCat : AbstractProjectile
             m_grounded = true;
             m_groundedPosition = transform.position;
         }
-        else if (collision.collider.GetComponent<Character>() != null)
+        else if (collision.collider.GetComponent<Character>() != null && collision.collider.GetComponent<Character>().GetTeam() != ownerTeam)
         {
             Character character = collision.collider.GetComponent<Character>();
             INetwork.Instance.RPC(character.gameObject, "TakeDamageOverTime", PhotonTargets.All, Dps, DpsDuration);

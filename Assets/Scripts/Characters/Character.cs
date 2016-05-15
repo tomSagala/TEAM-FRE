@@ -27,6 +27,7 @@ public abstract class Character : MonoBehaviour
     protected bool m_primaryAbilityAvailable = true;
     protected bool m_secondaryAbilityAvailable = true;
     public bool m_actionblocked = false;
+    private Transform m_spawnPoint;
 
 	// Update is called once per frame
 	protected void FixedUpdate () {
@@ -64,6 +65,11 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    public void SetSpawnPoint(Transform sp)
+    {
+        m_spawnPoint = sp;
+    }
+
     public void SetTeam(string team)
     {
         m_team = team;
@@ -94,7 +100,6 @@ public abstract class Character : MonoBehaviour
         if (INetwork.Instance.IsMaster() && m_healthPoints <= 0f)
         {
             // DIE
-            m_healthPoints = 0;
             INetwork.Instance.RPC(gameObject, "Die", PhotonTargets.All);
         }
     }
@@ -115,9 +120,19 @@ public abstract class Character : MonoBehaviour
     {
         if (!INetwork.Instance.IsMine(gameObject))
             return;
+        this.transform.position = m_spawnPoint.position;
+        this.transform.rotation = m_spawnPoint.rotation;
 
-        INetwork.Instance.NetworkDestroy(gameObject);
-        FindObjectOfType<GameBootstrap>().CreatePlayer(true);
+        CatLadyCat[] cats = this.transform.GetComponentsInChildren<CatLadyCat>();
+
+        foreach (CatLadyCat cat in cats)
+        {
+            INetwork.Instance.RPC(cat.gameObject, "DestroyProjectile", PhotonTargets.All);
+        }
+        
+        StateManager.Instance.GoToState("Respawn");
+        m_healthPoints = m_maxHealthPoints;
+        m_damageOverTimeTakenRemainingTime = 0f;
     }
 
     public virtual void Attack() { }
