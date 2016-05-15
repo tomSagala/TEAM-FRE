@@ -15,14 +15,14 @@ public class INetwork : PunGameSingleton<INetwork>
         }
         set
         {
-            m_isSinglePlayer = value;
+            m_isSinglePlayer = value; 
             PhotonNetwork.offlineMode = m_isSinglePlayer;
         }
     }
 
     public void Connect()
     {
-        PhotonNetwork.ConnectUsingSettings("1.1");
+        PhotonNetwork.ConnectUsingSettings("1.0"); 
     }
 
     public void Disconnect()

@@ -9,6 +9,7 @@ public class HeadBob : MonoBehaviour
     public LerpControlledBob jumpAndLandingBob = new LerpControlledBob();
     public RigidbodyFirstPersonController rigidbodyFirstPersonController;
     public float StrideInterval;
+    public Vector3 Offset;
     [Range(0f, 1f)] public float RunningStrideLengthen;
 
     // private CameraRefocus m_CameraRefocus;
@@ -30,7 +31,7 @@ public class HeadBob : MonoBehaviour
         Vector3 newCameraPosition;
         if (rigidbodyFirstPersonController.Velocity.magnitude > 0 && rigidbodyFirstPersonController.Grounded)
         {
-            Camera.transform.localPosition = motionBob.DoHeadBob(rigidbodyFirstPersonController.Velocity.magnitude);
+            Camera.transform.localPosition = motionBob.DoHeadBob(rigidbodyFirstPersonController.Velocity.magnitude) + Offset;
             newCameraPosition = Camera.transform.localPosition;
             newCameraPosition.y = Camera.transform.localPosition.y - jumpAndLandingBob.Offset();
         }
