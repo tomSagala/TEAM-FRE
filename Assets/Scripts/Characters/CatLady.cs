@@ -7,6 +7,8 @@ public class CatLady : Character {
     public GameObject MirrorPrefab;
     public GameObject MirrorPiecePrefab;
     public float MirrorBurst;
+    public float SpeedBoost;
+    public float SpeedBoostDuration;
 
     public override void Attack()
     {
@@ -19,8 +21,8 @@ public class CatLady : Character {
 
     public override void UsePrimaryAbility()
     {
-        m_secondaryAbilityAvailable = false;
-        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
+        m_primaryAbilityAvailable = false;
+        m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
 
         var mirrorObj = INetwork.Instance.Instantiate(
             MirrorPrefab,
@@ -32,10 +34,15 @@ public class CatLady : Character {
 
     public override void UseSecondaryAbility()
     {
-        m_primaryAbilityAvailable = false;
-        m_primaryAbilityRemainingCoolDown = m_primaryAbilityCoolDown;
+        m_secondaryAbilityAvailable = false;
+        m_secondaryAbilityRemainingCoolDown = m_secondaryAbilityCoolDown;
 
         // CIRCULEZ RIEN ICI POUR L'INSTANT :D
+        GetComponent<RigidbodyFirstPersonController>().movementSettings.ForwardSpeed *= SpeedBoost;
+        Timer.Instance.Request(SpeedBoostDuration, () =>
+        {
+            GetComponent<RigidbodyFirstPersonController>().movementSettings.ForwardSpeed /= SpeedBoost;
+        });
     }
 
     [PunRPC]
