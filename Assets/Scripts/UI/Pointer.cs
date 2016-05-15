@@ -17,6 +17,24 @@ public class Pointer : MonoBehaviour
     {
         Vector3 currentPos = GetComponent<RectTransform>().localPosition;
         float newX = (size * BenTraductor(m_playState.LuckBadLuckRatio) * -0.5f);
+
+        string currentMusic = "";
+        if (m_playState.LuckBadLuckRatio > 0.2f)
+        {
+            currentMusic = NetworkAudioManager.BADLUCK;
+        }
+        else if (m_playState.LuckBadLuckRatio < -0.2f)
+        {
+            currentMusic = NetworkAudioManager.LUCK;
+        }
+
+        if (!NetworkAudioManager.CURRENT.Equals(currentMusic))
+        {
+            NetworkAudioManager.Instance.ModifyCurrentSongForAll(currentMusic);
+            NetworkAudioManager.CURRENT = currentMusic;
+        }
+
+
         GetComponent<RectTransform>().localPosition = new Vector3(newX, currentPos.y, currentPos.z);
     }
 
