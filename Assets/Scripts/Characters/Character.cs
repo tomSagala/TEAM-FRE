@@ -100,6 +100,15 @@ public abstract class Character : MonoBehaviour
         if (INetwork.Instance.IsMaster() && m_healthPoints <= 0f)
         {
             // DIE
+            if (m_team == TeamsEnum.BadLuckTeam)
+            {
+                FindObjectOfType<PlayState>().AddBadLuckDeath();
+            }
+            else if (m_team == TeamsEnum.GoodLuckTeam)
+            {
+                FindObjectOfType<PlayState>().AddLuckDeath();
+            }
+
             INetwork.Instance.RPC(gameObject, "Die", PhotonTargets.All);
         }
     }
