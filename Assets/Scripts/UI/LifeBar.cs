@@ -14,8 +14,7 @@ public class LifeBar : MonoBehaviour
     private Character m_character;
     private ArrayList m_hits = new ArrayList();
 
-
-	void OnEnable ()
+	public void Setup ()
     {
         if (m_character != null && m_hits.Count == 0)
         {

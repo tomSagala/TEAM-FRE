@@ -54,6 +54,7 @@ public class GameBootstrap : MonoBehaviour
         RespawnCountdown.Setup();
         PowerManager.SetCharacter(player.GetComponent<Character>());
         lifeBar.SetCharacter(player.GetComponent<Character>());
+        lifeBar.Setup();
         username.text = playerName;
     }
 }
