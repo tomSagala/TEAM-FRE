@@ -47,6 +47,7 @@ public class PlayState : MonoBehaviour
             {
                 INetwork.Instance.RPC(gameObject, "NotifyWinner", PhotonTargets.All, TeamsEnum.GoodLuckTeam);
             }
+            StateManager.Instance.GoToState("Result");
         }
 	}
 

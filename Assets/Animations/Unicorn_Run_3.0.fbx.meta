@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: 18b2f239f3552bc4990510c1ca7f382b
+timeCreated: 1463318004
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Anterieur
+    100002: Anterieur_Down
+    100004: Anterieur_Down1
+    100006: Anterieur_Finish
+    100008: Anterieur_Finish1
+    100010: Anterieur_Sabot
+    100012: Anterieur_Sabot1
+    100014: Anterieur_up
+    100016: Anterieur_up1
+    100018: Center
+    100020: Croupe
+    100022: Dos
+    100024: Encolure
+    100026: Head
+    100028: Horn4
+    100030: joint11
+    100032: joint12
+    100034: joint18
+    100036: joint21
+    100038: joint22
+    100040: joint23
+    100042: joint9
+    100044: Posterieur_down
+    100046: Posterieur_down1
+    100048: Posterieur_finish
+    100050: Posterieur_finish1
+    100052: Posterieur_sabot
+    100054: Posterieur_sabot1
+    100056: Posterieur_up
+    100058: Posterieur_up1
+    100060: Queue
+    100062: //RootNode
+    400000: Anterieur
+    400002: Anterieur_Down
+    400004: Anterieur_Down1
+    400006: Anterieur_Finish
+    400008: Anterieur_Finish1
+    400010: Anterieur_Sabot
+    400012: Anterieur_Sabot1
+    400014: Anterieur_up
+    400016: Anterieur_up1
+    400018: Center
+    400020: Croupe
+    400022: Dos
+    400024: Encolure
+    400026: Head
+    400028: Horn4
+    400030: joint11
+    400032: joint12
+    400034: joint18
+    400036: joint21
+    400038: joint22
+    400040: joint23
+    400042: joint9
+    400044: Posterieur_down
+    400046: Posterieur_down1
+    400048: Posterieur_finish
+    400050: Posterieur_finish1
+    400052: Posterieur_sabot
+    400054: Posterieur_sabot1
+    400056: Posterieur_up
+    400058: Posterieur_up1
+    400060: Queue
+    400062: //RootNode
+    4300000: Horn4
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Horn4
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Center
+        weight: 1
+      - path: Center/Anterieur
+        weight: 1
+      - path: Center/Anterieur/Anterieur_up
+        weight: 1
+      - path: Center/Anterieur/Anterieur_up/Anterieur_Down
+        weight: 1
+      - path: Center/Anterieur/Anterieur_up/Anterieur_Down/Anterieur_Finish
+        weight: 1
+      - path: Center/Anterieur/Anterieur_up/Anterieur_Down/Anterieur_Finish/Anterieur_Sabot
+        weight: 1
+      - path: Center/Anterieur/Anterieur_up/Anterieur_Down/Anterieur_Finish/Anterieur_Sabot/joint18
+        weight: 1
+      - path: Center/Anterieur_up1
+        weight: 1
+      - path: Center/Anterieur_up1/Anterieur_Down1
+        weight: 1
+      - path: Center/Anterieur_up1/Anterieur_Down1/Anterieur_Finish1
+        weight: 1
+      - path: Center/Anterieur_up1/Anterieur_Down1/Anterieur_Finish1/Anterieur_Sabot1
+        weight: 1
+      - path: Center/Anterieur_up1/Anterieur_Down1/Anterieur_Finish1/Anterieur_Sabot1/joint23
+        weight: 1
+      - path: Center/Dos
+        weight: 1
+      - path: Center/Dos/Croupe
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up/Posterieur_down
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up/Posterieur_down/Posterieur_finish
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up/Posterieur_down/Posterieur_finish/Posterieur_sabot
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up/Posterieur_down/Posterieur_finish/Posterieur_sabot/joint9
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up1
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up1/Posterieur_down1
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up1/Posterieur_down1/Posterieur_finish1
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up1/Posterieur_down1/Posterieur_finish1/Posterieur_sabot1
+        weight: 1
+      - path: Center/Dos/Croupe/Posterieur_up1/Posterieur_down1/Posterieur_finish1/Posterieur_sabot1/joint22
+        weight: 1
+      - path: Center/Dos/Croupe/Queue
+        weight: 1
+      - path: Center/Dos/Croupe/Queue/joint11
+        weight: 1
+      - path: Center/Dos/Croupe/Queue/joint11/joint12
+        weight: 1
+      - path: Center/Encolure
+        weight: 1
+      - path: Center/Encolure/Head
+        weight: 1
+      - path: Center/Encolure/Head/joint21
+        weight: 1
+      - path: Horn4
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

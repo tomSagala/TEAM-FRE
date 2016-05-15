@@ -20,8 +20,8 @@ public class Gentlemen : Character
 
     private AudioSource footSteps;
 
-    [SerializeField] AudioClip Reload;
-    [SerializeField] AudioClip BlankShot;
+    [SerializeField] AudioClip ReloadSound;
+    [SerializeField] AudioClip BlankShotSound;
 
 	// Use this for initialization
 	void Start ()
@@ -125,7 +125,7 @@ public class Gentlemen : Character
         else
         {
             m_shotCount++;
-            AudioSource.PlayClipAtPoint(BlankShot, this.transform.position, 0.1f);
+            AudioSource.PlayClipAtPoint(BlankShotSound, this.transform.position, 0.1f);
         }
     }
 
@@ -145,9 +145,18 @@ public class Gentlemen : Character
 
     public override void PrimaryReady()
     {
+        m_primaryAbilityAvailable = true;
+
+        if ((m_bulletChamber <= m_shotCount))
+        {
+            Reload();
+        }
+    }
+
+    private void Reload()
+    {
         m_bulletChamber = Random.Range(0, m_numberOfChambers - 1);
         m_shotCount = 0;
-        m_primaryAbilityAvailable = true;
-        AudioSource.PlayClipAtPoint(Reload, this.transform.position, 0.1f);
+        AudioSource.PlayClipAtPoint(ReloadSound, this.transform.position, 0.1f);
     }
 }
