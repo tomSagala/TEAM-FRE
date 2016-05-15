@@ -156,12 +156,6 @@ using UnityStandardAssets.CrossPlatformInput;
             if (m_attacking)
             {
                 gameObject.GetComponent<Character>().Attack();
-                /*Vector3 pos = cam.transform.position;
-                Quaternion orientation = cam.transform.rotation;
-
-                GameObject bullet = Instantiate(m_bulletPrefab, pos, orientation) as GameObject;
-                bullet.GetComponent<Rigidbody>().velocity = cam.transform.forward * m_bulletSpeed;
-                bullet.GetComponent<Rigidbody>().useGravity = false;*/
             }
 
             if (m_primaryAbility)

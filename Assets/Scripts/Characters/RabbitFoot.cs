@@ -1,15 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RabbitFoot : MonoBehaviour {
+public class RabbitFoot : AbstractProjectile {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void Start()
+    {
+        GetComponent<Rigidbody>().velocity = speed * transform.forward;
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!INetwork.Instance.IsMaster())
+            return;
+
+        if (collision.collider.name == "Ground")
+        {
+            INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
+        }
+        else if (collision.collider.GetComponent<Character>() != null && collision.collider.GetComponent<Character>().GetTeam() != ownerTeam)
+        {
+            Character character = collision.collider.GetComponent<Character>();
+            INetwork.Instance.RPC(character.gameObject, "TakeDamage", PhotonTargets.All, damage);
+            INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
+        }
+    }
 }

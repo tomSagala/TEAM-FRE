@@ -26,7 +26,7 @@ public abstract class Character : MonoBehaviour
     public bool m_actionblocked = false;
 
 	// Update is called once per frame
-	void FixedUpdate () {
+	protected void FixedUpdate () {
         if (m_damageOverTimeTakenRemainingTime > 0f)
         {
             TakeDamage(m_damageOverTimeTakenDPS * Time.fixedDeltaTime);
