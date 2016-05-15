@@ -4,25 +4,15 @@ using System.Collections.Generic;
 
 public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
 {
-    // Cat lady
     public AudioClip CatLadyCry;
-
-    // Cats
     public AudioClip HappyCat;
     public AudioClip AggressiveCat;
-
-    // Healing Quad
     public AudioClip HealingQuad;
-
-    // FireAoe
     public AudioClip FireAoe;
-
-    // Bullet
     public AudioClip Bullet;
-
-    // Mirror Shatter
     public AudioClip MirrorShatter;
-
+    public AudioClip RabbitExplosion;
+    public AudioClip HorseShoe;
 
     private Dictionary<string, AudioClip> audioClips;
 
@@ -36,7 +26,9 @@ public class NetworkAudioManager : GameSingleton<NetworkAudioManager>
             {"HealingQuad", HealingQuad},
             {"FireAoe", FireAoe},
             {"Bullet", Bullet},
-            {"MirrorShatter", MirrorShatter}
+            {"MirrorShatter", MirrorShatter},
+            {"RabbitExplosion", RabbitExplosion},
+            {"HorseShoe", HorseShoe}
         };
     }
 

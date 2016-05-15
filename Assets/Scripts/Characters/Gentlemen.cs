@@ -18,8 +18,6 @@ public class Gentlemen : Character
     private int m_shotCount = 0;
     private int m_numberOfChambers = 6;
 
-    [SerializeField]
-    float footStepsTimer;
     private AudioSource footSteps;
 
     [SerializeField] AudioClip Reload;
