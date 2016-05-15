@@ -31,6 +31,8 @@ public class Knight : Character {
 
     public override void Attack()
     {
+        m_auttoAtackAvailable = false;
+        m_autoAttackRemainingCoolDown = 1.0f / m_autoAttackPerSeconds;
         HorseShoe hs = INetwork.Instance.Instantiate(
             m_horseShoeProjectilePrefab,
             Camera.main.transform.position + Camera.main.transform.forward,
@@ -65,7 +67,7 @@ public class Knight : Character {
             RabbitFoot rf = INetwork.Instance.Instantiate(
             m_rabbotFootPrefab,
             Camera.main.transform.position + dir * Camera.main.transform.forward,
-            dir).GetComponent<RabbitFoot>();
+            dir * Camera.main.transform.rotation).GetComponent<RabbitFoot>();
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
             INetwork.Instance.RPC(rf.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
         }

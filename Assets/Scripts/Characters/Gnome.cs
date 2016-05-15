@@ -28,13 +28,15 @@ public class Gnome : Character
 
     public override void Attack()
     {
+        m_auttoAtackAvailable = false;
+        m_autoAttackRemainingCoolDown = 1.0f / m_autoAttackPerSeconds;
+
         GnomeClover clover = INetwork.Instance.Instantiate(
             CloverProjectilePrefab, 
             Camera.main.transform.position + Camera.main.transform.forward, 
             Quaternion.LookRotation(transform.forward)).GetComponent<GnomeClover>();
         INetwork.Instance.RPC(clover.gameObject, "SetOwnerViewId", PhotonTargets.All, INetwork.Instance.GetViewId(gameObject));
         INetwork.Instance.RPC(clover.gameObject, "SetOwnerTeam", PhotonTargets.All, m_team);
-
     }
 
     public override void UsePrimaryAbility()

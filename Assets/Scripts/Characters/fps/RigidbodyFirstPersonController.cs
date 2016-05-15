@@ -155,7 +155,10 @@ using UnityStandardAssets.CrossPlatformInput;
 
             if (m_attacking)
             {
-                gameObject.GetComponent<Character>().Attack();
+                if (gameObject.GetComponent<Character>().CanUseAutoAttack())
+                {
+                    gameObject.GetComponent<Character>().Attack();
+                }
             }
 
             if (m_primaryAbility)
