@@ -31,6 +31,8 @@ public abstract class Character : MonoBehaviour
     private Transform m_spawnPoint;
     protected Coroutine reloadCouroutine;
 
+    private bool stunned = false;
+
 	// Update is called once per frame
 	protected void FixedUpdate () {
         if (m_damageOverTimeTakenRemainingTime > 0f)
@@ -135,7 +137,7 @@ public abstract class Character : MonoBehaviour
     public bool CanUseAutoAttack() { return m_autoAttackAvailable && !m_actionblocked && reloadCouroutine == null; }
     public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked && reloadCouroutine == null; }
     public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && !m_actionblocked && reloadCouroutine == null; }
-    public bool CanDoubleActivate() { return !m_primaryAbilityAvailable && m_hasDoubleActivate && !m_actionblocked && reloadCouroutine == null; }
+    public bool CanDoubleActivate() { return !m_primaryAbilityAvailable && m_hasDoubleActivate && !stunned && reloadCouroutine == null; }
 
     [PunRPC]
     public virtual void Die() 
@@ -185,6 +187,7 @@ public abstract class Character : MonoBehaviour
     [PunRPC]
     public virtual void Stun(float time)
     {
+        stunned = true;
         m_actionblocked = true;
         GetComponent<RigidbodyFirstPersonController>().enabled = false;
         Timer.Instance.Request(time, () =>
@@ -192,6 +195,7 @@ public abstract class Character : MonoBehaviour
             Debug.Log("unstun");
             m_actionblocked = false;
             GetComponent<RigidbodyFirstPersonController>().enabled = true;
+            stunned = false;
         });
     }
 }
