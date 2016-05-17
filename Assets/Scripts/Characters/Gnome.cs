@@ -28,11 +28,13 @@ public class Gnome : Character
 
     public override void Attack()
     {
-        if (reloadCouroutine != null) return;
+        if (m_reloading)
+            return;
 
         if (m_currentAmmo <= 0)
         {
-            reloadCouroutine = StartCoroutine(ReloadCoroutine());
+            m_reloading = true;
+            StartCoroutine(ReloadCoroutine());
             return;
         }
 

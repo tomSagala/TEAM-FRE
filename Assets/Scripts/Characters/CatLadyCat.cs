@@ -11,18 +11,34 @@ public class CatLadyCat : AbstractProjectile
     private int m_nbCloverEaten;
     private Animator m_animator;
     private float m_lickTimer;
+    private bool m_attached;
+    private float m_attachTimer;
+    private bool m_willDelete;
 
     void Start()
     {
         GetComponent<Rigidbody>().velocity = speed * transform.forward;
         m_nbCloverEaten = 0;
         m_animator = GetComponentInChildren<Animator>();
+        m_attached = false;
+        m_attachTimer = 0;
+        m_willDelete = false;
     }
 
     void Update()
     {
+        if (m_attached && INetwork.Instance.IsMaster())
+        {
+            m_attachTimer += Time.deltaTime;
+            if (m_attachTimer > DpsDuration)
+            {
+                INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
+                m_willDelete = true;
+            }
+        }
+
         m_animator.SetBool("Grounded", m_grounded);
-        if (!m_grounded)
+        if (!m_grounded || m_willDelete)
             return;
 
         m_lickTimer += Time.deltaTime; 
@@ -99,7 +115,7 @@ public class CatLadyCat : AbstractProjectile
             INetwork.Instance.RPC(gameObject, "DestroyProjectile", PhotonTargets.All);
         }
 
-        if (m_grounded)
+        if (m_grounded || m_attached)
             return;
         
         if (collision.collider.name == "Ground")
@@ -112,7 +128,6 @@ public class CatLadyCat : AbstractProjectile
             Character character = collision.collider.GetComponent<Character>();
             INetwork.Instance.RPC(character.gameObject, "TakeDamageOverTime", PhotonTargets.All, Dps, DpsDuration);
             INetwork.Instance.RPC(gameObject, "Attach", PhotonTargets.All, INetwork.Instance.GetViewId(character.gameObject), collision.contacts[0].point);
-            INetwork.Instance.RPC(gameObject, "DestroyProjectileAfterTime", PhotonTargets.All, DpsDuration);
             NetworkAudioManager.Instance.PlayAudioClipForAll("AggressiveCat", this.transform.position, 1.0f);
         }
     }
@@ -136,5 +151,6 @@ public class CatLadyCat : AbstractProjectile
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        m_attached = true; 
     }
 }

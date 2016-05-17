@@ -27,7 +27,9 @@ public class PlayState : MonoBehaviour
         int nbClover = Transform.FindObjectsOfType<Clover>().Length;
         int nbCats = Transform.FindObjectsOfType<CatLadyCat>().Length;
 
-        LuckBadLuckRatio = (nbCats * 24 + m_nbLuckDeaths * 100 - (nbClover + m_nbBadLuckDeaths * 100)) / 500f;
+        int pointsLuck = nbClover + m_nbBadLuckDeaths * 100;
+        int pointsBadLuck = nbCats * 24 + m_nbLuckDeaths * 100;
+        LuckBadLuckRatio = (pointsBadLuck - pointsLuck) / 500f;
         if (LuckBadLuckRatio > 1)
             LuckBadLuckRatio = 1;
         else if (LuckBadLuckRatio < -1)

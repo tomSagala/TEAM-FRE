@@ -190,9 +190,10 @@ public class Gentlemen : Character
     {
         m_secondaryAbilityAvailable = true;
 
-        if (m_bulletChamber <= m_shotCount && m_shotsFired)
+        if (m_bulletChamber <= m_shotCount && m_shotsFired && !m_reloading)
         {
-            reloadCouroutine = StartCoroutine(ReloadCoroutine());
+            m_reloading = true;
+            StartCoroutine(ReloadCoroutine());
         }
     }
 

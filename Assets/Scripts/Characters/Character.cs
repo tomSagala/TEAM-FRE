@@ -31,9 +31,10 @@ public abstract class Character : MonoBehaviour
     protected bool m_secondaryAbilityAvailable = true;
     public bool m_actionblocked = false;
     private Transform m_spawnPoint;
-    protected Coroutine reloadCouroutine;
+    protected bool m_reloading;
 
     private bool stunned = false;
+    private bool m_dead = false;
 
 	// Update is called once per frame
 	protected void FixedUpdate ()
@@ -102,6 +103,9 @@ public abstract class Character : MonoBehaviour
     [PunRPC]
     public virtual void TakeDamage(float damage)
     {
+        if (m_dead)
+            return;
+
         m_healthPoints -= damage;
 
         if (m_healthPoints > m_maxHealthPoints)
@@ -120,8 +124,9 @@ public abstract class Character : MonoBehaviour
             {
                 PlayState playState = FindObjectOfType<PlayState>();
                 if (playState)
-                    playState.AddBadLuckDeath();
+                    playState.AddLuckDeath();
             }
+            m_dead = true;
             INetwork.Instance.RPC(gameObject, "Die", PhotonTargets.All);
         }
     }
@@ -133,10 +138,10 @@ public abstract class Character : MonoBehaviour
         m_damageOverTimeTakenRemainingTime = duration;
     }
 
-    public bool CanUseAutoAttack() { return m_autoAttackAvailable && !m_actionblocked && reloadCouroutine == null; }
-    public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked && reloadCouroutine == null; }
-    public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && !m_actionblocked && reloadCouroutine == null; }
-    public bool CanDoubleActivate() { return !m_primaryAbilityAvailable && m_hasDoubleActivate && !stunned && reloadCouroutine == null; }
+    public bool CanUseAutoAttack() { return m_autoAttackAvailable && !m_actionblocked && !m_reloading; }
+    public bool CanUsePrimaryAbility() { return m_primaryAbilityAvailable && !m_actionblocked && !m_reloading; }
+    public bool CanUseSecondaryAbility() { return m_secondaryAbilityAvailable && !m_actionblocked && !m_reloading; }
+    public bool CanDoubleActivate() { return !m_primaryAbilityAvailable && m_hasDoubleActivate && !stunned && !m_reloading; }
 
     [PunRPC]
     public virtual void Die() 
@@ -170,7 +175,8 @@ public abstract class Character : MonoBehaviour
         m_primaryAbilityAvailable = true;
         m_secondaryAbilityRemainingCoolDown = 0.0f;
         m_secondaryAbilityAvailable = true;
-        StopCoroutine(reloadCouroutine);
+        m_reloading = false;
+        m_dead = false;
     }
 
 
@@ -185,9 +191,10 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Reload()
     {
-        if (reloadCouroutine != null)
+        if (!m_reloading)
         {
-            reloadCouroutine = StartCoroutine(ReloadCoroutine());
+            m_reloading = true;
+            StartCoroutine(ReloadCoroutine());
         }
     }
 
@@ -195,8 +202,7 @@ public abstract class Character : MonoBehaviour
     {
         yield return new WaitForSeconds(m_reloadDuration);
         m_currentAmmo = m_maxAmmo;
-        reloadCouroutine = null;
-        yield return null;
+        m_reloading = false;
     }
 
     [PunRPC]
@@ -207,7 +213,6 @@ public abstract class Character : MonoBehaviour
         GetComponent<RigidbodyFirstPersonController>().enabled = false;
         Timer.Instance.Request(time, () =>
         {
-            Debug.Log("unstun");
             m_actionblocked = false;
             GetComponent<RigidbodyFirstPersonController>().enabled = true;
             stunned = false;
